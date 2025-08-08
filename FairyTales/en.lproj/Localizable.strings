@@ -1,0 +1,95 @@
+/* 
+  Localizable.strings (English)
+  FairyTales
+  
+  Created by Siarhei Samoshyn on 08/08/2025.
+*/
+
+// Auth Screen
+"app_title" = "Fairy Tales";
+"app_subtitle" = "Create magical stories";
+"email_placeholder" = "Email";
+"password_placeholder" = "Password";
+"sign_in" = "Sign In";
+"sign_up" = "Sign Up";
+"no_account" = "Don't have an account? Sign Up";
+"have_account" = "Already have an account? Sign In";
+"or_divider" = "or";
+
+// Main Screen
+"main_title" = "Fairy Tales";
+"main_subtitle" = "What would you like to do?";
+"create_new_story" = "Create New Story";
+"create_story_subtitle" = "Start your magical adventure";
+"my_stories" = "My Stories";
+"my_stories_subtitle" = "Read your saved tales";
+"settings" = "Settings";
+"settings_subtitle" = "Customize your experience";
+
+// Story Creator Screen
+"create_story_title" = "Create Your Story";
+"story_creator_subtitle" = "Fill in the details to create a magical tale";
+"story_name_label" = "Story Name";
+"story_name_placeholder" = "Enter story name";
+"hero_name_label" = "Hero Name";
+"hero_name_placeholder" = "Enter hero name";
+"age_label" = "Age";
+"age_format" = "%d years old";
+"story_style_label" = "Story Style";
+"language_label" = "Language";
+"story_idea_label" = "Story Idea";
+"story_idea_placeholder" = "Enter your story idea...";
+"generate_story" = "Generate Story";
+"creating_magic" = "Creating Magic...";
+
+// Story Styles
+"adventure" = "Adventure";
+"fantasy" = "Fantasy";
+"comedy" = "Comedy";
+"educational" = "Educational";
+"mystery" = "Mystery";
+
+// Languages
+"english" = "English";
+"russian" = "Russian";
+"spanish" = "Spanish";
+"french" = "French";
+"german" = "German";
+
+// Story View Screen
+"story_view_subtitle" = "Your magical tale is ready!";
+"story_content_label" = "Story";
+"share_story" = "Share Story";
+"the_end" = "The End";
+"save_story_title" = "Save Story";
+"save_story_message" = "Would you like to save this story to your collection?";
+"save_finish" = "Save & Finish";
+"cancel" = "Cancel";
+
+// Settings Screen
+"settings_title" = "Settings";
+"user_profile" = "User Profile";
+"app_settings" = "App Settings";
+"language_setting" = "Language";
+"legal" = "Legal";
+"privacy_policy" = "Privacy Policy";
+"terms_of_service" = "Terms of Service";
+"account" = "Account";
+"email_setting" = "Email";
+"logout" = "Logout";
+"logout_confirmation" = "Are you sure you want to logout?";
+
+// My Stories Screen
+"my_stories_title" = "My Stories";
+"no_stories_title" = "No Stories Yet";
+"no_stories_subtitle" = "Create your first magical story!";
+"create_story" = "Create Story";
+"hero_prefix" = "Hero: %@";
+"tap_to_read" = "Tap to read";
+
+// Common
+"hello" = "Hello";
+"create" = "Create";
+"back" = "Back";
+"save" = "Save";
+"close" = "Close"; 

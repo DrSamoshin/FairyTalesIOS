@@ -1,0 +1,95 @@
+/* 
+  Localizable.strings (Russian)
+  FairyTales
+  
+  Created by Siarhei Samoshyn on 08/08/2025.
+*/
+
+// Auth Screen
+"app_title" = "Сказочные истории";
+"app_subtitle" = "Создавай волшебные истории";
+"email_placeholder" = "Email";
+"password_placeholder" = "Пароль";
+"sign_in" = "Войти";
+"sign_up" = "Регистрация";
+"no_account" = "Нет аккаунта? Зарегистрируйтесь";
+"have_account" = "Уже есть аккаунт? Войти";
+"or_divider" = "или";
+
+// Main Screen
+"main_title" = "Сказочные истории";
+"main_subtitle" = "Что хотите делать?";
+"create_new_story" = "Создать Сказку";
+"create_story_subtitle" = "Начните волшебное приключение";
+"my_stories" = "Мои Сказки";
+"my_stories_subtitle" = "Читайте сохранённые истории";
+"settings" = "Настройки";
+"settings_subtitle" = "Настройте своё приложение";
+
+// Story Creator Screen
+"create_story_title" = "Создайте Свою Сказку";
+"story_creator_subtitle" = "Заполните детали для создания волшебной сказки";
+"story_name_label" = "Название Сказки";
+"story_name_placeholder" = "Введите название сказки";
+"hero_name_label" = "Имя Героя";
+"hero_name_placeholder" = "Введите имя героя";
+"age_label" = "Возраст";
+"age_format" = "%d лет";
+"story_style_label" = "Стиль Сказки";
+"language_label" = "Язык";
+"story_idea_label" = "Идея Сказки";
+"story_idea_placeholder" = "Введите идею сказки...";
+"generate_story" = "Создать Сказку";
+"creating_magic" = "Создаём магию...";
+
+// Story Styles
+"adventure" = "Приключения";
+"fantasy" = "Фэнтези";
+"comedy" = "Комедия";
+"educational" = "Обучающая";
+"mystery" = "Детектив";
+
+// Languages
+"english" = "Английский";
+"russian" = "Русский";
+"spanish" = "Испанский";
+"french" = "Французский";
+"german" = "Немецкий";
+
+// Story View Screen
+"story_view_subtitle" = "Ваша волшебная сказка готова!";
+"story_content_label" = "Сказка";
+"share_story" = "Поделиться";
+"the_end" = "Конец";
+"save_story_title" = "Сохранить Сказку";
+"save_story_message" = "Хотите сохранить эту сказку в вашу коллекцию?";
+"save_finish" = "Сохранить";
+"cancel" = "Отмена";
+
+// Settings Screen
+"settings_title" = "Настройки";
+"user_profile" = "Профиль Пользователя";
+"app_settings" = "Настройки Приложения";
+"language_setting" = "Язык";
+"legal" = "Правовая Информация";
+"privacy_policy" = "Политика Конфиденциальности";
+"terms_of_service" = "Условия Использования";
+"account" = "Аккаунт";
+"email_setting" = "Email";
+"logout" = "Выйти";
+"logout_confirmation" = "Вы уверены, что хотите выйти?";
+
+// My Stories Screen
+"my_stories_title" = "Мои Сказки";
+"no_stories_title" = "Пока Нет Сказок";
+"no_stories_subtitle" = "Создайте свою первую волшебную сказку!";
+"create_story" = "Создать Сказку";
+"hero_prefix" = "Герой: %@";
+"tap_to_read" = "Нажмите для чтения";
+
+// Common
+"hello" = "Привет";
+"create" = "Создать";
+"back" = "Назад";
+"save" = "Сохранить";
+"close" = "Закрыть"; 

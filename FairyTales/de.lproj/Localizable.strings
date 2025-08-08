@@ -1,0 +1,95 @@
+/* 
+  Localizable.strings (German)
+  FairyTales
+  
+  Created by Siarhei Samoshyn on 08/08/2025.
+*/
+
+// Auth Screen
+"app_title" = "Märchen";
+"app_subtitle" = "Erstelle magische Geschichten";
+"email_placeholder" = "E-Mail";
+"password_placeholder" = "Passwort";
+"sign_in" = "Anmelden";
+"sign_up" = "Registrieren";
+"no_account" = "Kein Konto? Registrieren";
+"have_account" = "Bereits ein Konto? Anmelden";
+"or_divider" = "oder";
+
+// Main Screen
+"main_title" = "Märchen";
+"main_subtitle" = "Was möchten Sie tun?";
+"create_new_story" = "Neue Geschichte Erstellen";
+"create_story_subtitle" = "Beginnen Sie Ihr magisches Abenteuer";
+"my_stories" = "Meine Geschichten";
+"my_stories_subtitle" = "Lesen Sie Ihre gespeicherten Märchen";
+"settings" = "Einstellungen";
+"settings_subtitle" = "Passen Sie Ihre Erfahrung an";
+
+// Story Creator Screen
+"create_story_title" = "Erstellen Sie Ihre Geschichte";
+"story_creator_subtitle" = "Füllen Sie die Details aus, um eine magische Geschichte zu erstellen";
+"story_name_label" = "Name der Geschichte";
+"story_name_placeholder" = "Geben Sie den Namen der Geschichte ein";
+"hero_name_label" = "Name des Helden";
+"hero_name_placeholder" = "Geben Sie den Namen des Helden ein";
+"age_label" = "Alter";
+"age_format" = "%d Jahre alt";
+"story_style_label" = "Geschichtsstil";
+"language_label" = "Sprache";
+"story_idea_label" = "Geschichtsidee";
+"story_idea_placeholder" = "Geben Sie Ihre Geschichtsidee ein...";
+"generate_story" = "Geschichte Generieren";
+"creating_magic" = "Magie erschaffen...";
+
+// Story Styles
+"adventure" = "Abenteuer";
+"fantasy" = "Fantasy";
+"comedy" = "Komödie";
+"educational" = "Lehrreich";
+"mystery" = "Geheimnis";
+
+// Languages
+"english" = "Englisch";
+"russian" = "Russisch";
+"spanish" = "Spanisch";
+"french" = "Französisch";
+"german" = "Deutsch";
+
+// Story View Screen
+"story_view_subtitle" = "Ihr magisches Märchen ist fertig!";
+"story_content_label" = "Geschichte";
+"share_story" = "Geschichte Teilen";
+"the_end" = "Ende";
+"save_story_title" = "Geschichte Speichern";
+"save_story_message" = "Möchten Sie diese Geschichte in Ihrer Sammlung speichern?";
+"save_finish" = "Speichern & Beenden";
+"cancel" = "Abbrechen";
+
+// Settings Screen
+"settings_title" = "Einstellungen";
+"user_profile" = "Benutzerprofil";
+"app_settings" = "App-Einstellungen";
+"language_setting" = "Sprache";
+"legal" = "Rechtliches";
+"privacy_policy" = "Datenschutzrichtlinie";
+"terms_of_service" = "Nutzungsbedingungen";
+"account" = "Konto";
+"email_setting" = "E-Mail";
+"logout" = "Abmelden";
+"logout_confirmation" = "Sind Sie sicher, dass Sie sich abmelden möchten?";
+
+// My Stories Screen
+"my_stories_title" = "Meine Geschichten";
+"no_stories_title" = "Noch Keine Geschichten";
+"no_stories_subtitle" = "Erstellen Sie Ihre erste magische Geschichte!";
+"create_story" = "Geschichte Erstellen";
+"hero_prefix" = "Held: %@";
+"tap_to_read" = "Zum Lesen tippen";
+
+// Common
+"hello" = "Hallo";
+"create" = "Erstellen";
+"back" = "Zurück";
+"save" = "Speichern";
+"close" = "Schließen"; 
