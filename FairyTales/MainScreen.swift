@@ -1,4 +1,3 @@
-
 //
 //  MainScreen.swift
 //  FairyTales
@@ -9,179 +8,206 @@
 import SwiftUI
 
 struct MainScreen: View {
+    // MARK: - State
     @StateObject private var localizationManager = LocalizationManager.shared
-    @State private var iconScale: CGFloat = 1.0
-    @State private var titleOpacity: Double = 0.0
-    @State private var titleOffset: CGFloat = 30.0
+    @State private var logoScale: CGFloat = 1.0
+    @State private var contentOpacity: Double = 0.0
+    @State private var contentOffset: CGFloat = 30.0
     @State private var buttonsOpacity: Double = 0.0
     @State private var buttonsOffset: CGFloat = 20.0
     
-    private let horizontalPadding: CGFloat = 30
-    private let buttonHeight: CGFloat = 70
-    private let settingsButtonHeight: CGFloat = 54
-    private let cornerRadius: CGFloat = 16
-    private let iconSize: CGFloat = 100
-    private let animationDuration: Double = 0.15
+    // MARK: - Constants
+    private struct Constants {
+        static let contentPadding: CGFloat = 30
+        static let logoSize: CGFloat = 100
+        static let mainButtonHeight: CGFloat = 70
+        static let settingsButtonHeight: CGFloat = 54
+        static let cornerRadius: CGFloat = 16
+        static let logoAnimationDuration: Double = 0.15
+        static let contentAnimationDelay: UInt64 = 100_000_000 // 0.1 seconds
+        static let buttonsAnimationDelay: UInt64 = 300_000_000 // 0.3 seconds
+        static let contentAnimationDuration: Double = 0.6
+        static let buttonsAnimationDuration: Double = 0.8
+        static let vStackSpacing: CGFloat = 40
+        static let headerSpacing: CGFloat = 16
+        static let titleSpacing: CGFloat = 8
+        static let buttonSpacing: CGFloat = 20
+        static let buttonIconSize: CGFloat = 40
+        static let bottomSpacing: CGFloat = 30
+        static let buttonContentPadding: CGFloat = 20
+        static let buttonContentSpacing: CGFloat = 20
+        static let textSpacing: CGFloat = 4
+        
+        // Colors
+        static let myStoriesTextColor = Color(red: 0.3, green: 0.1, blue: 0.5)
+        static let myStoriesBackground = LinearGradient(
+            gradient: Gradient(colors: [
+                Color(red: 1.0, green: 0.85, blue: 0.7),  // Peach
+                Color(red: 1.0, green: 0.95, blue: 0.8)   // Cream
+            ]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        static let myStoriesBorder = Color(red: 1.0, green: 0.98, blue: 0.85)
+    }
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 40) {
-                Spacer()
-                titleSection
-                Spacer()
-                mainButtons
-                Spacer()
-                settingsButton
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.bottom, 30)
-                    .opacity(buttonsOpacity)
-                    .offset(y: buttonsOffset)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(backgroundView)
-            .onAppear(perform: animateContent)
+            homeContent
         }
     }
     
-    private var titleSection: some View {
-        VStack(spacing: 16) {
-            animatedIcon
-            titleTexts
+    private var homeContent: some View {
+        VStack(spacing: Constants.vStackSpacing) {
+            Spacer()
+            homeHeader
+            Spacer()
+            actionButtons
+            Spacer()
+            settingsNavigationButton
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(backgroundView)
+        .onAppear {
+            startAnimations()
         }
     }
     
-    private var animatedIcon: some View {
-        Button(action: animateIcon) {
+    private var homeHeader: some View {
+        VStack(spacing: Constants.headerSpacing) {
+            logoButton
+            headerTexts
+        }
+    }
+    
+    private var logoButton: some View {
+        Button(action: animateLogo) {
             Image("icon_7")
                 .resizable()
-                .frame(width: iconSize, height: iconSize)
-                .scaleEffect(iconScale)
+                .frame(width: Constants.logoSize, height: Constants.logoSize)
+                .scaleEffect(logoScale)
         }
     }
     
-    private var titleTexts: some View {
-        VStack(spacing: 8) {
-            Text("main_title".localized)
-                .font(.system(size: 42, weight: .bold, design: .rounded))
-                .foregroundStyle(AppColors.titleGradient)
-                .multilineTextAlignment(.center)
-                .opacity(titleOpacity)
-                .offset(y: titleOffset)
-            
-            Text("main_subtitle".localized)
-                .font(.system(size: 18, weight: .medium, design: .rounded))
-                .foregroundColor(AppColors.subtleText)
-                .multilineTextAlignment(.center)
-                .opacity(titleOpacity)
-                .offset(y: titleOffset)
+    private var headerTexts: some View {
+        VStack(spacing: Constants.titleSpacing) {
+            titleText
+            subtitleText
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, horizontalPadding)
+        .padding(.horizontal, Constants.contentPadding)
     }
     
-    private var mainButtons: some View {
-        VStack(spacing: 20) {
-            createNewStoryButton
-            myStoriesButton
+    private var titleText: some View {
+        Text("main_title".localized)
+            .font(.system(size: 36, weight: .bold, design: .rounded))
+            .foregroundStyle(AppColors.titleGradient)
+            .multilineTextAlignment(.center)
+            .animatedContent(opacity: contentOpacity, offset: contentOffset)
+    }
+    
+    private var subtitleText: some View {
+        Text("main_subtitle".localized)
+            .font(.system(size: 18, weight: .semibold, design: .rounded))
+            .foregroundColor(AppColors.subtleText)
+            .multilineTextAlignment(.center)
+            .animatedContent(opacity: contentOpacity, offset: contentOffset)
+    }
+    
+    private var actionButtons: some View {
+        VStack(spacing: Constants.buttonSpacing) {
+            createStoryNavigationButton
+            myStoriesNavigationButton
         }
-        .padding(.horizontal, horizontalPadding)
+        .padding(.horizontal, Constants.contentPadding)
         .opacity(buttonsOpacity)
         .offset(y: buttonsOffset)
     }
     
-    private var createNewStoryButton: some View {
+    private var createStoryNavigationButton: some View {
         NavigationLink(destination: StoryCreatorScreen()) {
-            HStack(spacing: 20) {
-                Image("icon_3")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("create_new_story".localized)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        .foregroundColor(.white)
-                    Text("create_story_subtitle".localized)
-                        .font(.system(size: 14, weight: .medium, design: .rounded))
-                        .foregroundColor(.white.opacity(0.8))
-                }
-                
-                Spacer()
-                
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.white.opacity(0.7))
-            }
-            .padding(20)
-            .frame(maxWidth: .infinity)
-            .frame(height: buttonHeight)
-            .background(AppColors.contrastPrimary)
-            .cornerRadius(16)
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(AppColors.primaryBorder, lineWidth: 2)
+            actionButton(
+                iconName: "icon_3",
+                title: "create_new_story".localized,
+                subtitle: "create_story_subtitle".localized,
+                background: AnyShapeStyle(AppColors.contrastPrimary),
+                borderColor: AppColors.primaryBorder,
+                textColor: .white
             )
-            .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
         }
     }
     
-    private var myStoriesButton: some View {
+    private var myStoriesNavigationButton: some View {
         NavigationLink(destination: MyStoriesScreen()) {
-            HStack(spacing: 20) {
-                Image("icon_2")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("my_stories".localized)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        .foregroundColor(Color(red: 0.3, green: 0.1, blue: 0.5))
-                    Text("my_stories_subtitle".localized)
-                        .font(.system(size: 14, weight: .medium, design: .rounded))
-                        .foregroundColor(Color(red: 0.3, green: 0.1, blue: 0.5).opacity(0.8))
-                }
-                
-                Spacer()
-                
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(Color(red: 0.3, green: 0.1, blue: 0.5).opacity(0.7))
-            }
-            .padding(20)
-            .frame(maxWidth: .infinity)
-            .frame(height: buttonHeight)
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 1.0, green: 0.85, blue: 0.7),  // Пастельный персиковый
-                        Color(red: 1.0, green: 0.95, blue: 0.8)   // Пастельный кремово-желтый
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+            actionButton(
+                iconName: "icon_2",
+                title: "my_stories".localized,
+                subtitle: "my_stories_subtitle".localized,
+                background: AnyShapeStyle(Constants.myStoriesBackground),
+                borderColor: Constants.myStoriesBorder,
+                textColor: Constants.myStoriesTextColor
             )
-            .cornerRadius(16)
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color(red: 1.0, green: 0.98, blue: 0.85), lineWidth: 2)
-            )
-            .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
         }
     }
     
-    private var settingsButton: some View {
+    private func actionButton(
+        iconName: String,
+        title: String,
+        subtitle: String,
+        background: AnyShapeStyle,
+        borderColor: Color,
+        textColor: Color
+    ) -> some View {
+        HStack(spacing: Constants.buttonContentSpacing) {
+            Image(iconName)
+                .resizable()
+                .frame(width: Constants.buttonIconSize, height: Constants.buttonIconSize)
+            
+            VStack(alignment: .leading, spacing: Constants.textSpacing) {
+                Text(title)
+                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+                    .foregroundColor(textColor)
+                Text(subtitle)
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundColor(textColor.opacity(0.8))
+            }
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(textColor.opacity(0.7))
+        }
+        .padding(Constants.buttonContentPadding)
+        .frame(maxWidth: .infinity)
+        .frame(height: Constants.mainButtonHeight)
+        .background(background)
+        .cornerRadius(Constants.cornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                .stroke(borderColor, lineWidth: 2)
+        )
+        .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
+    }
+    
+    private var settingsNavigationButton: some View {
         NavigationLink(destination: SettingsScreen()) {
             Text("settings".localized)
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: settingsButtonHeight)
+                .frame(height: Constants.settingsButtonHeight)
                 .background(Color.clear)
-                .cornerRadius(16)
+                .cornerRadius(Constants.cornerRadius)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: Constants.cornerRadius)
                         .stroke(Color.white, lineWidth: 2)
                 )
         }
+        .padding(.horizontal, Constants.contentPadding)
+        .padding(.bottom, Constants.bottomSpacing)
+        .opacity(buttonsOpacity)
+        .offset(y: buttonsOffset)
     }
     
     private var backgroundView: some View {
@@ -203,43 +229,58 @@ struct MainScreen: View {
         }
     }
     
+    // MARK: - Animation Methods
+    private func startAnimations() {
+        animateContent()
+        animateButtons()
+    }
+    
     private func animateContent() {
-        // Анимация заголовка
         Task {
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            try? await Task.sleep(nanoseconds: Constants.contentAnimationDelay)
             await MainActor.run {
-                withAnimation(.easeOut(duration: 0.6)) {
-                    titleOpacity = 1.0
-                    titleOffset = 0.0
+                withAnimation(.easeOut(duration: Constants.contentAnimationDuration)) {
+                    contentOpacity = 1.0
+                    contentOffset = 0.0
                 }
             }
         }
-        
-        // Анимация кнопок с задержкой
+    }
+    
+    private func animateButtons() {
         Task {
-            try? await Task.sleep(nanoseconds: 300_000_000)
+            try? await Task.sleep(nanoseconds: Constants.buttonsAnimationDelay)
             await MainActor.run {
-                withAnimation(.easeOut(duration: 0.8)) {
+                withAnimation(.easeOut(duration: Constants.buttonsAnimationDuration)) {
                     buttonsOpacity = 1.0
                     buttonsOffset = 0.0
                 }
             }
-                 }
-     }
-     
-     private func animateIcon() {
-         withAnimation(.easeInOut(duration: animationDuration)) {
-             iconScale = 1.15
-         }
-         
-         DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration) {
-             withAnimation(.easeOut(duration: animationDuration)) {
-                 iconScale = 1.0
-             }
-         }
-     }
- }
+        }
+    }
+    
+    private func animateLogo() {
+        withAnimation(.easeInOut(duration: Constants.logoAnimationDuration)) {
+            logoScale = 1.15
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.logoAnimationDuration) {
+            withAnimation(.easeOut(duration: Constants.logoAnimationDuration)) {
+                logoScale = 1.0
+            }
+        }
+    }
+}
 
- #Preview {
-     MainScreen()
- } 
+// MARK: - View Extensions
+private extension View {
+    func animatedContent(opacity: Double, offset: CGFloat) -> some View {
+        self
+            .opacity(opacity)
+            .offset(y: offset)
+    }
+}
+
+#Preview {
+    MainScreen()
+}

@@ -1,0 +1,18 @@
+"/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/MainScreen.swift":
+  dependencies: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.d"
+  const-values: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.swiftconstvalues"
+  swift-dependencies: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.swiftdeps"
+  object: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.o"
+  diagnostics: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.dia"
+"/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/LocalizationManager.swift":
+  dependencies: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.d"
+  diagnostics: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.dia"
+  const-values: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.swiftconstvalues"
+  object: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.o"
+  swift-dependencies: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.swiftdeps"
+"/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/MyStoriesScreen.swift":
+  diagnostics: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.dia"
+  dependencies: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.d"
+  object: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.o"
+  const-values: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.swiftconstvalues"
+  swift-dependencies: "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.swiftdeps"

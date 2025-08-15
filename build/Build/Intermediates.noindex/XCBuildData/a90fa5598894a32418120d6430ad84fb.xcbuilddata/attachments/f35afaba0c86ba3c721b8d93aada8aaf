@@ -1,0 +1,198 @@
+{
+  "" : {
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTales-master.dia",
+    "emit-module-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTales-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTales-master-emit-module.dia",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTales-master.swiftdeps"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/AuthScreen.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthScreen~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Constants/AppColors.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AppColors~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/FairyTalesApp.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/FairyTalesApp~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Item.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Item~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/LocalizationManager.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/LocalizationManager~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/MainScreen.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MainScreen~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Models/APIProtocols.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/APIProtocols~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Models/Story.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/Story~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Models/User.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/User~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/MyStoriesScreen.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/MyStoriesScreen~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Network/NetworkManager.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/NetworkManager~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Network/URLSessionDelegate.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/URLSessionDelegate~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Services/AuthManager.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/AuthManager~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Services/StoryManager.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryManager~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/Services/TokenManager.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/TokenManager~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/SettingsScreen.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/SettingsScreen~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/StoryCreatorScreen.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryCreatorScreen~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/StoryViewScreen.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/StoryViewScreen~partial.swiftmodule"
+  },
+  "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/build/Build/Intermediates.noindex/FairyTales.build/Debug-iphonesimulator/FairyTales.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

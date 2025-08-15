@@ -6,8 +6,21 @@
 */
 
 // Auth Screen
-"app_title" = "Сказочные истории";
+"app_title" = "Fairy Tales";
 "app_subtitle" = "Создавай волшебные истории";
+"welcome_subtitle" = "Создавайте волшебные сказки для ваших детей";
+"welcome_description" = "Превратите время перед сном в приключение! Генерируйте персонализированные сказки, где ваш ребенок становится главным героем. Каждая история создается с помощью ИИ для развития воображения.";
+
+// Apple Sign In Errors
+"apple_signin_unknown_error" = "Произошла неожиданная ошибка. Попробуйте еще раз.";
+"apple_signin_invalid_response" = "Неверный ответ от Apple. Попробуйте еще раз.";
+"apple_signin_not_handled" = "Запрос на вход не может быть обработан. Попробуйте еще раз.";
+"apple_signin_not_interactive" = "Вход через Apple недоступен в данном контексте.";
+"apple_signin_failed" = "Вход через Apple не удался. Проверьте настройки и попробуйте еще раз.";
+"apple_signin_excluded_credential" = "Этот Apple ID не может быть использован для входа. Попробуйте другой аккаунт.";
+"apple_signin_credential_import" = "Не удается импортировать учетные данные Apple ID. Попробуйте еще раз.";
+"apple_signin_credential_export" = "Не удается экспортировать учетные данные Apple ID. Попробуйте еще раз.";
+"apple_signin_general_error" = "Не удается войти в систему. Попробуйте позже.";
 "email_placeholder" = "Email";
 "password_placeholder" = "Пароль";
 "sign_in" = "Войти";
@@ -17,7 +30,7 @@
 "or_divider" = "или";
 
 // Main Screen
-"main_title" = "Сказочные истории";
+"main_title" = "Fairy Tales";
 "main_subtitle" = "Что хотите делать?";
 "create_new_story" = "Создать Сказку";
 "create_story_subtitle" = "Начните волшебное приключение";
@@ -61,10 +74,19 @@
 "story_content_label" = "Сказка";
 "share_story" = "Поделиться";
 "the_end" = "Конец";
-"save_story_title" = "Сохранить Сказку";
-"save_story_message" = "Хотите сохранить эту сказку в вашу коллекцию?";
+"story_saved_title" = "История Завершена";
+"story_saved_message" = "Ваша история была сохранена! Вы можете удалить её или вернуться, чтобы продолжить исследование.";
+"delete_story" = "Удалить Историю";
+"return_back" = "Вернуться";
 "save_finish" = "Сохранить";
 "cancel" = "Отмена";
+
+// My Stories Screen
+"loading_stories" = "Загружаем ваши истории...";
+"no_stories_title" = "Пока Нет Историй";
+"no_stories_subtitle" = "Вы ещё не создали ни одной волшебной сказки. Начните своё первое приключение!";
+"no_stories_message" = "Вы ещё не создали ни одной волшебной сказки. Начните своё первое приключение!";
+"create_first_story" = "Создать Первую Историю";
 
 // Settings Screen
 "settings_title" = "Настройки";
@@ -92,4 +114,43 @@
 "create" = "Создать";
 "back" = "Назад";
 "save" = "Сохранить";
-"close" = "Закрыть"; 
+"close" = "Закрыть";
+"loading" = "Загрузка...";
+"welcome_back" = "С возвращением";
+
+// Auth Errors
+"user_not_found_suggestion" = "Пользователь не найден. Хотите создать новый аккаунт?";
+"user_already_exists_suggestion" = "Пользователь уже существует. Хотите войти?";
+"server_error_suggestion" = "Проблемы с сервером. Попробуйте позже или обратитесь в поддержку.";
+"create_account" = "Создать аккаунт";
+"sign_in" = "Войти";
+"logging_out" = "Выходим...";
+
+// Legal Content
+"privacy_policy_title" = "Политика конфиденциальности";
+"terms_title" = "Условия использования";
+"version" = "Версия:";
+"last_updated" = "Последнее обновление:";
+"error_occurred" = "Произошла ошибка";
+"try_again" = "Попробовать снова";
+"no_content_available" = "Контент недоступен";
+"content_not_loaded" = "Не удалось загрузить контент в данный момент";
+
+// Story Generation Progress
+"please_wait_generating" = "Пожалуйста, подождите, мы создаем вашу волшебную историю...";
+
+// Timeout Messages
+"story_timeout_title" = "История все еще создается";
+"story_timeout_message" = "Ваша история генерируется дольше обычного, но не волнуйтесь! Она все еще создается в фоновом режиме. Пожалуйста, проверьте ваши истории через несколько минут - она должна появиться там автоматически.";
+"check_stories_later" = "Проверить мои истории позже";
+"timeout_error_occurred" = "Превышено время ожидания, но ваша история может все еще генерироваться...";
+"auth_timeout_message" = "Превышено время ожидания подключения. Пожалуйста, проверьте интернет-соединение и попробуйте снова.";
+
+// Server Health Messages
+"server_unavailable" = "Сервер в данный момент недоступен. Пожалуйста, попробуйте позже.";
+"server_timeout" = "Сервер не отвечает. Пожалуйста, проверьте соединение.";
+"no_internet_connection" = "Нет интернет-соединения. Проверьте настройки сети.";
+"server_error_code" = "Ошибка сервера";
+"server_health_error_title" = "Проблема с подключением";
+"retry_connection" = "Повторить подключение";
+"continue_offline" = "Продолжить офлайн";

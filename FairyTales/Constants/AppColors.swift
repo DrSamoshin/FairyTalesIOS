@@ -63,9 +63,49 @@ struct AppColors {
         endPoint: .bottomTrailing
     )
     
+    static let orangeGradient = LinearGradient(
+        gradient: Gradient(colors: [
+            Color(red: 1.0, green: 0.6, blue: 0.2),  // Яркий оранжевый
+            Color(red: 1.0, green: 0.4, blue: 0.1)   // Более темный оранжевый
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+    
+    static let bluePurpleGradient = LinearGradient(
+        gradient: Gradient(colors: [
+            Color(red: 0.3, green: 0.4, blue: 0.9),  // Яркий синий
+            Color(red: 0.6, green: 0.3, blue: 0.8)   // Фиолетовый
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+    
+    static let greenGradient = LinearGradient(
+        gradient: Gradient(colors: [
+            Color(red: 0.1, green: 0.5, blue: 0.3),  // Темно-зеленый
+            Color(red: 0.1, green: 0.6, blue: 0.6)   // Сине-зеленый
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+    
     // MARK: - Button Border Colors (светлее градиентов)
     static let primaryBorder = Color(red: 0.95, green: 0.75, blue: 0.9)  // Светлее розового из contrastPrimary
     static let appleBorder = Color(red: 0.7, green: 0.95, blue: 0.9)     // Светлее зеленого из contrastApple
+    static let orangeBorder = Color(red: 1.0, green: 0.8, blue: 0.6)     // Светлее оранжевого градиента
+    static let bluePurpleBorder = Color(red: 0.7, green: 0.75, blue: 0.95) // Светлее сине-фиолетового градиента
+    static let greenBorder = Color(red: 0.5, green: 0.8, blue: 0.8)      // Светлее темно-зелено/сине-зеленого градиента
+    
+    // MARK: - Field Gradient
+    static let fieldGradient = LinearGradient(
+        gradient: Gradient(colors: [
+            cloudWhite,                                   // Существующий цвет cloudWhite
+            Color(red: 0.80, green: 0.84, blue: 0.94)   // Еще темнее и синее
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
     
     // MARK: - Shadow Colors
     static let softShadow = Color.black.opacity(0.1)

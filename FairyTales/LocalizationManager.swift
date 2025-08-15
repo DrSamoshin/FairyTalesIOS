@@ -34,6 +34,26 @@ enum SupportedLanguage: String, CaseIterable {
         case .german: return "Deutsch"
         }
     }
+    
+    var flag: String {
+        switch self {
+        case .english: return "🇺🇸"
+        case .russian: return "🇷🇺"
+        case .spanish: return "🇪🇸"
+        case .french: return "🇫🇷"
+        case .german: return "🇩🇪"
+        }
+    }
+    
+    var shortName: String {
+        switch self {
+        case .english: return "EN"
+        case .russian: return "RU"
+        case .spanish: return "ES"
+        case .french: return "FR"
+        case .german: return "DE"
+        }
+    }
 }
 
 class LocalizationManager: ObservableObject {

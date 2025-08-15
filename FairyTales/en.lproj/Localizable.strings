@@ -8,6 +8,19 @@
 // Auth Screen
 "app_title" = "Fairy Tales";
 "app_subtitle" = "Create magical stories";
+"welcome_subtitle" = "Create magical stories for your children";
+"welcome_description" = "Transform bedtime into an adventure! Generate personalized fairy tales with your child as the hero. Each story is crafted using AI to spark imagination and create unforgettable moments.";
+
+// Apple Sign In Errors
+"apple_signin_unknown_error" = "An unexpected error occurred. Please try again.";
+"apple_signin_invalid_response" = "Invalid response from Apple. Please try again.";
+"apple_signin_not_handled" = "Sign in request could not be processed. Please try again.";
+"apple_signin_not_interactive" = "Apple Sign In is not available in this context.";
+"apple_signin_failed" = "Sign in with Apple failed. Please check your settings and try again.";
+"apple_signin_excluded_credential" = "This Apple ID cannot be used for sign in. Please try another account.";
+"apple_signin_credential_import" = "Unable to import Apple ID credentials. Please try again.";
+"apple_signin_credential_export" = "Unable to export Apple ID credentials. Please try again.";
+"apple_signin_general_error" = "Unable to sign in. Please try again later.";
 "email_placeholder" = "Email";
 "password_placeholder" = "Password";
 "sign_in" = "Sign In";
@@ -41,6 +54,7 @@
 "story_idea_placeholder" = "Enter your story idea...";
 "generate_story" = "Generate Story";
 "creating_magic" = "Creating Magic...";
+"please_wait_generating" = "Please wait while we craft your magical story...";
 
 // Story Styles
 "adventure" = "Adventure";
@@ -61,13 +75,23 @@
 "story_content_label" = "Story";
 "share_story" = "Share Story";
 "the_end" = "The End";
-"save_story_title" = "Save Story";
-"save_story_message" = "Would you like to save this story to your collection?";
+"story_saved_title" = "Story Complete";
+"story_saved_message" = "Your story has been saved! You can delete it or return to continue exploring.";
+"delete_story" = "Delete Story";
+"return_back" = "Return";
 "save_finish" = "Save & Finish";
 "cancel" = "Cancel";
 
+// My Stories Screen
+"loading_stories" = "Loading your stories...";
+"no_stories_title" = "No Stories Yet";
+"no_stories_subtitle" = "You haven't created any magical tales yet. Start your first adventure!";
+"no_stories_message" = "You haven't created any magical tales yet. Start your first adventure!";
+"create_first_story" = "Create Your First Story";
+
 // Settings Screen
 "settings_title" = "Settings";
+"settings_subtitle" = "Customize your experience";
 "user_profile" = "User Profile";
 "app_settings" = "App Settings";
 "language_setting" = "Language";
@@ -92,4 +116,43 @@
 "create" = "Create";
 "back" = "Back";
 "save" = "Save";
-"close" = "Close"; 
+"close" = "Close";
+"loading" = "Loading...";
+"welcome_back" = "Welcome back";
+
+// Auth Errors
+"user_not_found_suggestion" = "User not found. Would you like to create an account instead?";
+"user_already_exists_suggestion" = "User already exists. Would you like to sign in instead?";
+"server_error_suggestion" = "Server is having issues. Please try again later or contact support.";
+"create_account" = "Create Account";
+"sign_in" = "Sign In";
+"logging_out" = "Logging out...";
+
+// Legal Content
+"privacy_policy_title" = "Privacy Policy";
+"terms_title" = "Terms of Service";
+"version" = "Version:";
+"last_updated" = "Last updated:";
+"error_occurred" = "Error Occurred";
+"try_again" = "Try Again";
+"no_content_available" = "No Content Available";
+"content_not_loaded" = "Content could not be loaded at this time";
+
+// Story Generation Progress
+"please_wait_generating" = "Please wait while we create your magical story...";
+
+// Timeout Messages
+"story_timeout_title" = "Story is Still Being Created";
+"story_timeout_message" = "Your story is taking longer than expected to generate, but don't worry! It's still being created in the background. Please check your stories in a few minutes - it should appear there automatically.";
+"check_stories_later" = "Check My Stories Later";
+"timeout_error_occurred" = "Request timed out, but your story may still be generating...";
+"auth_timeout_message" = "Connection timeout occurred. Please check your internet connection and try again.";
+
+// Server Health Messages
+"server_unavailable" = "Server is currently unavailable. Please try again later.";
+"server_timeout" = "Server is not responding. Please check your connection.";
+"no_internet_connection" = "No internet connection. Please check your network settings.";
+"server_error_code" = "Server error";
+"server_health_error_title" = "Connection Problem";
+"retry_connection" = "Retry Connection";
+"continue_offline" = "Continue Offline";

@@ -9,8 +9,11 @@ import SwiftUI
 
 struct StoryViewScreen: View {
     @StateObject private var localizationManager = LocalizationManager.shared
+    @State private var storyManager = StoryManager.shared
     @Environment(\.presentationMode) var presentationMode
     @State private var showingEndConfirmation = false
+    
+    let story: Story
     
     // Animation states
     @State private var titleOpacity: Double = 0.0
@@ -27,18 +30,7 @@ struct StoryViewScreen: View {
     private let iconSize: CGFloat = 80
     private let animationDuration: Double = 0.15
     
-    // Story data
-    let storyText = """
-    Once upon a time, in a magical forest far, far away, there lived a brave little rabbit named Luna. Luna had the softest white fur and the brightest blue eyes that sparkled like diamonds in the moonlight.
 
-    Every morning, Luna would hop through the enchanted meadows, greeting all the woodland creatures with a cheerful "Good morning!" The butterflies would dance around her ears, and the flowers would bloom brighter just from her presence.
-
-    One day, Luna discovered a mysterious golden key hidden beneath an old oak tree. The key was warm to the touch and seemed to glow with its own inner light. "What could this unlock?" wondered Luna, turning the key over in her tiny paws.
-
-    As Luna followed a winding path deeper into the forest, she came upon a beautiful garden gate covered in morning glories. The golden key fit perfectly into the lock, and with a gentle click, the gate swung open to reveal the most magnificent garden Luna had ever seen.
-
-    And so began Luna's greatest adventure yet...
-    """
     
     var body: some View {
         VStack(spacing: 0) {
@@ -99,7 +91,7 @@ struct StoryViewScreen: View {
     
     private var titleTexts: some View {
         VStack(spacing: 8) {
-            Text("Luna's Magic Key")
+            Text(story.title)
                 .font(.system(size: 36, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
@@ -112,7 +104,7 @@ struct StoryViewScreen: View {
     
     private var storyContent: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(storyText)
+            Text(story.content)
                 .font(.system(size: 18, design: .serif))
                 .lineSpacing(10)
                 .foregroundColor(.white)
@@ -156,7 +148,7 @@ struct StoryViewScreen: View {
                         
                         // Share Button
                         ShareLink(
-                            item: "Luna's Magic Key\n\n\(storyText)",
+                            item: "\(story.title)\n\n\(story.content)",
                             subject: Text("Check out this magical story!"),
                             message: Text("I created this story with Fairy Tales app")
                         ) {
@@ -204,25 +196,24 @@ struct StoryViewScreen: View {
                     }
                 
                 VStack(spacing: 20) {
-                    Text("save_story_title".localized)
+                    Text("story_saved_title".localized)
                         .font(.system(size: 24, weight: .bold, design: .rounded))
                         .foregroundColor(AppColors.darkText)
                         .multilineTextAlignment(.center)
                     
-                    Text("save_story_message".localized)
+                    Text("story_saved_message".localized)
                         .font(.system(size: 16, weight: .medium, design: .rounded))
                         .foregroundColor(AppColors.subtleText)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 20)
                     
                     VStack(spacing: 15) {
-                        // Save Button
+                        // Return Button
                         Button(action: {
-                            // Заглушка для сохранения истории
-                            print("Story saved and finished")
                             showingEndConfirmation = false
+                            presentationMode.wrappedValue.dismiss()
                         }) {
-                            Text("save".localized)
+                            Text("return_back".localized)
                                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
@@ -245,34 +236,58 @@ struct StoryViewScreen: View {
                                 .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
                         }
                         
-                        // Close Button
+                        // Delete Button
                         Button(action: {
-                            showingEndConfirmation = false
-                            // Возврат на главный экран
-                            presentationMode.wrappedValue.dismiss()
+                            Task {
+                                guard let storyId = story.id else {
+                                    print("❌ Story ID is missing")
+                                    showingEndConfirmation = false
+                                    presentationMode.wrappedValue.dismiss()
+                                    return
+                                }
+                                
+                                let success = await storyManager.deleteStory(storyId: storyId)
+                                if success {
+                                    print("✅ Story deleted successfully")
+                                } else {
+                                    print("❌ Failed to delete story")
+                                }
+                                
+                                // В любом случае возвращаемся назад
+                                showingEndConfirmation = false
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }) {
-                            Text("Delete")
-                                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            Color(red: 1.0, green: 0.3, blue: 0.3),  // Красный
-                                            Color(red: 1.0, green: 0.6, blue: 0.2)   // Оранжевый
-                                        ]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
+                            HStack {
+                                if storyManager.isLoading {
+                                    ProgressView()
+                                        .scaleEffect(0.8)
+                                        .tint(.white)
+                                }
+                                Text("delete_story".localized)
+                                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                    .foregroundColor(.white)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color(red: 1.0, green: 0.3, blue: 0.3),  // Красный
+                                        Color(red: 1.0, green: 0.6, blue: 0.2)   // Оранжевый
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
                                 )
-                                .cornerRadius(cornerRadius)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: cornerRadius)
-                                        .stroke(Color(red: 0.8, green: 0.2, blue: 0.2), lineWidth: 2)
-                                )
-                                .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
+                            )
+                            .cornerRadius(cornerRadius)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: cornerRadius)
+                                    .stroke(Color(red: 0.8, green: 0.2, blue: 0.2), lineWidth: 2)
+                            )
+                            .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
                         }
+                        .disabled(storyManager.isLoading)
                     }
                     .padding(.horizontal, 20)
                 }
@@ -341,5 +356,16 @@ struct StoryViewScreen: View {
 }
 
 #Preview {
-    StoryViewScreen()
+    let sampleStory = Story(
+        id: "1",
+        title: "Luna's Magic Key",
+        content: "Once upon a time, in a magical forest far, far away, there lived a brave little rabbit named Luna...",
+        language: "en",
+        story_style: "Adventure",
+        hero_name: "Luna",
+        age: 7,
+        created_at: "2025-08-14T10:00:00Z"
+    )
+    
+    return StoryViewScreen(story: sampleStory)
 } 

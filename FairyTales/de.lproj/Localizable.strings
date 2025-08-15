@@ -6,8 +6,21 @@
 */
 
 // Auth Screen
-"app_title" = "Märchen";
+"app_title" = "Fairy Tales";
 "app_subtitle" = "Erstelle magische Geschichten";
+"welcome_subtitle" = "Erstelle magische Märchen für deine Kinder";
+"welcome_description" = "Verwandle die Schlafenszeit in ein Abenteuer! Generiere personalisierte Märchen, in denen dein Kind der Held wird. Jede Geschichte wird mit KI erstellt, um die Fantasie anzuregen und unvergessliche Momente zu schaffen.";
+
+// Apple Sign In Errors
+"apple_signin_unknown_error" = "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.";
+"apple_signin_invalid_response" = "Ungültige Antwort von Apple. Bitte versuche es erneut.";
+"apple_signin_not_handled" = "Die Anmeldeanfrage konnte nicht verarbeitet werden. Bitte versuche es erneut.";
+"apple_signin_not_interactive" = "Die Anmeldung mit Apple ist in diesem Kontext nicht verfügbar.";
+"apple_signin_failed" = "Die Anmeldung mit Apple ist fehlgeschlagen. Überprüfe deine Einstellungen und versuche es erneut.";
+"apple_signin_excluded_credential" = "Diese Apple ID kann nicht für die Anmeldung verwendet werden. Bitte versuche es mit einem anderen Konto.";
+"apple_signin_credential_import" = "Apple ID-Zugangsdaten konnten nicht importiert werden. Bitte versuche es erneut.";
+"apple_signin_credential_export" = "Apple ID-Zugangsdaten konnten nicht exportiert werden. Bitte versuche es erneut.";
+"apple_signin_general_error" = "Anmeldung nicht möglich. Bitte versuche es später erneut.";
 "email_placeholder" = "E-Mail";
 "password_placeholder" = "Passwort";
 "sign_in" = "Anmelden";
@@ -17,7 +30,7 @@
 "or_divider" = "oder";
 
 // Main Screen
-"main_title" = "Märchen";
+"main_title" = "Fairy Tales";
 "main_subtitle" = "Was möchten Sie tun?";
 "create_new_story" = "Neue Geschichte Erstellen";
 "create_story_subtitle" = "Beginnen Sie Ihr magisches Abenteuer";
@@ -61,10 +74,19 @@
 "story_content_label" = "Geschichte";
 "share_story" = "Geschichte Teilen";
 "the_end" = "Ende";
-"save_story_title" = "Geschichte Speichern";
-"save_story_message" = "Möchten Sie diese Geschichte in Ihrer Sammlung speichern?";
+"story_saved_title" = "Geschichte Beendet";
+"story_saved_message" = "Ihre Geschichte wurde gespeichert! Sie können sie löschen oder zurückkehren, um weiterzuerkunden.";
+"delete_story" = "Geschichte Löschen";
+"return_back" = "Zurück";
 "save_finish" = "Speichern & Beenden";
 "cancel" = "Abbrechen";
+
+// My Stories Screen
+"loading_stories" = "Lade Ihre Geschichten...";
+"no_stories_title" = "Noch Keine Geschichten";
+"no_stories_subtitle" = "Sie haben noch keine magischen Märchen erstellt. Beginnen Sie Ihr erstes Abenteuer!";
+"no_stories_message" = "Sie haben noch keine magischen Märchen erstellt. Beginnen Sie Ihr erstes Abenteuer!";
+"create_first_story" = "Erste Geschichte Erstellen";
 
 // Settings Screen
 "settings_title" = "Einstellungen";
@@ -92,4 +114,33 @@
 "create" = "Erstellen";
 "back" = "Zurück";
 "save" = "Speichern";
-"close" = "Schließen"; 
+"close" = "Schließen";
+
+// Legal Content
+"privacy_policy_title" = "Datenschutzrichtlinie";
+"terms_title" = "Nutzungsbedingungen";
+"version" = "Version:";
+"last_updated" = "Zuletzt aktualisiert:";
+"error_occurred" = "Ein Fehler ist aufgetreten";
+"try_again" = "Erneut versuchen";
+"no_content_available" = "Kein Inhalt verfügbar";
+"content_not_loaded" = "Inhalt konnte derzeit nicht geladen werden";
+
+// Story Generation Progress
+"please_wait_generating" = "Bitte warten Sie, während wir Ihre magische Geschichte erstellen...";
+
+// Timeout Messages
+"story_timeout_title" = "Die Geschichte wird noch erstellt";
+"story_timeout_message" = "Ihre Geschichte dauert länger als erwartet zu generieren, aber keine Sorge! Sie wird noch im Hintergrund erstellt. Bitte überprüfen Sie Ihre Geschichten in ein paar Minuten - sie sollte automatisch dort erscheinen.";
+"check_stories_later" = "Meine Geschichten später überprüfen";
+"timeout_error_occurred" = "Zeitlimit überschritten, aber Ihre Geschichte wird möglicherweise noch generiert...";
+"auth_timeout_message" = "Verbindungs-Timeout aufgetreten. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.";
+
+// Server Health Messages
+"server_unavailable" = "Server ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.";
+"server_timeout" = "Server antwortet nicht. Bitte überprüfen Sie Ihre Verbindung.";
+"no_internet_connection" = "Keine Internetverbindung. Überprüfen Sie Ihre Netzwerkeinstellungen.";
+"server_error_code" = "Server-Fehler";
+"server_health_error_title" = "Verbindungsproblem";
+"retry_connection" = "Verbindung wiederholen";
+"continue_offline" = "Offline fortfahren";

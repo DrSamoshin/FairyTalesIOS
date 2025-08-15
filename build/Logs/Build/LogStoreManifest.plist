@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>11</integer>
+	<key>logs</key>
+	<dict>
+		<key>2122D038-6CD6-40BA-BBFA-D50034096E01</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>2122D038-6CD6-40BA-BBFA-D50034096E01.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>4</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>FairyTales project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>FairyTales</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project FairyTales with scheme FairyTales</string>
+			<key>timeStartedRecording</key>
+			<real>776880116.86751699</real>
+			<key>timeStoppedRecording</key>
+			<real>776880322.41834104</real>
+			<key>title</key>
+			<string>Building project FairyTales with scheme FairyTales</string>
+			<key>uniqueIdentifier</key>
+			<string>2122D038-6CD6-40BA-BBFA-D50034096E01</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

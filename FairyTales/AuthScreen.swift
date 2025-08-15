@@ -8,208 +8,224 @@
 import SwiftUI
 import AuthenticationServices
 
-struct AuthScreen: View {
-    @StateObject private var localizationManager = LocalizationManager.shared
-    @State private var email = ""
-    @State private var password = ""
-    @State private var isLogin = true
-    @State private var isLoggedIn = false
-    @State private var iconScale: CGFloat = 1.0
-    @State private var titleOpacity: Double = 0.0
-    @State private var titleOffset: CGFloat = 30.0
+// MARK: - Apple Sign In Delegate
+class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate {
+    let authManager: AuthManager
     
-    private let horizontalPadding: CGFloat = 30
-    private let iconSize: CGFloat = 120
-    private let buttonHeight: CGFloat = 54
-    private let animationDuration: Double = 0.15
+    init(authManager: AuthManager) {
+        self.authManager = authManager
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        Task { @MainActor in
+            await authManager.signInWithApple(authorization: authorization)
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        Task { @MainActor in
+            handleAppleSignInError(error)
+        }
+    }
+    
+    private func handleAppleSignInError(_ error: Error) {
+        guard let authError = error as? ASAuthorizationError else {
+            authManager.errorMessage = "apple_signin_general_error".localized
+            return
+        }
+        
+        switch authError.code {
+        case .canceled:
+            // User canceled - don't show error
+            return
+        case .unknown:
+            authManager.errorMessage = "apple_signin_unknown_error".localized
+        case .invalidResponse:
+            authManager.errorMessage = "apple_signin_invalid_response".localized
+        case .notHandled:
+            authManager.errorMessage = "apple_signin_not_handled".localized
+        case .notInteractive:
+            authManager.errorMessage = "apple_signin_not_interactive".localized
+        case .failed:
+            authManager.errorMessage = "apple_signin_failed".localized
+        case .matchedExcludedCredential:
+            authManager.errorMessage = "apple_signin_excluded_credential".localized
+        case .credentialImport:
+            authManager.errorMessage = "apple_signin_credential_import".localized
+        case .credentialExport:
+            authManager.errorMessage = "apple_signin_credential_export".localized
+        @unknown default:
+            authManager.errorMessage = "apple_signin_unknown_error".localized
+        }
+    }
+}
+
+struct AuthScreen: View {
+    // MARK: - State
+    @StateObject private var localizationManager = LocalizationManager.shared
+    @State private var authManager = AuthManager.shared
+    @Environment(HealthCheckManager.self) private var healthCheckManager
+    @State private var logoScale: CGFloat = 1.0
+    @State private var contentOpacity: Double = 0.0
+    @State private var contentOffset: CGFloat = 30.0
+    @State private var backgroundScale: CGFloat = 1.0
+    @State private var showingAlert = false
+    @State private var appleSignInDelegate: AppleSignInDelegate?
+    @State private var showingPolicy = false
+    @State private var showingTerms = false
+    
+    // MARK: - Constants
+    private struct Constants {
+        static let contentPadding: CGFloat = 30
+        static let logoSize: CGFloat = 120
+        static let buttonHeight: CGFloat = 54
+        static let logoAnimationDuration: Double = 0.15
+        static let backgroundAnimationDuration: Double = 8.0
+        static let contentAnimationDelay: UInt64 = 100_000_000 // 0.1 seconds
+        static let contentAnimationDuration: Double = 0.6
+        static let vStackSpacing: CGFloat = 40
+        static let headerSpacing: CGFloat = 16
+        static let legalButtonSpacing: CGFloat = 15
+        static let bottomSpacing: CGFloat = 20
+    }
     
     var body: some View {
         NavigationStack {
-            if isLoggedIn {
-                MainScreen()
-            } else {
-                authView
-            }
+            welcomeScreen
+        }
+        .alert("Error", isPresented: $showingAlert) {
+            Button("OK") { authManager.errorMessage = nil }
+        } message: {
+            Text(authManager.errorMessage ?? "Unknown error")
+        }
+        .onChange(of: authManager.errorMessage) { _, newError in
+            showingAlert = newError != nil
+        }
+        .sheet(isPresented: $showingPolicy) {
+            LegalContentScreen(contentType: .privacyPolicy)
+        }
+        .sheet(isPresented: $showingTerms) {
+            LegalContentScreen(contentType: .termsOfService)
         }
     }
     
-    private var authView: some View {
-        VStack(spacing: 30) {
+    private var welcomeScreen: some View {
+        VStack(spacing: Constants.vStackSpacing) {
             Spacer()
-            titleSection
+            welcomeHeader
             Spacer()
-            authForm
-            divider
-            appleSignInButton
-            Spacer()
+            welcomeDescription
+            signInButton
+            legalButtons
+            Spacer(minLength: Constants.bottomSpacing)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(backgroundView)
-        .onTapGesture(perform: hideKeyboard)
-        .onAppear(perform: animateTitle)
-    }
-    
-    private var titleSection: some View {
-        VStack(spacing: 16) {
-            animatedIcon
-            titleTexts
+        .onAppear {
+            startAnimations()
         }
     }
     
-    private var animatedIcon: some View {
-        Button(action: animateIcon) {
-            Image("icon_4")
+    private var welcomeHeader: some View {
+        VStack(spacing: Constants.headerSpacing) {
+            logoButton
+            headerTexts
+        }
+    }
+    
+    private var logoButton: some View {
+        Button(action: animateLogo) {
+            Image("icon_6")
                 .resizable()
-                .frame(width: iconSize, height: iconSize)
-                .scaleEffect(iconScale)
+                .frame(width: Constants.logoSize, height: Constants.logoSize)
+                .scaleEffect(logoScale)
         }
     }
     
-    private var titleTexts: some View {
-        VStack(spacing: 8) {
-            Text("app_title".localized)
-                .font(.system(size: 42, weight: .bold, design: .rounded))
-                .foregroundStyle(AppColors.titleGradient)
-                .multilineTextAlignment(.center)
-                .opacity(titleOpacity)
-                .offset(y: titleOffset)
-            
-            Text("app_subtitle".localized)
-                .font(.system(size: 18, weight: .medium, design: .rounded))
-                .foregroundColor(AppColors.subtleText)
-                .multilineTextAlignment(.center)
-                .opacity(titleOpacity)
-                .offset(y: titleOffset)
+    private var headerTexts: some View {
+        VStack(spacing: Constants.headerSpacing) {
+            titleText
+            subtitleText
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, horizontalPadding)
+        .padding(.horizontal, Constants.contentPadding)
     }
     
-    private var authForm: some View {
-        VStack(spacing: 20) {
-            emailField
-            passwordField
-            primaryButton
-            toggleButton
+    private var titleText: some View {
+        Text("app_title".localized)
+            .font(.system(size: 36, weight: .bold, design: .rounded))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            .animatedContent(opacity: contentOpacity, offset: contentOffset)
+    }
+    
+    private var subtitleText: some View {
+        Text("welcome_subtitle".localized)
+            .font(.system(size: 18, weight: .semibold, design: .rounded))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
+            .animatedContent(opacity: contentOpacity, offset: contentOffset)
+    }
+    
+    private var welcomeDescription: some View {
+        Text("welcome_description".localized)
+            .font(.system(size: 16, weight: .regular, design: .rounded))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            .lineLimit(nil)
+            .padding(.horizontal, Constants.contentPadding + 20)
+            .animatedContent(opacity: contentOpacity, offset: contentOffset)
+    }
+    
+    private var legalButtons: some View {
+        VStack(spacing: Constants.legalButtonSpacing) {
+            legalButton(title: "Privacy Policy", action: { showingPolicy = true })
+            legalButton(title: "Terms of Use", action: { showingTerms = true })
         }
-        .padding(.horizontal, horizontalPadding)
+        .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
     
-    private var emailField: some View {
-        ZStack(alignment: .leading) {
-            if email.isEmpty {
-                Text("email_placeholder".localized)
-                    .foregroundColor(Color.gray)
-                    .font(.system(size: 16, design: .rounded))
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-            }
-            TextField("", text: $email)
-                .foregroundColor(AppColors.darkText)
-                .font(.system(size: 16, design: .rounded))
-                .autocapitalization(.none)
-                .keyboardType(.emailAddress)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-        }
-        .background(AppColors.cloudWhite)
-        .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.white, lineWidth: 2)
-        )
-        .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
-    }
-    
-    private var passwordField: some View {
-        ZStack(alignment: .leading) {
-            if password.isEmpty {
-                Text("password_placeholder".localized)
-                    .foregroundColor(Color.gray)
-                    .font(.system(size: 16, design: .rounded))
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-            }
-            SecureField("", text: $password)
-                .foregroundColor(AppColors.darkText)
-                .font(.system(size: 16, design: .rounded))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-        }
-        .background(AppColors.cloudWhite)
-        .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.white, lineWidth: 2)
-        )
-        .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
-    }
-    
-    private var primaryButton: some View {
-        Button(action: performEmailAuth) {
-            Text(isLogin ? "sign_in".localized : "sign_up".localized)
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: buttonHeight)
-                .background(AppColors.contrastPrimary)
-                .cornerRadius(16)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(AppColors.primaryBorder, lineWidth: 2)
-                )
-                .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
-        }
-    }
-    
-    private var toggleButton: some View {
-        Button(action: toggleAuthMode) {
-            Text(isLogin ? "no_account".localized : "have_account".localized)
+    private func legalButton(title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
                 .font(.system(size: 14, weight: .medium, design: .rounded))
-                .foregroundColor(AppColors.darkText)
+                .foregroundColor(.gray)
                 .underline()
         }
     }
     
-    private var divider: some View {
-        HStack {
-            Rectangle()
-                .fill(AppColors.darkText.opacity(0.2))
-                .frame(height: 1)
-            Text("or_divider".localized)
-                .font(.system(size: 14, weight: .medium, design: .rounded))
-                .foregroundColor(AppColors.darkText)
-                .padding(.horizontal, 8)
-            Rectangle()
-                .fill(AppColors.darkText.opacity(0.2))
-                .frame(height: 1)
+    private var signInButton: some View {
+        Button(action: performAppleSignIn) {
+            HStack {
+                Image(systemName: "applelogo")
+                    .foregroundColor(.white)
+                Text("Sign in with Apple")
+                    .foregroundColor(.white)
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+            }
+            .frame(height: Constants.buttonHeight)
+            .frame(maxWidth: .infinity)
+            .background(AppColors.greenGradient)
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(AppColors.greenBorder, lineWidth: 2)
+            )
+            .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
         }
-        .padding(.horizontal, horizontalPadding)
-    }
-    
-    private var appleSignInButton: some View {
-        Button(action: performAppleAuth) {
-            Text("Sign in with Apple")
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: buttonHeight)
-                .background(AppColors.contrastApple)
-                .cornerRadius(16)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(AppColors.appleBorder, lineWidth: 2)
-                )
-                .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
-        }
-        .padding(.horizontal, horizontalPadding)
+        .disabled(authManager.isLoading)
+        .padding(.horizontal, Constants.contentPadding)
+        .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
     
     private var backgroundView: some View {
         ZStack {
-            Image("background_1")
+            Image("background_9")
                 .resizable()
                 .scaledToFill()
+                .scaleEffect(backgroundScale)
                 .ignoresSafeArea()
             
             LinearGradient(
@@ -224,51 +240,63 @@ struct AuthScreen: View {
         }
     }
     
-    private func animateIcon() {
-        withAnimation(.easeInOut(duration: animationDuration)) {
-            iconScale = 1.15
+    // MARK: - Animation Methods
+    private func startAnimations() {
+        animateContent()
+        animateBackground()
+    }
+    
+    private func animateLogo() {
+        withAnimation(.easeInOut(duration: Constants.logoAnimationDuration)) {
+            logoScale = 1.15
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration) {
-            withAnimation(.easeOut(duration: animationDuration)) {
-                iconScale = 1.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.logoAnimationDuration) {
+            withAnimation(.easeOut(duration: Constants.logoAnimationDuration)) {
+                logoScale = 1.0
             }
         }
     }
     
-    private func animateTitle() {
+    private func animateContent() {
         Task {
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            try? await Task.sleep(nanoseconds: Constants.contentAnimationDelay)
             await MainActor.run {
-                withAnimation(.easeOut(duration: 0.6)) {
-                    titleOpacity = 1.0
-                    titleOffset = 0.0
+                withAnimation(.easeOut(duration: Constants.contentAnimationDuration)) {
+                    contentOpacity = 1.0
+                    contentOffset = 0.0
                 }
             }
         }
     }
     
-    private func performEmailAuth() {
-        print("Email \(isLogin ? "login" : "register") tapped")
-        isLoggedIn = true
-    }
-    
-    private func performAppleAuth() {
-        print("Apple Sign In tapped")
-        isLoggedIn = true
-    }
-    
-    private func toggleAuthMode() {
-        withAnimation(.easeInOut(duration: 0.2)) {
-            isLogin.toggle()
+    private func animateBackground() {
+        withAnimation(.easeInOut(duration: Constants.backgroundAnimationDuration).repeatForever(autoreverses: true)) {
+            backgroundScale = 1.1
         }
     }
     
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    private func performAppleSignIn() {
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        appleSignInDelegate = AppleSignInDelegate(authManager: authManager)
+        controller.delegate = appleSignInDelegate
+        controller.performRequests()
+    }
+}
+
+// MARK: - View Extensions
+private extension View {
+    func animatedContent(opacity: Double, offset: CGFloat) -> some View {
+        self
+            .opacity(opacity)
+            .offset(y: offset)
     }
 }
 
 #Preview {
     AuthScreen()
-} 
+}

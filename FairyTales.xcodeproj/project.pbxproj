@@ -29,9 +29,22 @@
 		C27C3AD52E45F6BB006D0D04 /* FairyTalesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FairyTalesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C27C3B352E4D28E8006D0D04 /* Exceptions for "FairyTales" folder in "FairyTales" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C27C3ABA2E45F6B9006D0D04 /* FairyTales */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C27C3ABD2E45F6B9006D0D04 /* FairyTales */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C27C3B352E4D28E8006D0D04 /* Exceptions for "FairyTales" folder in "FairyTales" target */,
+			);
 			path = FairyTales;
 			sourceTree = "<group>";
 		};
@@ -401,6 +414,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FairyTales/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fairy Tales";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -444,6 +458,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FairyTales/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fairy Tales";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;

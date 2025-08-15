@@ -1,0 +1,16 @@
+{
+  "source": "/Users/siarheisamoshyn/Projects/fairy_tales_ios/FairyTales/FairyTales/SettingsScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Language",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 65
+        }
+      }
+    ]
+  },
+  "version": 1
+}
