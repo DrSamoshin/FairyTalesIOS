@@ -10,7 +10,7 @@ import SwiftUI
 struct MyStoriesScreen: View {
     // MARK: - State
     @StateObject private var localizationManager = LocalizationManager.shared
-    @State private var storyManager = StoryManager.shared
+    @State private var storyService = StoryService.shared
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedStory: Story?
     @State private var showStoryView = false
@@ -90,11 +90,11 @@ struct MyStoriesScreen: View {
             }) {
                 HStack(spacing: 8) {
                     Image(systemName: "chevron.left")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.appBackIcon)
                         .foregroundColor(.white)
                     
                     Text("back".localized)
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .font(.appBackText)
                         .foregroundColor(.white)
                 }
             }
@@ -112,7 +112,7 @@ struct MyStoriesScreen: View {
     
     private var contentSection: some View {
         Group {
-            if storyManager.isLoading && stories.isEmpty {
+            if storyService.isLoading && stories.isEmpty {
                 loadingView
             } else if stories.isEmpty {
                 emptyStateView
@@ -129,7 +129,7 @@ struct MyStoriesScreen: View {
                 .tint(.white)
             
             Text("loading_stories".localized)
-                .font(.system(size: 18, weight: .medium, design: .rounded))
+                .font(.appBody)
                 .foregroundColor(.white)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -143,13 +143,13 @@ struct MyStoriesScreen: View {
             
             VStack(spacing: Constants.headerSpacing) {
                 Text("no_stories_title".localized)
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
-                    .foregroundStyle(AppColors.titleGradient)
+                    .font(.appH1)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                 
                 Text("no_stories_subtitle".localized)
-                    .font(.system(size: 18, weight: .semibold, design: .rounded))
-                    .foregroundColor(AppColors.subtleText)
+                    .font(.appSubtitle)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
             }
             .padding(.horizontal, Constants.emptyStatePadding)
@@ -165,7 +165,7 @@ struct MyStoriesScreen: View {
             showStoryCreator = true
         }) {
             Text("create_story".localized)
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .font(.appSubtitle)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: Constants.buttonHeight)
@@ -173,29 +173,23 @@ struct MyStoriesScreen: View {
                 .cornerRadius(Constants.cornerRadius)
                 .overlay(
                     RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                        .stroke(AppColors.primaryBorder, lineWidth: Constants.borderWidth)
+                        .stroke(Color(red: 0.95, green: 0.75, blue: 0.85), lineWidth: 2)
                 )
-                .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
         }
         .padding(.horizontal, Constants.horizontalPadding)
     }
     
     private var storiesListView: some View {
-        List {
-            ForEach(stories) { story in
-                storyCard(story)
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(
-                        top: Constants.cardSpacing/2,
-                        leading: Constants.horizontalPadding,
-                        bottom: Constants.cardSpacing/2,
-                        trailing: Constants.horizontalPadding
-                    ))
+        ScrollView {
+            LazyVStack(spacing: Constants.cardSpacing) {
+                ForEach(stories) { story in
+                    storyCard(story)
+                        .padding(.horizontal, Constants.horizontalPadding)
+                }
             }
+            .padding(.vertical, Constants.cardSpacing)
         }
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
+        .scrollFadeEffect(fadeHeight: 25, direction: .top)
     }
     
     private func storyCard(_ story: Story) -> some View {
@@ -208,7 +202,7 @@ struct MyStoriesScreen: View {
                 storyCardPreview(story)
             }
             .padding(Constants.cardPadding)
-            .background(AppColors.cloudWhite)
+            .background(AppColors.fieldGradient)
             .cornerRadius(Constants.cornerRadius)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
@@ -228,26 +222,26 @@ struct MyStoriesScreen: View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(story.title)
-                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .font(.appSubtitle)
                     .foregroundColor(AppColors.darkText)
                     .lineLimit(1)
                 
                 Text("hero_prefix".localized(story.hero_name ?? ""))
-                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .font(.appCaption)
                     .foregroundColor(AppColors.fairyPurple)
             }
             
             Spacer()
             
             Text(dateFromString(story.created_at ?? ""), style: .date)
-                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .font(.appSmall)
                 .foregroundColor(AppColors.subtleText)
         }
     }
     
     private func storyCardPreview(_ story: Story) -> some View {
         Text(String(story.content.prefix(150)) + (story.content.count > 150 ? "..." : ""))
-            .font(.system(size: 15, weight: .regular, design: .serif))
+            .font(.appStoryPreview)
             .foregroundColor(AppColors.subtleText)
             .lineLimit(3)
             .multilineTextAlignment(.leading)
@@ -256,7 +250,7 @@ struct MyStoriesScreen: View {
     
     private var backgroundView: some View {
         ZStack {
-            Image("background_6")
+            Image("background_12")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
@@ -310,13 +304,12 @@ struct MyStoriesScreen: View {
     
     // MARK: - Helper Methods
     private func dateFromString(_ dateString: String) -> Date {
-        let formatter = ISO8601DateFormatter()
-        return formatter.date(from: dateString) ?? Date()
+        return DateFormatter.parseUTCDate(from: dateString)
     }
     
     private func loadStories() {
         Task {
-            let fetchedStories = await storyManager.fetchUserStories()
+            let fetchedStories = await storyService.fetchUserStories()
             await MainActor.run {
                 self.stories = fetchedStories
             }

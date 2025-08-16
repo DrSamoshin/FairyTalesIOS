@@ -141,11 +141,11 @@ struct SettingsScreen: View {
             }) {
                 HStack(spacing: 8) {
                     Image(systemName: "chevron.left")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.appBackIcon)
                         .foregroundColor(.white)
                     
                     Text("back".localized)
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .font(.appBackText)
                         .foregroundColor(.white)
                 }
             }
@@ -177,15 +177,15 @@ struct SettingsScreen: View {
     
     private var titleText: some View {
         Text("settings_title".localized)
-            .font(.system(size: 36, weight: .bold, design: .rounded))
+            .font(.appH1)
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
     }
     
     private var subtitleText: some View {
         Text("settings_subtitle".localized)
-            .font(.system(size: 18, weight: .semibold, design: .rounded))
-            .foregroundColor(.white.opacity(0.8))
+            .font(.appSubtitle)
+            .foregroundColor(.white)
             .multilineTextAlignment(.center)
     }
     
@@ -197,7 +197,7 @@ struct SettingsScreen: View {
                 settingsIcon(config.icon)
                 
                 Text("language_setting".localized)
-                    .font(.system(size: 16, weight: .semibold, design: .rounded))
+                    .font(.appLabel)
                     .foregroundColor(.white)
                 
                 Spacer()
@@ -211,7 +211,7 @@ struct SettingsScreen: View {
         Picker("Language", selection: $localizationManager.currentLanguage) {
             ForEach(SupportedLanguage.allCases, id: \.self) { language in
                 Text(language.nativeName)
-                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .font(.appPickerItem)
                     .tag(language)
             }
         }
@@ -259,7 +259,7 @@ struct SettingsScreen: View {
             settingsIcon(icon)
             
             Text(title)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.appLabel)
                 .foregroundColor(.white)
             
             Spacer()
@@ -296,7 +296,7 @@ struct SettingsScreen: View {
             logoutIcon
             
             Text(isLoggingOut ? "logging_out".localized : "logout".localized)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.appLabel)
                 .foregroundColor(.white)
             
             Spacer()
@@ -319,14 +319,14 @@ struct SettingsScreen: View {
     // MARK: - Reusable Components
     private func settingsIcon(_ systemName: String) -> some View {
         Image(systemName: systemName)
-            .font(.system(size: 24, weight: .medium))
+            .font(.appIcon)
             .foregroundColor(.white)
             .frame(width: Constants.iconFrameWidth)
     }
     
     private var chevronIcon: some View {
         Image(systemName: "chevron.right")
-            .font(.system(size: 14, weight: .semibold))
+            .font(.appCaptionSemibold)
             .foregroundColor(.white.opacity(0.8))
     }
     

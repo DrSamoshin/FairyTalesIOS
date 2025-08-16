@@ -153,7 +153,7 @@ struct AuthScreen: View {
     
     private var titleText: some View {
         Text("app_title".localized)
-            .font(.system(size: 36, weight: .bold, design: .rounded))
+            .font(.appH1)
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
             .animatedContent(opacity: contentOpacity, offset: contentOffset)
@@ -161,7 +161,7 @@ struct AuthScreen: View {
     
     private var subtitleText: some View {
         Text("welcome_subtitle".localized)
-            .font(.system(size: 18, weight: .semibold, design: .rounded))
+            .font(.appSubtitle)
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
             .lineLimit(nil)
@@ -171,7 +171,7 @@ struct AuthScreen: View {
     
     private var welcomeDescription: some View {
         Text("welcome_description".localized)
-            .font(.system(size: 16, weight: .regular, design: .rounded))
+            .font(.appLabelMedium)
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
             .lineLimit(nil)
@@ -190,7 +190,7 @@ struct AuthScreen: View {
     private func legalButton(title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .font(.appCaption)
                 .foregroundColor(.gray)
                 .underline()
         }
@@ -203,7 +203,7 @@ struct AuthScreen: View {
                     .foregroundColor(.white)
                 Text("Sign in with Apple")
                     .foregroundColor(.white)
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .font(.appH3)
             }
             .frame(height: Constants.buttonHeight)
             .frame(maxWidth: .infinity)

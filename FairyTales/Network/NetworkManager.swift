@@ -65,17 +65,11 @@ final class NetworkManager: Sendable {
     static let shared = NetworkManager()
     
     private let baseURL = "https://fairy-tales-api-134132058244.europe-west3.run.app"
-    
-    // Alternative URLs to try if main fails (fallback to local dev)
-    private let alternativeURLs = [
-        "http://0.0.0.0:8080"
-    ]
+    // private let baseURL = "http://192.168.1.215:8080"
     private let session: URLSession
     
     // Public access to base URL for streaming
     var streamingBaseURL: String { baseURL }
-    
-
     
     var isLoading = false
     var lastError: NetworkError?
@@ -83,16 +77,16 @@ final class NetworkManager: Sendable {
     private init() {
         print("NetworkManager: Initializing NetworkManager")
         print("NetworkManager: Base URL: \(baseURL)")
-        print("NetworkManager: Alternative URLs: \(alternativeURLs)")
+
         
-        // Конфигурация для продакшен сервера (HTTPS) с fallback на локальный HTTP
+        // Конфигурация для продакшен сервера (HTTPS)
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30  // Timeout для story generation
         config.timeoutIntervalForResource = 60 // Длительные операции
         
         print("NetworkManager: Configured timeouts - Request: 30s, Resource: 60s")
         
-        // Используем кастомный delegate для обхода ATS для локальных HTTP fallback URL'ов
+        // Используем кастомный delegate для надежной работы с HTTPS
         let delegate = CustomURLSessionDelegate()
         self.session = URLSession(configuration: config, delegate: delegate, delegateQueue: nil)
         
@@ -107,53 +101,12 @@ final class NetworkManager: Sendable {
         headers: [String: String] = [:],
         responseType: T.Type
     ) async throws -> T {
-        // Use configured URLs (baseURL + alternativeURLs)
-        let urls = [baseURL] + alternativeURLs
-        
-        for (index, urlString) in urls.enumerated() {
-            print("🔄 Trying server: \(urlString)")
-            guard let url = URL(string: urlString + endpoint) else {
-                print("❌ Invalid URL: \(urlString + endpoint)")
-                if index == urls.count - 1 {
-                    throw NetworkError.invalidURL
-                }
-                continue
-            }
-            
-            do {
-                print("✅ Successfully connected to: \(urlString)")
-                return try await performRequest(url: url, method: method, body: body, headers: headers, responseType: responseType)
-            } catch {
-                // Если это проблема с соединением, пробуем следующий URL
-                if let networkError = error as? NetworkError,
-                   case .internetConnection = networkError {
-                    print("⚠️ Failed to connect to \(urlString): \(error)")
-                    if index == urls.count - 1 {
-                        throw error
-                    }
-                    continue
-                } else if let urlError = error as? URLError,
-                          urlError.code == .cannotConnectToHost || 
-                          urlError.code == .notConnectedToInternet {
-                    print("⚠️ Failed to connect to \(urlString): \(error)")
-                    if index == urls.count - 1 {
-                        throw error
-                    }
-                    continue
-                } else if let urlError = error as? URLError,
-                          urlError.code == .timedOut {
-                    print("⏰ Timeout occurred for \(urlString): \(error)")
-                    // For timeout, we don't try other URLs since it's likely a slow operation
-                    throw NetworkError.timeout
-                }
-                
-                // Если это HTTP ошибка (401, 500, etc.) - не пробуем другие URL'ы
-                print("❌ Request failed: \(error)")
-                throw error
-            }
+        guard let url = URL(string: baseURL + endpoint) else {
+            print("❌ Invalid URL: \(baseURL + endpoint)")
+            throw NetworkError.invalidURL
         }
         
-        throw NetworkError.invalidURL
+        return try await performRequest(url: url, method: method, body: body, headers: headers, responseType: responseType)
     }
     
     private func performRequest<T: Codable>(
@@ -209,6 +162,11 @@ final class NetworkManager: Sendable {
             case 401, 403:
                 // Обработка ошибок авторизации - декодируем стандартный API ответ
                 print("NetworkManager: Authentication error: \(httpResponse.statusCode)")
+                
+                // Отправляем уведомление для автоматического выхода
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .authenticationExpired, object: nil)
+                }
                 
                 if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
                     print("NetworkManager: Successfully decoded API error: \(errorResponse.error_code ?? "NO_CODE")")
@@ -332,26 +290,23 @@ final class NetworkManager: Sendable {
     
     // MARK: - Server Testing
     func testServerConnection() async {
-        print("🔍 Testing server connections...")
-        let testEndpoint = "/api/v1/health/"
-        let urls = [baseURL] + alternativeURLs
+        print("🔍 Testing server connection...")
+        let testEndpoint = "/api/v1/health/app/"
         
-        for urlString in urls {
-            guard let url = URL(string: urlString + testEndpoint) else {
-                print("❌ Invalid URL: \(urlString + testEndpoint)")
-                continue
+        guard let url = URL(string: baseURL + testEndpoint) else {
+            print("❌ Invalid URL: \(baseURL + testEndpoint)")
+            return
+        }
+        
+        do {
+            let (_, response) = try await session.data(from: url)
+            if let httpResponse = response as? HTTPURLResponse {
+                print("✅ \(baseURL) - Response: \(httpResponse.statusCode)")
+            } else {
+                print("⚠️ \(baseURL) - No HTTP response")
             }
-            
-            do {
-                let (_, response) = try await session.data(from: url)
-                if let httpResponse = response as? HTTPURLResponse {
-                    print("✅ \(urlString) - Response: \(httpResponse.statusCode)")
-                } else {
-                    print("⚠️ \(urlString) - No HTTP response")
-                }
-            } catch {
-                print("❌ \(urlString) - Error: \(error)")
-            }
+        } catch {
+            print("❌ \(baseURL) - Error: \(error)")
         }
     }
     

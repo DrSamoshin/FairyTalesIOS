@@ -7,7 +7,6 @@
 
 // Auth Screen
 "app_title" = "Fairy Tales";
-"app_subtitle" = "Créez des histoires magiques";
 "welcome_subtitle" = "Créez des contes magiques pour vos enfants";
 "welcome_description" = "Transformez l'heure du coucher en aventure ! Générez des contes personnalisés où votre enfant devient le héros. Chaque histoire est créée avec l'IA pour stimuler l'imagination et créer des moments inoubliables.";
 
@@ -21,13 +20,6 @@
 "apple_signin_credential_import" = "Impossible d'importer les identifiants Apple ID. Veuillez réessayer.";
 "apple_signin_credential_export" = "Impossible d'exporter les identifiants Apple ID. Veuillez réessayer.";
 "apple_signin_general_error" = "Impossible de se connecter. Veuillez réessayer plus tard.";
-"email_placeholder" = "Email";
-"password_placeholder" = "Mot de passe";
-"sign_in" = "Se connecter";
-"sign_up" = "S'inscrire";
-"no_account" = "Pas de compte ? S'inscrire";
-"have_account" = "Déjà un compte ? Se connecter";
-"or_divider" = "ou";
 
 // Main Screen
 "main_title" = "Fairy Tales";
@@ -48,12 +40,18 @@
 "hero_name_placeholder" = "Entrez le nom du héros";
 "age_label" = "Âge";
 "age_format" = "%d ans";
+"child_gender_label" = "Genre du Héros";
 "story_style_label" = "Style d'Histoire";
 "language_label" = "Langue";
 "story_idea_label" = "Idée d'Histoire";
 "story_idea_placeholder" = "Entrez votre idée d'histoire...";
+"story_length_label" = "Durée de l'Histoire";
+"story_length_very_short" = "Très Courte";
+"story_length_short" = "Courte";
+"story_length_medium" = "Moyenne";
+"story_length_long" = "Longue";
+"story_length_very_long" = "Très Longue";
 "generate_story" = "Générer l'Histoire";
-"creating_magic" = "Création de magie...";
 
 // Story Styles
 "adventure" = "Aventure";
@@ -63,58 +61,45 @@
 "mystery" = "Mystère";
 
 // Languages
-"english" = "Anglais";
-"russian" = "Russe";
-"spanish" = "Espagnol";
-"french" = "Français";
-"german" = "Allemand";
 
 // Story View Screen
-"story_view_subtitle" = "Votre conte magique est prêt !";
-"story_content_label" = "Histoire";
 "share_story" = "Partager l'Histoire";
 "the_end" = "Fin";
 "story_saved_title" = "Histoire Terminée";
 "story_saved_message" = "Votre histoire a été sauvegardée ! Vous pouvez la supprimer ou retourner pour continuer à explorer.";
 "delete_story" = "Supprimer l'Histoire";
 "return_back" = "Retour";
-"save_finish" = "Sauvegarder et Terminer";
 "cancel" = "Annuler";
 
 // My Stories Screen
 "loading_stories" = "Chargement de vos histoires...";
 "no_stories_title" = "Pas Encore d'Histoires";
 "no_stories_subtitle" = "Vous n'avez pas encore créé de contes magiques. Commencez votre première aventure !";
-"no_stories_message" = "Vous n'avez pas encore créé de contes magiques. Commencez votre première aventure !";
-"create_first_story" = "Créer Votre Première Histoire";
 
 // Settings Screen
 "settings_title" = "Paramètres";
-"user_profile" = "Profil Utilisateur";
-"app_settings" = "Paramètres de l'App";
 "language_setting" = "Langue";
-"legal" = "Légal";
 "privacy_policy" = "Politique de Confidentialité";
 "terms_of_service" = "Conditions d'Utilisation";
-"account" = "Compte";
-"email_setting" = "Email";
 "logout" = "Se déconnecter";
 "logout_confirmation" = "Êtes-vous sûr de vouloir vous déconnecter ?";
 
 // My Stories Screen
-"my_stories_title" = "Mes Histoires";
 "no_stories_title" = "Aucune Histoire Encore";
 "no_stories_subtitle" = "Créez votre première histoire magique !";
 "create_story" = "Créer une Histoire";
 "hero_prefix" = "Héros : %@";
-"tap_to_read" = "Appuyez pour lire";
 
 // Common
-"hello" = "Bonjour";
-"create" = "Créer";
 "back" = "Retour";
-"save" = "Sauvegarder";
-"close" = "Fermer";
+"done" = "Terminé";
+"loading" = "Chargement...";
+"logging_out" = "Déconnexion...";
+
+// Auth Errors
+"user_not_found_suggestion" = "Utilisateur non trouvé. Souhaitez-vous créer un compte ?";
+"user_already_exists_suggestion" = "L'utilisateur existe déjà. Souhaitez-vous vous connecter ?";
+"server_error_suggestion" = "Problèmes de serveur. Veuillez réessayer plus tard ou contacter le support.";
 
 // Legal Content
 "privacy_policy_title" = "Politique de confidentialité";
@@ -127,7 +112,6 @@
 "content_not_loaded" = "Le contenu n'a pas pu être chargé pour le moment";
 
 // Story Generation Progress
-"please_wait_generating" = "Veuillez patienter pendant que nous créons votre histoire magique...";
 
 // Timeout Messages
 "story_timeout_title" = "L'histoire est encore en cours de création";
@@ -144,3 +128,22 @@
 "server_health_error_title" = "Problème de connexion";
 "retry_connection" = "Réessayer la connexion";
 "continue_offline" = "Continuer hors ligne";
+
+// Story Streaming
+"waiting_for_story" = "En attente de votre histoire magique...";
+"generation_error" = "Erreur de génération";
+"unknown_error" = "Erreur inconnue";
+"the_end" = "Fin";
+"retry" = "Réessayer";
+
+// Streaming Service Messages
+"not_authenticated" = "Connectez-vous pour générer des histoires";
+"invalid_url" = "URL du serveur invalide";
+"encoding_error" = "Erreur de préparation des données";
+"connecting" = "Connexion au générateur d'histoires...";
+"generation_cancelled" = "Génération annulée";
+"generating_story" = "Génération de l'histoire...";
+"error_prefix" = "Erreur : ";
+"invalid_response" = "Réponse du serveur invalide";
+"connection_error" = "Erreur de connexion";
+"generation_completed_connection_closed" = "Génération terminée";

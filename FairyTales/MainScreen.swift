@@ -100,7 +100,7 @@ struct MainScreen: View {
     
     private var titleText: some View {
         Text("main_title".localized)
-            .font(.system(size: 36, weight: .bold, design: .rounded))
+            .font(.appH1)
             .foregroundStyle(AppColors.titleGradient)
             .multilineTextAlignment(.center)
             .animatedContent(opacity: contentOpacity, offset: contentOffset)
@@ -108,8 +108,8 @@ struct MainScreen: View {
     
     private var subtitleText: some View {
         Text("main_subtitle".localized)
-            .font(.system(size: 18, weight: .semibold, design: .rounded))
-            .foregroundColor(AppColors.subtleText)
+            .font(.appSubtitle)
+            .foregroundStyle(AppColors.titleGradient)
             .multilineTextAlignment(.center)
             .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
@@ -165,17 +165,17 @@ struct MainScreen: View {
             
             VStack(alignment: .leading, spacing: Constants.textSpacing) {
                 Text(title)
-                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+                    .font(.appSubtitle)
                     .foregroundColor(textColor)
                 Text(subtitle)
-                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .font(.appCaption)
                     .foregroundColor(textColor.opacity(0.8))
             }
             
             Spacer()
             
             Image(systemName: "chevron.right")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.appBackIcon)
                 .foregroundColor(textColor.opacity(0.7))
         }
         .padding(Constants.buttonContentPadding)
@@ -193,7 +193,7 @@ struct MainScreen: View {
     private var settingsNavigationButton: some View {
         NavigationLink(destination: SettingsScreen()) {
             Text("settings".localized)
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .font(.appSubtitle)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: Constants.settingsButtonHeight)

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum SupportedLanguage: String, CaseIterable {
+enum SupportedLanguage: String, CaseIterable, Codable {
     case english = "en"
     case russian = "ru"
     case spanish = "es"

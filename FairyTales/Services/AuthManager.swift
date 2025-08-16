@@ -66,7 +66,7 @@ final class AuthManager {
         print("🔍 AuthManager: Checking Apple credentials...")
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
               let identityTokenData = appleIDCredential.identityToken,
-              let _ = String(data: identityTokenData, encoding: .utf8),
+              let identityTokenString = String(data: identityTokenData, encoding: .utf8),
               let authCodeData = appleIDCredential.authorizationCode,
               let _ = String(data: authCodeData, encoding: .utf8) else {
             print("❌ AuthManager: Failed to get Apple credentials")
@@ -81,7 +81,8 @@ final class AuthManager {
         let request = AppleSignInRequest(
             userIdentifier: appleIDCredential.user,
             fullName: appleIDCredential.fullName,
-            email: appleIDCredential.email
+            email: appleIDCredential.email,
+            identityToken: identityTokenString
         )
         
         do {
@@ -132,13 +133,13 @@ final class AuthManager {
             return false
         }
         
-        let request = RefreshTokenRequest(refreshToken: refreshToken)
+        let headers = ["Authorization": "Bearer \(refreshToken)"]
         
         do {
-            let response: AuthResponse = try await networkManager.post(
+            let response: AuthResponse = try await networkManager.get(
                 endpoint: "/api/v1/auth/refresh/",
-                body: request,
-                responseType: AuthResponse.self
+                responseType: AuthResponse.self,
+                headers: headers
             )
             
             if response.success {

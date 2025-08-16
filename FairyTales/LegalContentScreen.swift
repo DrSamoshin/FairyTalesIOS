@@ -59,7 +59,7 @@ struct LegalContentScreen: View {
                         dismiss()
                     }
                     .foregroundColor(AppColors.fairyBlue)
-                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                    .font(.appLabelMedium)
                 }
             }
         }
@@ -76,18 +76,18 @@ struct LegalContentScreen: View {
                     // Header
                     VStack(alignment: .leading, spacing: 8) {
                         Text(content.title)
-                            .font(.system(size: 24, weight: .bold, design: .rounded))
+                            .font(.appH2)
                             .foregroundColor(AppColors.darkText)
                         
                         HStack {
                             Text("version".localized + " \(content.version)")
-                                .font(.system(size: 14, weight: .medium, design: .rounded))
+                                .font(.appCaption)
                                 .foregroundColor(AppColors.subtleText)
                             
                             Spacer()
                             
                             Text("last_updated".localized + " \(formatDate(content.effectiveDate))")
-                                .font(.system(size: 14, weight: .medium, design: .rounded))
+                                .font(.appCaption)
                                 .foregroundColor(AppColors.subtleText)
                         }
                     }
@@ -118,7 +118,7 @@ struct LegalContentScreen: View {
                 .tint(AppColors.fairyPurple)
             
             Text("loading".localized)
-                .font(.system(size: 16, weight: .medium, design: .rounded))
+                .font(.appLegalBody)
                 .foregroundColor(AppColors.subtleText)
         }
     }
@@ -127,16 +127,16 @@ struct LegalContentScreen: View {
     private func errorView(_ message: String) -> some View {
         VStack(spacing: 20) {
             Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: 48, weight: .medium))
+                .font(.appLegalEmoji)
                 .foregroundColor(AppColors.fairyPink)
             
             Text("error_occurred".localized)
-                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .font(.appLegalTitle)
                 .foregroundColor(AppColors.darkText)
             
             Text(message)
-                .font(.system(size: 16, weight: .medium, design: .rounded))
-                .foregroundColor(AppColors.subtleText)
+                .font(.appLegalBody)
+                .foregroundColor(AppColors.darkText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
             
@@ -145,7 +145,7 @@ struct LegalContentScreen: View {
                     await loadContent()
                 }
             }
-            .font(.system(size: 16, weight: .medium, design: .rounded))
+            .font(.appLegalBody)
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .frame(height: 50)
@@ -159,15 +159,15 @@ struct LegalContentScreen: View {
     private var emptyContentView: some View {
         VStack(spacing: 20) {
             Image(systemName: "doc.text")
-                .font(.system(size: 48, weight: .medium))
+                .font(.appLegalEmoji)
                 .foregroundColor(AppColors.subtleText)
             
             Text("no_content_available".localized)
-                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .font(.appLegalTitle)
                 .foregroundColor(AppColors.darkText)
             
             Text("content_not_loaded".localized)
-                .font(.system(size: 16, weight: .medium, design: .rounded))
+                .font(.appLegalBody)
                 .foregroundColor(AppColors.subtleText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
@@ -201,22 +201,19 @@ struct LegalContentScreen: View {
     }
     
     private func formatDate(_ dateString: String) -> String {
-        // Try different date formats
-        let formatters = [
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",
-            "yyyy-MM-dd"
-        ]
+        // Пробуем сначала стандартный ISO8601 формат
+        let isoDate = DateFormatter.parseUTCDate(from: dateString)
+        if isoDate != Date() || dateString.contains("T") { // Если успешно распарсили или это ISO формат
+            return DateFormatter.formatLocalDate(isoDate, style: .medium)
+        }
         
-        for format in formatters {
-            let formatter = DateFormatter()
-            formatter.dateFormat = format
-            
-            if let date = formatter.date(from: dateString) {
-                let displayFormatter = DateFormatter()
-                displayFormatter.dateStyle = .medium
-                displayFormatter.timeStyle = .none
-                return displayFormatter.string(from: date)
-            }
+        // Fallback для формата только даты (yyyy-MM-dd)
+        let simpleDateFormatter = DateFormatter()
+        simpleDateFormatter.dateFormat = "yyyy-MM-dd"
+        simpleDateFormatter.timeZone = TimeZone.current
+        
+        if let date = simpleDateFormatter.date(from: dateString) {
+            return DateFormatter.formatLocalDate(date, style: .medium)
         }
         
         return dateString.isEmpty ? "N/A" : dateString

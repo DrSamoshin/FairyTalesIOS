@@ -7,7 +7,6 @@
 
 // Auth Screen
 "app_title" = "Fairy Tales";
-"app_subtitle" = "Создавай волшебные истории";
 "welcome_subtitle" = "Создавайте волшебные сказки для ваших детей";
 "welcome_description" = "Превратите время перед сном в приключение! Генерируйте персонализированные сказки, где ваш ребенок становится главным героем. Каждая история создается с помощью ИИ для развития воображения.";
 
@@ -21,13 +20,6 @@
 "apple_signin_credential_import" = "Не удается импортировать учетные данные Apple ID. Попробуйте еще раз.";
 "apple_signin_credential_export" = "Не удается экспортировать учетные данные Apple ID. Попробуйте еще раз.";
 "apple_signin_general_error" = "Не удается войти в систему. Попробуйте позже.";
-"email_placeholder" = "Email";
-"password_placeholder" = "Пароль";
-"sign_in" = "Войти";
-"sign_up" = "Регистрация";
-"no_account" = "Нет аккаунта? Зарегистрируйтесь";
-"have_account" = "Уже есть аккаунт? Войти";
-"or_divider" = "или";
 
 // Main Screen
 "main_title" = "Fairy Tales";
@@ -48,12 +40,18 @@
 "hero_name_placeholder" = "Введите имя героя";
 "age_label" = "Возраст";
 "age_format" = "%d лет";
+"child_gender_label" = "Пол Героя";
 "story_style_label" = "Стиль Сказки";
 "language_label" = "Язык";
 "story_idea_label" = "Идея Сказки";
 "story_idea_placeholder" = "Введите идею сказки...";
+"story_length_label" = "Длина Сказки";
+"story_length_very_short" = "Очень Короткая";
+"story_length_short" = "Короткая";
+"story_length_medium" = "Средняя";
+"story_length_long" = "Длинная";
+"story_length_very_long" = "Очень Длинная";
 "generate_story" = "Создать Сказку";
-"creating_magic" = "Создаём магию...";
 
 // Story Styles
 "adventure" = "Приключения";
@@ -63,67 +61,44 @@
 "mystery" = "Детектив";
 
 // Languages
-"english" = "Английский";
-"russian" = "Русский";
-"spanish" = "Испанский";
-"french" = "Французский";
-"german" = "Немецкий";
 
 // Story View Screen
-"story_view_subtitle" = "Ваша волшебная сказка готова!";
-"story_content_label" = "Сказка";
 "share_story" = "Поделиться";
 "the_end" = "Конец";
 "story_saved_title" = "История Завершена";
 "story_saved_message" = "Ваша история была сохранена! Вы можете удалить её или вернуться, чтобы продолжить исследование.";
 "delete_story" = "Удалить Историю";
 "return_back" = "Вернуться";
-"save_finish" = "Сохранить";
 "cancel" = "Отмена";
 
 // My Stories Screen
 "loading_stories" = "Загружаем ваши истории...";
 "no_stories_title" = "Пока Нет Историй";
 "no_stories_subtitle" = "Вы ещё не создали ни одной волшебной сказки. Начните своё первое приключение!";
-"no_stories_message" = "Вы ещё не создали ни одной волшебной сказки. Начните своё первое приключение!";
-"create_first_story" = "Создать Первую Историю";
 
 // Settings Screen
 "settings_title" = "Настройки";
-"user_profile" = "Профиль Пользователя";
-"app_settings" = "Настройки Приложения";
 "language_setting" = "Язык";
-"legal" = "Правовая Информация";
 "privacy_policy" = "Политика Конфиденциальности";
 "terms_of_service" = "Условия Использования";
-"account" = "Аккаунт";
-"email_setting" = "Email";
 "logout" = "Выйти";
 "logout_confirmation" = "Вы уверены, что хотите выйти?";
 
 // My Stories Screen
-"my_stories_title" = "Мои Сказки";
 "no_stories_title" = "Пока Нет Сказок";
 "no_stories_subtitle" = "Создайте свою первую волшебную сказку!";
 "create_story" = "Создать Сказку";
 "hero_prefix" = "Герой: %@";
-"tap_to_read" = "Нажмите для чтения";
 
 // Common
-"hello" = "Привет";
-"create" = "Создать";
 "back" = "Назад";
-"save" = "Сохранить";
-"close" = "Закрыть";
+"done" = "Готово";
 "loading" = "Загрузка...";
-"welcome_back" = "С возвращением";
 
 // Auth Errors
 "user_not_found_suggestion" = "Пользователь не найден. Хотите создать новый аккаунт?";
 "user_already_exists_suggestion" = "Пользователь уже существует. Хотите войти?";
 "server_error_suggestion" = "Проблемы с сервером. Попробуйте позже или обратитесь в поддержку.";
-"create_account" = "Создать аккаунт";
-"sign_in" = "Войти";
 "logging_out" = "Выходим...";
 
 // Legal Content
@@ -137,7 +112,6 @@
 "content_not_loaded" = "Не удалось загрузить контент в данный момент";
 
 // Story Generation Progress
-"please_wait_generating" = "Пожалуйста, подождите, мы создаем вашу волшебную историю...";
 
 // Timeout Messages
 "story_timeout_title" = "История все еще создается";
@@ -154,3 +128,22 @@
 "server_health_error_title" = "Проблема с подключением";
 "retry_connection" = "Повторить подключение";
 "continue_offline" = "Продолжить офлайн";
+
+// Story Streaming
+"waiting_for_story" = "Ждём волшебную сказку...";
+"generation_error" = "Ошибка создания";
+"unknown_error" = "Произошла неизвестная ошибка";
+"the_end" = "Конец";
+"retry" = "Повторить";
+
+// Streaming Service Messages
+"not_authenticated" = "Войдите в аккаунт для создания сказок";
+"invalid_url" = "Неверный адрес сервера";
+"encoding_error" = "Ошибка подготовки данных";
+"connecting" = "Подключаемся к генератору сказок...";
+"generation_cancelled" = "Создание сказки отменено";
+"generating_story" = "Создаём сказку...";
+"error_prefix" = "Ошибка: ";
+"invalid_response" = "Неверный ответ сервера";
+"connection_error" = "Ошибка подключения";
+"generation_completed_connection_closed" = "Создание сказки завершено";

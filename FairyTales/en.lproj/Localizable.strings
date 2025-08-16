@@ -7,7 +7,6 @@
 
 // Auth Screen
 "app_title" = "Fairy Tales";
-"app_subtitle" = "Create magical stories";
 "welcome_subtitle" = "Create magical stories for your children";
 "welcome_description" = "Transform bedtime into an adventure! Generate personalized fairy tales with your child as the hero. Each story is crafted using AI to spark imagination and create unforgettable moments.";
 
@@ -21,13 +20,6 @@
 "apple_signin_credential_import" = "Unable to import Apple ID credentials. Please try again.";
 "apple_signin_credential_export" = "Unable to export Apple ID credentials. Please try again.";
 "apple_signin_general_error" = "Unable to sign in. Please try again later.";
-"email_placeholder" = "Email";
-"password_placeholder" = "Password";
-"sign_in" = "Sign In";
-"sign_up" = "Sign Up";
-"no_account" = "Don't have an account? Sign Up";
-"have_account" = "Already have an account? Sign In";
-"or_divider" = "or";
 
 // Main Screen
 "main_title" = "Fairy Tales";
@@ -48,13 +40,18 @@
 "hero_name_placeholder" = "Enter hero name";
 "age_label" = "Age";
 "age_format" = "%d years old";
+"child_gender_label" = "Hero Gender";
 "story_style_label" = "Story Style";
 "language_label" = "Language";
 "story_idea_label" = "Story Idea";
 "story_idea_placeholder" = "Enter your story idea...";
+"story_length_label" = "Story Length";
+"story_length_very_short" = "Very Short";
+"story_length_short" = "Short";
+"story_length_medium" = "Medium";
+"story_length_long" = "Long";
+"story_length_very_long" = "Very Long";
 "generate_story" = "Generate Story";
-"creating_magic" = "Creating Magic...";
-"please_wait_generating" = "Please wait while we craft your magical story...";
 
 // Story Styles
 "adventure" = "Adventure";
@@ -64,68 +61,45 @@
 "mystery" = "Mystery";
 
 // Languages
-"english" = "English";
-"russian" = "Russian";
-"spanish" = "Spanish";
-"french" = "French";
-"german" = "German";
 
 // Story View Screen
-"story_view_subtitle" = "Your magical tale is ready!";
-"story_content_label" = "Story";
 "share_story" = "Share Story";
 "the_end" = "The End";
 "story_saved_title" = "Story Complete";
 "story_saved_message" = "Your story has been saved! You can delete it or return to continue exploring.";
 "delete_story" = "Delete Story";
 "return_back" = "Return";
-"save_finish" = "Save & Finish";
 "cancel" = "Cancel";
 
 // My Stories Screen
 "loading_stories" = "Loading your stories...";
 "no_stories_title" = "No Stories Yet";
 "no_stories_subtitle" = "You haven't created any magical tales yet. Start your first adventure!";
-"no_stories_message" = "You haven't created any magical tales yet. Start your first adventure!";
-"create_first_story" = "Create Your First Story";
 
 // Settings Screen
 "settings_title" = "Settings";
 "settings_subtitle" = "Customize your experience";
-"user_profile" = "User Profile";
-"app_settings" = "App Settings";
 "language_setting" = "Language";
-"legal" = "Legal";
 "privacy_policy" = "Privacy Policy";
 "terms_of_service" = "Terms of Service";
-"account" = "Account";
-"email_setting" = "Email";
 "logout" = "Logout";
 "logout_confirmation" = "Are you sure you want to logout?";
 
 // My Stories Screen
-"my_stories_title" = "My Stories";
 "no_stories_title" = "No Stories Yet";
 "no_stories_subtitle" = "Create your first magical story!";
 "create_story" = "Create Story";
 "hero_prefix" = "Hero: %@";
-"tap_to_read" = "Tap to read";
 
 // Common
-"hello" = "Hello";
-"create" = "Create";
 "back" = "Back";
-"save" = "Save";
-"close" = "Close";
+"done" = "Done";
 "loading" = "Loading...";
-"welcome_back" = "Welcome back";
 
 // Auth Errors
 "user_not_found_suggestion" = "User not found. Would you like to create an account instead?";
 "user_already_exists_suggestion" = "User already exists. Would you like to sign in instead?";
 "server_error_suggestion" = "Server is having issues. Please try again later or contact support.";
-"create_account" = "Create Account";
-"sign_in" = "Sign In";
 "logging_out" = "Logging out...";
 
 // Legal Content
@@ -139,7 +113,6 @@
 "content_not_loaded" = "Content could not be loaded at this time";
 
 // Story Generation Progress
-"please_wait_generating" = "Please wait while we create your magical story...";
 
 // Timeout Messages
 "story_timeout_title" = "Story is Still Being Created";
@@ -156,3 +129,22 @@
 "server_health_error_title" = "Connection Problem";
 "retry_connection" = "Retry Connection";
 "continue_offline" = "Continue Offline";
+
+// Story Streaming
+"waiting_for_story" = "Waiting for your magical story...";
+"generation_error" = "Generation Error";
+"unknown_error" = "Unknown error occurred";
+"the_end" = "The End";
+"retry" = "Retry";
+
+// Streaming Service Messages
+"not_authenticated" = "Please login to generate stories";
+"invalid_url" = "Invalid server URL";
+"encoding_error" = "Failed to prepare story data";
+"connecting" = "Connecting to story generator...";
+"generation_cancelled" = "Story generation cancelled";
+"generating_story" = "Generating story...";
+"error_prefix" = "Error: ";
+"invalid_response" = "Invalid server response";
+"connection_error" = "Connection error occurred";
+"generation_completed_connection_closed" = "Story generation completed";

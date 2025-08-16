@@ -58,14 +58,16 @@ struct EmailRegisterRequest: AuthenticationRequest {
 }
 
 struct AppleSignInRequest: AuthenticationRequest {
-    let name: String
     let apple_id: String
+    let name: String
+    let identity_token: String?
     
     var endpoint: String { "/api/v1/auth/apple-signin/" }
     
-    init(userIdentifier: String, fullName: PersonNameComponents? = nil, email: String? = nil) {
+    init(userIdentifier: String, fullName: PersonNameComponents? = nil, email: String? = nil, identityToken: String? = nil) {
         self.apple_id = userIdentifier
         self.name = Self.extractName(from: fullName, email: email)
+        self.identity_token = identityToken
     }
     
     private static func extractName(from fullName: PersonNameComponents?, email: String?) -> String {
@@ -109,8 +111,8 @@ struct AuthData: Codable {
 
 struct TokenData: Codable {
     let access_token: String
-    let token_type: String?
-    let expires_in: Int?
+    let token_type: String
+    let expires_in: Int
     let refresh_token: String?
 }
 

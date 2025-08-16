@@ -1,5 +1,5 @@
 //
-//  StoryViewScreen.swift
+//  StoryStreamingScreen.swift
 //  FairyTales
 //
 //  Created by Siarhei Samoshyn on 08/08/2025.
@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-struct StoryViewScreen: View {
+struct StoryStreamingScreen: View {
     // MARK: - State
     @StateObject private var localizationManager = LocalizationManager.shared
     @State private var storyService = StoryService.shared
-    @Environment(\.presentationMode) var presentationMode
-    @State private var showingEndConfirmation = false
+    @Environment(\.dismiss) private var dismiss
     
-    let story: Story
+    let storyData: StoryGenerateRequest
     
     // Animation states
     @State private var titleOpacity: Double = 0.0
@@ -25,11 +24,16 @@ struct StoryViewScreen: View {
     @State private var buttonsOffset: CGFloat = 20.0
     @State private var iconScale: CGFloat = 1.0
     
+    // UI state
+    @State private var showingAlert = false
+    @State private var showShare = false
+    @State private var showingEndConfirmation = false
+    
     // MARK: - Constants
     private struct Constants {
         static let contentPadding: CGFloat = 30
-        static let buttonHeight: CGFloat = 54
         static let cornerRadius: CGFloat = 16
+        static let buttonHeight: CGFloat = 54
         static let iconSize: CGFloat = 80
         static let animationDuration: Double = 0.15
         static let titleAnimationDelay: UInt64 = 100_000_000 // 0.1 seconds
@@ -45,22 +49,33 @@ struct StoryViewScreen: View {
     
     var body: some View {
         NavigationStack {
-            storyViewContent
+            streamingContent
+        }
+        .alert("generation_error".localized, isPresented: $showingAlert) {
+            alertButtons
+        } message: {
+            Text(storyService.errorMessage ?? "unknown_error".localized)
+        }
+        .onChange(of: storyService.errorMessage) { _, newError in
+            showingAlert = newError != nil
+        }
+        .sheet(isPresented: $showShare) {
+            ShareSheet(activityItems: [createShareText()])
         }
         .overlay(
             StoryConfirmationModal(
                 isPresented: $showingEndConfirmation,
-                storyId: story.id,
+                storyId: storyService.streamingStoryId,
                 storyService: storyService,
                 onReturn: {
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }
             )
         )
     }
     
     // MARK: - Main Content
-    private var storyViewContent: some View {
+    private var streamingContent: some View {
         VStack(spacing: 0) {
             backButton
                 .padding(.horizontal, Constants.contentPadding)
@@ -72,7 +87,13 @@ struct StoryViewScreen: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(backgroundView)
         .navigationBarHidden(true)
-        .onAppear(perform: startAnimations)
+        .onAppear {
+            startAnimations()
+            startGeneration()
+        }
+        .onDisappear {
+            storyService.cancelStreaming()
+        }
     }
     
     private var scrollableContent: some View {
@@ -81,23 +102,38 @@ struct StoryViewScreen: View {
                 Spacer(minLength: Constants.bottomSpacing)
                 titleSection
                 Spacer(minLength: 20)
-                storyContent
+                storyContentView
                 Spacer(minLength: Constants.vStackSpacing)
-                iconButton
-                Spacer(minLength: Constants.vStackSpacing)
-                actionButtons
+                
+                if storyService.isStreamingCompleted && !storyService.currentStreamingContent.isEmpty {
+                    iconButton
+                    Spacer(minLength: Constants.vStackSpacing)
+                    actionButtons
+                        .onAppear {
+                            animateButtons()
+                        }
+                }
+                
                 Spacer(minLength: Constants.bottomSpacing)
             }
         }
         .scrollFadeEffect(fadeHeight: 25, direction: .top)
     }
     
+    @ViewBuilder
+    private var alertButtons: some View {
+        Button("OK") {
+            storyService.errorMessage = nil
+        }
+        Button("retry".localized) {
+            startGeneration()
+        }
+    }
+    
     // MARK: - Header Components
     private var backButton: some View {
         HStack {
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }) {
+            Button(action: { dismiss() }) {
                 HStack(spacing: 8) {
                     Image(systemName: "chevron.left")
                         .font(.appBackIcon)
@@ -108,15 +144,14 @@ struct StoryViewScreen: View {
                         .foregroundColor(.white)
                 }
             }
-            
             Spacer()
         }
     }
     
     private var titleSection: some View {
         VStack(spacing: 8) {
-            Text(story.title)
-                .font(.appStoryTitle)
+            Text(storyData.story_name)
+                .font(.appH1)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .animatedContent(opacity: titleOpacity, offset: titleOffset)
@@ -126,16 +161,54 @@ struct StoryViewScreen: View {
     }
     
     // MARK: - Content Components
-    private var storyContent: some View {
+    private var storyContentView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(story.content)
-                .font(.appStoryContent)
-                .lineSpacing(10)
-                .foregroundColor(.white)
-                .multilineTextAlignment(.leading)
-                .padding(.horizontal, Constants.contentPadding)
+            if !storyService.currentStreamingContent.isEmpty {
+                Text(storyService.currentStreamingContent)
+                    .font(.appStoryContent)
+                    .lineSpacing(10)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal, Constants.contentPadding)
+                    .id("storyContent")
+            } else if storyService.isStreaming {
+                loadingState
+            } else if let errorMessage = storyService.errorMessage {
+                errorState(errorMessage)
+            }
         }
         .animatedContent(opacity: contentOpacity, offset: contentOffset)
+    }
+    
+    private var loadingState: some View {
+        VStack(spacing: 12) {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .scaleEffect(1.2)
+            Text("waiting_for_story".localized)
+                .font(.appLabelMedium)
+                .foregroundColor(.white.opacity(0.8))
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity, minHeight: 100)
+        .padding(.horizontal, Constants.contentPadding)
+    }
+    
+    private func errorState(_ errorMessage: String) -> some View {
+        VStack(spacing: 12) {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.appEmoji)
+                .foregroundColor(.orange)
+            Text("generation_error".localized)
+                .font(.appSubtitle)
+                .foregroundColor(.white)
+            Text(errorMessage)
+                .font(.appCaption)
+                .foregroundColor(.white.opacity(0.8))
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity, minHeight: 100)
+        .padding(.horizontal, Constants.contentPadding)
     }
     
     // MARK: - Action Components
@@ -159,9 +232,7 @@ struct StoryViewScreen: View {
     }
     
     private var theEndButton: some View {
-        Button(action: {
-            showingEndConfirmation = true
-        }) {
+        Button(action: { showingEndConfirmation = true }) {
             Text("the_end".localized)
                 .font(.appSubtitle)
                 .foregroundColor(.white)
@@ -178,11 +249,7 @@ struct StoryViewScreen: View {
     }
     
     private var shareButton: some View {
-        ShareLink(
-            item: "\(story.title)\n\n\(story.content)",
-            subject: Text("Check out this magical story!"),
-            message: Text("I created this story with Fairy Tales app")
-        ) {
+        Button(action: { showShare = true }) {
             HStack {
                 Image(systemName: "square.and.arrow.up")
                     .font(.appBody)
@@ -213,7 +280,6 @@ struct StoryViewScreen: View {
     private func startAnimations() {
         animateTitle()
         animateContent()
-        animateButtons()
     }
     
     private func animateTitle() {
@@ -263,6 +329,35 @@ struct StoryViewScreen: View {
             }
         }
     }
+    
+    // MARK: - Helper Methods
+    private func startGeneration() {
+        storyService.generateStoryStream(request: storyData)
+    }
+    
+    private func createShareText() -> String {
+        """
+        📚 \(storyData.story_name)
+        🌟 Hero: \(storyData.hero_name)
+        
+        \(storyService.currentStreamingContent)
+        
+        Created with FairyTales App ✨
+        """
+    }
+}
+
+// MARK: - ShareSheet
+struct ShareSheet: UIViewControllerRepresentable {
+    let activityItems: [Any]
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+        // No updates needed
+    }
 }
 
 // MARK: - View Extensions
@@ -275,20 +370,14 @@ private extension View {
 }
 
 #Preview {
-    let sampleStory = Story(
-        id: "1",
-        user_id: "user-1",
-        title: "Luna's Magic Key",
-        content: "Once upon a time, in a magical forest far, far away, there lived a brave little rabbit named Luna...",
-        hero_name: "Luna",
-        age: 7,
+    StoryStreamingScreen(storyData: StoryGenerateRequest(
+        story_name: "Test Story",
+        hero_name: "Test Hero",
+        story_idea: "A magical adventure",
         story_style: "Adventure",
         language: "en",
-        story_idea: "A brave rabbit finds a magic key",
+        age: 8,
         story_length: 3,
-        child_gender: "girl",
-        created_at: "2025-08-14T10:00:00Z"
-    )
-    
-    StoryViewScreen(story: sampleStory)
+        child_gender: "boy"
+    ))
 }

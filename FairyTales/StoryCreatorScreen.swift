@@ -10,19 +10,25 @@ import SwiftUI
 struct StoryCreatorScreen: View {
     // MARK: - State
     @StateObject private var localizationManager = LocalizationManager.shared
-    @State private var storyManager = StoryManager.shared
+    @State private var storyService = StoryService.shared
     @Environment(\.presentationMode) var presentationMode
+    
+    // Form data
     @State private var storyName = ""
     @State private var heroName = ""
     @State private var age = 5
+    @State private var childGender = "boy"
+    @State private var storyLength = 3
     @State private var idea = ""
     @State private var selectedStyle = "Adventure"
     @State private var selectedLanguage: SupportedLanguage = .english
+    
+    // Navigation
     @State private var showStoryView = false
     @State private var showStreamingView = false
     @State private var showingAlert = false
-    @State private var progressValue: Double = 0.0
-    @State private var progressTimer: Timer?
+    
+    // Animation states
     @State private var titleOpacity: Double = 0.0
     @State private var titleOffset: CGFloat = 30.0
     @State private var formOpacity: Double = 0.0
@@ -38,21 +44,16 @@ struct StoryCreatorScreen: View {
         static let titleAnimationDuration: Double = 0.6
         static let formAnimationDuration: Double = 0.8
         static let vStackSpacing: CGFloat = 10
-        static let titleSpacing: CGFloat = 8
         static let formSpacing: CGFloat = 20
         static let fieldSpacing: CGFloat = 8
-        static let progressTimerInterval: Double = 0.1
-        static let progressIncrement: Double = 0.02
-        static let progressMaxValue: Double = 0.95
-        static let progressCompletionDelay: Double = 0.5
-        static let progressAnimationDuration: Double = 0.3
         
         static let styles = ["Adventure", "Fantasy", "Educational", "Mystery"]
+        static let genders = ["boy", "girl"]
     }
     
     private var isTimeoutError: Bool {
-        return storyManager.errorMessage?.contains("story_timeout_message".localized) == true ||
-               storyManager.errorMessage?.contains("timeout_error_occurred".localized) == true
+        return storyService.errorMessage?.contains("story_timeout_message".localized) == true ||
+               storyService.errorMessage?.contains("timeout_error_occurred".localized) == true
     }
     
     var body: some View {
@@ -62,27 +63,19 @@ struct StoryCreatorScreen: View {
         .alert(isTimeoutError ? "story_timeout_title".localized : "Error", isPresented: $showingAlert) {
             alertButtons
         } message: {
-            Text(storyManager.errorMessage ?? "Unknown error")
+            Text(storyService.errorMessage ?? "Unknown error")
         }
-        .onChange(of: storyManager.errorMessage) { _, newError in
+        .onChange(of: storyService.errorMessage) { _, newError in
             showingAlert = newError != nil
         }
         .navigationDestination(isPresented: $showStoryView) {
-            if let story = storyManager.currentStory {
+            if let story = storyService.currentStory {
                 StoryViewScreen(story: story)
             }
         }
         .navigationDestination(isPresented: $showStreamingView) {
-            StoryStreamingViewScreen(
-                storyName: storyName,
-                heroName: heroName,
-                age: age,
-                storyStyle: selectedStyle,
-                language: selectedLanguage.rawValue,
-                storyIdea: idea
-            )
+            StoryStreamingScreen(storyData: createStoryGenerateRequest())
         }
-        .onDisappear(perform: cleanupTimer)
     }
     
     // MARK: - Main Content
@@ -114,34 +107,22 @@ struct StoryCreatorScreen: View {
                 Spacer(minLength: 30)
             }
         }
-        .mask(scrollMask)
-    }
-    
-    private var scrollMask: some View {
-        LinearGradient(
-            gradient: Gradient(stops: [
-                .init(color: .clear, location: 0.0),
-                .init(color: .black, location: 0.05),
-                .init(color: .black, location: 1.0)
-            ]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        .scrollFadeEffect(fadeHeight: 25, direction: .top)
     }
     
     @ViewBuilder
     private var alertButtons: some View {
         if isTimeoutError {
             Button("check_stories_later".localized) {
-                storyManager.errorMessage = nil
+                storyService.errorMessage = nil
                 presentationMode.wrappedValue.dismiss()
             }
             Button("OK") {
-                storyManager.errorMessage = nil
+                storyService.errorMessage = nil
             }
         } else {
             Button("OK") {
-                storyManager.errorMessage = nil
+                storyService.errorMessage = nil
             }
         }
     }
@@ -154,11 +135,11 @@ struct StoryCreatorScreen: View {
             }) {
                 HStack(spacing: 8) {
                     Image(systemName: "chevron.left")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.appBackIcon)
                         .foregroundColor(.white)
                     
                     Text("back".localized)
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .font(.appBackText)
                         .foregroundColor(.white)
                 }
             }
@@ -173,57 +154,57 @@ struct StoryCreatorScreen: View {
         }
     }
     
-
-    
     private var titleTexts: some View {
         VStack(spacing: 8) {
             Text("create_story_title".localized)
-                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .font(.appH1)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
-.animatedContent(opacity: titleOpacity, offset: titleOffset)
+                .animatedContent(opacity: titleOpacity, offset: titleOffset)
             
             Text("story_creator_subtitle".localized)
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .font(.appSubtitle)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
-.animatedContent(opacity: titleOpacity, offset: titleOffset)
+                .animatedContent(opacity: titleOpacity, offset: titleOffset)
         }
         .frame(maxWidth: .infinity)
-.padding(.horizontal, Constants.contentPadding)
+        .padding(.horizontal, Constants.contentPadding)
     }
     
     // MARK: - Form Components
     private var storyForm: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: Constants.formSpacing) {
             formField(label: "story_name_label".localized, placeholder: "story_name_placeholder".localized, text: $storyName)
             formField(label: "hero_name_label".localized, placeholder: "hero_name_placeholder".localized, text: $heroName)
             ageField
+            genderField
             styleField
             languageField
             ideaField
+            storyLengthField
         }
-.padding(.horizontal, Constants.contentPadding)
-.animatedContent(opacity: formOpacity, offset: formOffset)
+        .padding(.horizontal, Constants.contentPadding)
+        .animatedContent(opacity: formOpacity, offset: formOffset)
     }
     
     private func formField(label: String, placeholder: String, text: Binding<String>) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
             Text(label)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.appLabel)
                 .foregroundColor(.white)
             
             ZStack(alignment: .leading) {
                 if text.wrappedValue.isEmpty {
                     Text(placeholder)
                         .foregroundColor(Color.gray)
-                        .font(.system(size: 16, design: .rounded))
+                        .font(.appInputField)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                 }
                 TextField("", text: text)
                     .foregroundColor(AppColors.darkText)
-                    .font(.system(size: 16, design: .rounded))
+                    .font(.appInputField)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
             }
@@ -238,15 +219,15 @@ struct StoryCreatorScreen: View {
     }
     
     private var ageField: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
             Text("age_label".localized)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.appLabel)
                 .foregroundColor(.white)
             
             VStack(spacing: 8) {
                 HStack {
                     Text("age_format".localized(age))
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .font(.appLabel)
                         .foregroundColor(AppColors.darkText)
                     Spacer()
                 }
@@ -269,10 +250,74 @@ struct StoryCreatorScreen: View {
         }
     }
     
+    private var genderField: some View {
+        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
+            Text("child_gender_label".localized)
+                .font(.appLabel)
+                .foregroundColor(.white)
+            
+            HStack(spacing: 12) {
+                ForEach(Constants.genders, id: \.self) { gender in
+                    genderButton(for: gender)
+                }
+            }
+            .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
+        }
+    }
+    
+    private func genderButton(for gender: String) -> some View {
+        Button(action: {
+            childGender = gender
+        }) {
+            genderButtonContent(for: gender)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    private func genderButtonContent(for gender: String) -> some View {
+        let isSelected = childGender == gender
+        
+        return HStack(spacing: 8) {
+            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(isSelected ? .white : .gray)
+                .font(.appBody)
+            
+            Text(gender.localized)
+                .font(.appLabelMedium)
+                .foregroundColor(isSelected ? .white : AppColors.darkText)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(backgroundForGenderButton(isSelected: isSelected, gender: gender))
+        .cornerRadius(Constants.cornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                .stroke(strokeColorForGenderButton(isSelected: isSelected), lineWidth: 2)
+        )
+    }
+    
+    @ViewBuilder
+    private func backgroundForGenderButton(isSelected: Bool, gender: String) -> some View {
+        if isSelected {
+            if gender == "boy" {
+                AppColors.contrastSecondary
+            } else {
+                AppColors.contrastPrimary
+            }
+        } else {
+            AppColors.fieldGradient
+        }
+    }
+    
+    private func strokeColorForGenderButton(isSelected: Bool) -> Color {
+        return isSelected ? Color.white : Color.white.opacity(0.5)
+    }
+    
     private var styleField: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
             Text("story_style_label".localized)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.appLabel)
                 .foregroundColor(.white)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
@@ -281,7 +326,7 @@ struct StoryCreatorScreen: View {
                         selectedStyle = style
                     }) {
                         Text(style.lowercased().localized)
-                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                            .font(.appCaption)
                             .foregroundColor(selectedStyle == style ? .white : AppColors.darkText)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
@@ -308,9 +353,9 @@ struct StoryCreatorScreen: View {
     }
     
     private var languageField: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
             Text("language_label".localized)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.appLabel)
                 .foregroundColor(.white)
             
             HStack(spacing: 8) {
@@ -319,7 +364,7 @@ struct StoryCreatorScreen: View {
                         selectedLanguage = language
                     }) {
                         Text(language.shortName)
-                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .font(.appCaptionSemibold)
                             .foregroundColor(selectedLanguage == language ? .white : AppColors.darkText)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
@@ -346,22 +391,22 @@ struct StoryCreatorScreen: View {
     }
     
     private var ideaField: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
             Text("story_idea_label".localized)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.appLabel)
                 .foregroundColor(.white)
             
             ZStack(alignment: .topLeading) {
                 if idea.isEmpty {
                     Text("story_idea_placeholder".localized)
                         .foregroundColor(Color.gray)
-                        .font(.system(size: 16, design: .rounded))
+                        .font(.appInputField)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 20)
                 }
                 TextEditor(text: $idea)
                     .foregroundColor(AppColors.darkText)
-                    .font(.system(size: 16, design: .rounded))
+                    .font(.appInputField)
                     .frame(minHeight: 100)
                     .scrollContentBackground(.hidden)
                     .padding(.horizontal, 16)
@@ -377,54 +422,67 @@ struct StoryCreatorScreen: View {
         }
     }
     
+    private var storyLengthField: some View {
+        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
+            Text("story_length_label".localized)
+                .font(.appLabel)
+                .foregroundColor(.white)
+            
+            VStack(spacing: 8) {
+                HStack {
+                    Text(getLengthDescription(for: storyLength))
+                        .font(.appLabel)
+                        .foregroundColor(AppColors.darkText)
+                    Spacer()
+                }
+                
+                Slider(value: Binding(
+                    get: { Double(storyLength) },
+                    set: { storyLength = Int($0.rounded()) }
+                ), in: 1...5, step: 1)
+                .tint(AppColors.contrastPrimary.opacity(0.8))
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(AppColors.fieldGradient)
+            .cornerRadius(Constants.cornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                    .stroke(Color.white, lineWidth: 2)
+            )
+            .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
+        }
+    }
+    
+    private func getLengthDescription(for length: Int) -> String {
+        switch length {
+        case 1: return "story_length_very_short".localized
+        case 2: return "story_length_short".localized
+        case 3: return "story_length_medium".localized
+        case 4: return "story_length_long".localized
+        case 5: return "story_length_very_long".localized
+        default: return "story_length_medium".localized
+        }
+    }
+    
     // MARK: - Action Components
     private var actionButtons: some View {
-        VStack(spacing: 16) {
-            if storyManager.isLoading {
-                // Progress view during generation
-                VStack(spacing: 12) {
-                    ProgressView(value: progressValue, total: 1.0)
-                        .progressViewStyle(LinearProgressViewStyle(tint: AppColors.fairyPurple))
-                        .scaleEffect(y: 2)
-                    
-                    HStack {
-                        Text("creating_magic".localized)
-                            .font(.system(size: 16, weight: .medium, design: .rounded))
-                            .foregroundColor(.white)
-                        
-                        Spacer()
-                        
-                        Text("\(Int(progressValue * 100))%")
-                            .font(.system(size: 16, weight: .semibold, design: .rounded))
-                            .foregroundColor(.white)
-                    }
-                    
-                    Text("please_wait_generating".localized)
-                        .font(.system(size: 14, weight: .regular, design: .rounded))
-                        .foregroundColor(.white.opacity(0.8))
-                        .multilineTextAlignment(.center)
-                }
-        .padding(.horizontal, Constants.contentPadding)
-            } else {
-                // Generate button
-                Button(action: generateStory) {
-                    Text("generate_story".localized)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: Constants.buttonHeight)
-                        .background(AppColors.contrastPrimary)
-                        .cornerRadius(Constants.cornerRadius)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                                .stroke(Color(red: 0.95, green: 0.75, blue: 0.85), lineWidth: 2)
-                        )
-                }
-                .disabled(storyName.isEmpty || heroName.isEmpty || idea.isEmpty)
-        .padding(.horizontal, Constants.contentPadding)
-            }
+        Button(action: generateStory) {
+            Text("generate_story".localized)
+                .font(.appSubtitle)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: Constants.buttonHeight)
+                .background(AppColors.contrastPrimary)
+                .cornerRadius(Constants.cornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                        .stroke(Color(red: 0.95, green: 0.75, blue: 0.85), lineWidth: 2)
+                )
         }
-.animatedContent(opacity: formOpacity, offset: formOffset)
+        .disabled(storyName.isEmpty || heroName.isEmpty || idea.isEmpty)
+        .padding(.horizontal, Constants.contentPadding)
+        .animatedContent(opacity: formOpacity, offset: formOffset)
     }
     
     // MARK: - Background
@@ -446,8 +504,6 @@ struct StoryCreatorScreen: View {
             .ignoresSafeArea()
         }
     }
-    
-
     
     // MARK: - Animation Methods
     private func startAnimations() {
@@ -484,48 +540,31 @@ struct StoryCreatorScreen: View {
         selectedLanguage = localizationManager.currentLanguage
     }
     
+    // MARK: - Helper Methods
     private func generateStory() {
-        print("🎭 Generating story with streaming...")
+        print("🎭 Starting story generation with streaming...")
         print("📝 Story: \(storyName), Hero: \(heroName), Age: \(age)")
+        print("👤 Gender: \(childGender)")
         print("🎨 Style: \(selectedStyle), Language: \(selectedLanguage.rawValue)")
+        print("📏 Length: \(storyLength) - \(getLengthDescription(for: storyLength))")
         print("💡 Idea: \(idea)")
         
-        // Navigate immediately to streaming view
         showStreamingView = true
     }
     
-    // MARK: - Progress Timer Methods
-    private func startProgressTimer() {
-        progressValue = 0.0
-        progressTimer = Timer.scheduledTimer(withTimeInterval: Constants.progressTimerInterval, repeats: true) { _ in
-            DispatchQueue.main.async {
-                if self.progressValue < Constants.progressMaxValue {
-                    let increment = (1.0 - self.progressValue) * Constants.progressIncrement
-                    self.progressValue += increment
-                }
-            }
-        }
+    private func createStoryGenerateRequest() -> StoryGenerateRequest {
+        return storyService.createStoryRequest(
+            storyName: storyName,
+            heroName: heroName,
+            storyIdea: idea,
+            storyStyle: selectedStyle,
+            language: selectedLanguage.rawValue,
+            age: age,
+            storyLength: storyLength,
+            childGender: childGender
+        )
     }
     
-    private func stopProgressTimer() {
-        progressTimer?.invalidate()
-        progressTimer = nil
-        
-        withAnimation(.easeInOut(duration: Constants.progressAnimationDuration)) {
-            progressValue = 1.0
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.progressCompletionDelay) {
-            self.progressValue = 0.0
-        }
-    }
-    
-    private func cleanupTimer() {
-        progressTimer?.invalidate()
-        progressTimer = nil
-    }
-    
-    // MARK: - Utility Methods
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
@@ -542,4 +581,4 @@ private extension View {
 
 #Preview {
     StoryCreatorScreen()
-} 
+}
