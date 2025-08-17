@@ -102,7 +102,7 @@ final class NetworkManager: Sendable {
         responseType: T.Type
     ) async throws -> T {
         guard let url = URL(string: baseURL + endpoint) else {
-            print("❌ Invalid URL: \(baseURL + endpoint)")
+            print("Invalid URL: \(baseURL + endpoint)")
             throw NetworkError.invalidURL
         }
         
@@ -186,11 +186,11 @@ final class NetworkManager: Sendable {
             case 400, 404...499:
                 // Для остальных клиентских ошибок пытаемся декодировать стандартизированный ответ
                 if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                    print("✅ Successfully decoded API error: \(errorResponse.error_code ?? "NO_CODE")")
+                    print("Successfully decoded API error: \(errorResponse.error_code ?? "NO_CODE")")
                     throw NetworkError.apiError(errorResponse)
                 } else {
                     // Fallback для нестандартных ответов
-                    print("⚠️ Failed to decode standard error response, using fallback")
+                    print("Failed to decode standard error response, using fallback")
                     let fallbackError = ErrorResponse(
                         success: false,
                         message: "Client error",
@@ -290,23 +290,23 @@ final class NetworkManager: Sendable {
     
     // MARK: - Server Testing
     func testServerConnection() async {
-        print("🔍 Testing server connection...")
+        print("Testing server connection...")
         let testEndpoint = "/api/v1/health/app/"
         
         guard let url = URL(string: baseURL + testEndpoint) else {
-            print("❌ Invalid URL: \(baseURL + testEndpoint)")
+            print("Invalid URL: \(baseURL + testEndpoint)")
             return
         }
         
         do {
             let (_, response) = try await session.data(from: url)
             if let httpResponse = response as? HTTPURLResponse {
-                print("✅ \(baseURL) - Response: \(httpResponse.statusCode)")
+                print("\(baseURL) - Response: \(httpResponse.statusCode)")
             } else {
-                print("⚠️ \(baseURL) - No HTTP response")
+                print("\(baseURL) - No HTTP response")
             }
         } catch {
-            print("❌ \(baseURL) - Error: \(error)")
+            print("\(baseURL) - Error: \(error)")
         }
     }
     

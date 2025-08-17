@@ -238,8 +238,8 @@ struct MarkdownWebView: UIViewRepresentable {
     
     func updateUIView(_ webView: WKWebView, context: Context) {
         let htmlContent = convertMarkdownToHTML(markdownContent)
-        print("🌐 Loading HTML content with length: \(htmlContent.count)")
-        print("📝 Markdown content preview: \(String(markdownContent.prefix(100)))...")
+        print("Loading HTML content with length: \(htmlContent.count)")
+        print("Markdown content preview: \(String(markdownContent.prefix(100)))...")
         webView.loadHTMLString(htmlContent, baseURL: nil)
     }
     
@@ -330,7 +330,7 @@ struct MarkdownWebView: UIViewRepresentable {
         var processedLines: [String] = []
         var inList = false
         
-        print("🔧 Processing \(lines.count) lines of markdown")
+        print("Processing \(lines.count) lines of markdown")
         
         for line in lines {
             let trimmedLine = line.trimmingCharacters(in: .whitespaces)
@@ -386,7 +386,7 @@ struct MarkdownWebView: UIViewRepresentable {
         }
         
         let result = processedLines.joined(separator: "\n")
-        print("✅ Generated HTML with \(result.count) characters")
+        print("Generated HTML with \(result.count) characters")
         return result
     }
 }

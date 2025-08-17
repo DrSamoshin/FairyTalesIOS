@@ -53,6 +53,10 @@
 "story_length_very_long" = "Very Long";
 "generate_story" = "Generate Story";
 
+// Gender
+"boy" = "Boy";
+"girl" = "Girl";
+
 // Story Styles
 "adventure" = "Adventure";
 "fantasy" = "Fantasy";
@@ -61,6 +65,15 @@
 "mystery" = "Mystery";
 
 // Languages
+
+// Subscription
+"subscription_title" = "Premium Access";
+"subscription_subtitle" = "Unlock unlimited magical stories for your children";
+"subscription_manage" = "Manage Subscription";
+"subscription_feature_unlimited" = "Unlimited story generation";
+"subscription_feature_personalized" = "Personalized for each child";
+"subscription_feature_multilingual" = "Available in multiple languages";
+"subscription_feature_instant" = "Instant story creation";
 
 // Story View Screen
 "share_story" = "Share Story";
@@ -148,3 +161,10 @@
 "invalid_response" = "Invalid server response";
 "connection_error" = "Connection error occurred";
 "generation_completed_connection_closed" = "Story generation completed";
+
+// Rating
+"enjoy_app_question" = "Enjoying Fairy Tales?";
+"rate_app_message" = "If you love creating magical stories, please consider rating our app!";
+"rate_now" = "Rate Now";
+"maybe_later" = "Maybe Later";
+"no_thanks" = "No Thanks";

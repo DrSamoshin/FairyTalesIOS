@@ -53,6 +53,10 @@
 "story_length_very_long" = "Очень Длинная";
 "generate_story" = "Создать Сказку";
 
+// Gender
+"boy" = "Мальчик";
+"girl" = "Девочка";
+
 // Story Styles
 "adventure" = "Приключения";
 "fantasy" = "Фэнтези";
@@ -61,6 +65,15 @@
 "mystery" = "Детектив";
 
 // Languages
+
+// Subscription
+"subscription_title" = "Премиум Доступ";
+"subscription_subtitle" = "Разблокируйте безлимитные волшебные сказки для ваших детей";
+"subscription_manage" = "Управление Подпиской";
+"subscription_feature_unlimited" = "Безлимитная генерация сказок";
+"subscription_feature_personalized" = "Персонализированные для каждого ребенка";
+"subscription_feature_multilingual" = "Доступно на разных языках";
+"subscription_feature_instant" = "Мгновенное создание сказок";
 
 // Story View Screen
 "share_story" = "Поделиться";
@@ -147,3 +160,10 @@
 "invalid_response" = "Неверный ответ сервера";
 "connection_error" = "Ошибка подключения";
 "generation_completed_connection_closed" = "Создание сказки завершено";
+
+// Rating
+"enjoy_app_question" = "Нравится приложение?";
+"rate_app_message" = "Если вам нравится создавать волшебные сказки, пожалуйста, оцените наше приложение!";
+"rate_now" = "Оценить";
+"maybe_later" = "Позже";
+"no_thanks" = "Нет, спасибо";

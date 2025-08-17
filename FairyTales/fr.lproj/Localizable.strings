@@ -53,6 +53,10 @@
 "story_length_very_long" = "Très Longue";
 "generate_story" = "Générer l'Histoire";
 
+// Gender
+"boy" = "Garçon";
+"girl" = "Fille";
+
 // Story Styles
 "adventure" = "Aventure";
 "fantasy" = "Fantaisie";
@@ -61,6 +65,15 @@
 "mystery" = "Mystère";
 
 // Languages
+
+// Subscription
+"subscription_title" = "Accès Premium";
+"subscription_subtitle" = "Débloquez des histoires magiques illimitées pour vos enfants";
+"subscription_manage" = "Gérer l'Abonnement";
+"subscription_feature_unlimited" = "Génération illimitée d'histoires";
+"subscription_feature_personalized" = "Personnalisé pour chaque enfant";
+"subscription_feature_multilingual" = "Disponible en plusieurs langues";
+"subscription_feature_instant" = "Création instantanée d'histoires";
 
 // Story View Screen
 "share_story" = "Partager l'Histoire";
@@ -147,3 +160,10 @@
 "invalid_response" = "Réponse du serveur invalide";
 "connection_error" = "Erreur de connexion";
 "generation_completed_connection_closed" = "Génération terminée";
+
+// Rating
+"enjoy_app_question" = "Vous aimez l'application ?";
+"rate_app_message" = "Si vous adorez créer des histoires magiques, veuillez évaluer notre application !";
+"rate_now" = "Évaluer maintenant";
+"maybe_later" = "Peut-être plus tard";
+"no_thanks" = "Non merci";

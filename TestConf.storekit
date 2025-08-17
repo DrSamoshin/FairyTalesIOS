@@ -1,0 +1,142 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "40300964",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6751137745",
+    "_developerTeamID" : "AWDSZNV22L",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 777115230.88931298,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21757017",
+      "localizations" : [
+
+      ],
+      "name" : "Premium Access",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "6.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "6751149717",
+          "introductoryOffer" : {
+            "internalID" : "0EF2CF22",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "Création illimitée de contes chaque mois.",
+              "displayName" : "Contes – Mensuel",
+              "locale" : "fr"
+            },
+            {
+              "description" : "Неограниченная генерация сказок каждый месяц.",
+              "displayName" : "Сказки – Месяц",
+              "locale" : "ru"
+            },
+            {
+              "description" : "Crea cuentos ilimitados cada mes.",
+              "displayName" : " Cuentos – Mensual",
+              "locale" : "es_ES"
+            },
+            {
+              "description" : "Unlimited fairy tale creation, every month.",
+              "displayName" : "Fairy Tales – Monthly",
+              "locale" : "en_GB"
+            },
+            {
+              "description" : "Unbegrenzte Märchenerstellung jeden Monat.",
+              "displayName" : "Märchen – Monatlich",
+              "locale" : "de"
+            }
+          ],
+          "productID" : "fairy_tales_basic_monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Fairy Tales Monthly",
+          "subscriptionGroupID" : "21757017",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

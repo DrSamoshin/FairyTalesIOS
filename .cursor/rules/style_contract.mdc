@@ -1,0 +1,48 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+contract "Style Contract" {
+  description: "Rules for visual style consistency, color usage, and theming across the application."
+
+  rule "single_font" {
+    description: "Use one font family across the entire application"
+    severity: "error"
+  }
+
+  rule "avoid_pure_black_white" {
+    description: "Do not use pure #000000 or #FFFFFF; use softened alternatives (e.g. #111, #FAFAFA)"
+    severity: "warning"
+  }
+
+  rule "max_3_primary_colors" {
+    description: "Use no more than 3 primary colors (excluding background and neutral text)"
+    severity: "error"
+  }
+
+  rule "use_color_shades" {
+    description: "Use shades/variants of primary colors for borders, hover, focus, and pressed states"
+    severity: "warning"
+  }
+
+  rule "color_config_file" {
+    description: "Define all color variables in a single theme/config file"
+    severity: "error"
+  }
+
+  rule "consistent_style" {
+    description: "Apply consistent layout, border radius, padding, and visual style across all screens"
+    severity: "error"
+  }
+
+  rule "dark_mode_support" {
+    description: "Include dark mode support with same design structure and spacing"
+    severity: "info"
+  }
+
+  rule "no_emojis_allowed" {
+    description: "Do not use emojis or decorative symbols in code, documentation, comments, UI labels or logs"
+    severity: "error"
+  }
+}

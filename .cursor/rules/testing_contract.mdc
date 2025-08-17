@@ -1,0 +1,100 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+contract "Testing Contract" {
+  description: "Rules for automated test coverage, test structure, and execution practices."
+
+  rule "tests_required" {
+    description: "Each function/class must have tests"
+    severity: "error"
+  }
+
+  rule "unit_tests" {
+    description: "Write unit tests for every function/class with multiple input cases"
+    severity: "error"
+  }
+
+  rule "integration_tests" {
+    description: "If external deps exist (DB/API/files), write integration tests with mocks"
+    severity: "warning"
+  }
+
+  rule "e2e_tests" {
+    description: "For UI/API, add end-to-end tests simulating user flows"
+    severity: "warning"
+  }
+
+  rule "coverage_90" {
+    description: "Reach 90%+ test coverage including branches and edge cases"
+    severity: "warning"
+  }
+
+  rule "edge_cases" {
+    description: "Test normal, boundary and invalid inputs (null, empty, large)"
+    severity: "error"
+  }
+
+  rule "error_cases" {
+    description: "Test exceptions and incorrect inputs"
+    severity: "error"
+  }
+
+  rule "frameworks" {
+    description: "Use standard test frameworks (e.g. pytest, jest, junit)"
+    severity: "error"
+  }
+
+  rule "test_structure" {
+    description: "Place tests in separate files/dirs (e.g. tests/, *_test.py)"
+    severity: "warning"
+  }
+
+  rule "behavior_testing" {
+    description: "Test behavior, not implementation details"
+    severity: "error"
+  }
+
+  rule "fixtures_mocks" {
+    description: "Auto-generate mocks/fixtures as needed"
+    severity: "info"
+  }
+
+  rule "test_naming" {
+    description: "Use clear descriptive test names"
+    severity: "info"
+  }
+
+  rule "coverage_analysis" {
+    description: "Use coverage report to detect and fill gaps"
+    severity: "info"
+  }
+
+  rule "self_healing" {
+    description: "Fix broken tests/code and explain why"
+    severity: "info"
+  }
+
+  rule "test_runner_script" {
+    description: "Generate script to run all tests from project root"
+    severity: "error"
+    requires: [
+      "executable",
+      "verbose output",
+      "CI-compatible",
+      "named run_tests.*"
+    ]
+  }
+
+  rule "test_docs" {
+    description: "Add test run instructions to README/docs"
+    severity: "error"
+    requires: [
+      "section: Testing",
+      "install steps",
+      "example commands",
+      "output expectations"
+    ]
+  }
+}

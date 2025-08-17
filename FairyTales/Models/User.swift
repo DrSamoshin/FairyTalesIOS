@@ -124,14 +124,4 @@ struct RefreshTokenRequest: Codable {
     }
 }
 
-// MARK: - Health Check Models
-struct HealthResponse: Codable {
-    let success: Bool
-    let message: String?
-    let data: HealthData?
-}
 
-struct HealthData: Codable {
-    let status: String?
-    let service: String?
-}

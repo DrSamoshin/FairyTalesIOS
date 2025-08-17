@@ -31,14 +31,14 @@ final class LegalManager {
             let response = try await networkManager.getPrivacyPolicy()
             if response.success {
                 privacyPolicy = response.legalContent
-                print("✅ Privacy Policy loaded successfully")
+                print("Privacy Policy loaded successfully")
             } else {
                 errorMessage = response.message ?? "Failed to load Privacy Policy"
-                print("❌ Privacy Policy load failed: \(errorMessage ?? "Unknown error")")
+                print("Privacy Policy load failed: \(errorMessage ?? "Unknown error")")
             }
         } catch {
             errorMessage = "Failed to load Privacy Policy"
-            print("❌ Privacy Policy network error: \(error)")
+            print("Privacy Policy network error: \(error)")
         }
         
         isLoading = false
@@ -53,14 +53,14 @@ final class LegalManager {
             let response = try await networkManager.getTermsOfService()
             if response.success {
                 termsOfService = response.legalContent
-                print("✅ Terms of Service loaded successfully")
+                print("Terms of Service loaded successfully")
             } else {
                 errorMessage = response.message ?? "Failed to load Terms of Service"
-                print("❌ Terms of Service load failed: \(errorMessage ?? "Unknown error")")
+                print("Terms of Service load failed: \(errorMessage ?? "Unknown error")")
             }
         } catch {
             errorMessage = "Failed to load Terms of Service"
-            print("❌ Terms of Service network error: \(error)")
+            print("Terms of Service network error: \(error)")
         }
         
         isLoading = false

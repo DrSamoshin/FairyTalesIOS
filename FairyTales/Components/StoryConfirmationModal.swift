@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct StoryConfirmationModal: View {
     @Binding var isPresented: Bool
     let storyId: String?
     let storyService: StoryService
     let onReturn: () -> Void
+    
+
     
     // MARK: - Constants
     private let cornerRadius: CGFloat = 16
@@ -40,6 +43,9 @@ struct StoryConfirmationModal: View {
                     VStack(spacing: 15) {
                         // Return Button
                         Button(action: {
+                            // Request rating after story completion
+                            requestAppStoreRating()
+                            
                             isPresented = false
                             onReturn()
                         }) {
@@ -72,9 +78,9 @@ struct StoryConfirmationModal: View {
                                 Task {
                                     let success = await storyService.deleteStory(storyId: storyId)
                                     if success {
-                                        print("✅ Story deleted successfully")
+                                        print("Story deleted successfully")
                                     } else {
-                                        print("❌ Failed to delete story")
+                                        print("Failed to delete story")
                                     }
                                     
                                     // В любом случае возвращаемся назад
@@ -128,6 +134,17 @@ struct StoryConfirmationModal: View {
                 .scaleEffect(isPresented ? 1.0 : 0.8)
                 .opacity(isPresented ? 1.0 : 0.0)
                 .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isPresented)
+            }
+        }
+    }
+    
+    // MARK: - Rating Helper
+    private func requestAppStoreRating() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            if #available(iOS 18.0, *) {
+                AppStore.requestReview(in: windowScene)
+            } else {
+                SKStoreReviewController.requestReview(in: windowScene)
             }
         }
     }

@@ -57,7 +57,7 @@ final class StoryManager {
             
             if response.success, let story = response.data?.story {
                 currentStory = story
-                print("✅ Story generated successfully: \(story.title)")
+                print("Story generated successfully: \(story.title)")
                 isLoading = false
                 return story
             } else {
@@ -77,7 +77,7 @@ final class StoryManager {
         if let networkError = error as? NetworkError {
             switch networkError {
             case .apiError(let errorResponse):
-                print("🎯 Story API Error: \(errorResponse.error_code ?? "NO_CODE") - \(errorResponse.message)")
+                print("Story API Error: \(errorResponse.error_code ?? "NO_CODE") - \(errorResponse.message)")
                 
                 if let errorCode = errorResponse.error_code,
                    let apiErrorCode = APIErrorCode(rawValue: errorCode) {
@@ -108,16 +108,16 @@ final class StoryManager {
     private func handleStandardAPIError(_ errorCode: APIErrorCode, errorResponse: ErrorResponse) {
         switch errorCode {
         case .tokenExpired:
-            print("✅ Standard: Token expired")
+            print("Standard: Token expired")
             errorMessage = "Please login again"
             // TODO: Автоматическое обновление токена
             
         case .validationError:
-            print("✅ Standard: Validation error")
+            print("Standard: Validation error")
             errorMessage = errorResponse.errors.joined(separator: "\n")
             
         case .internalError, .serviceUnavailable:
-            print("✅ Standard: Server error")
+            print("Standard: Server error")
             errorMessage = "server_error_suggestion".localized
             
         default:
@@ -143,7 +143,7 @@ final class StoryManager {
             )
             
             if response.success, let storiesData = response.data {
-                print("✅ Fetched \(storiesData.stories.count) stories successfully")
+                print("Fetched \(storiesData.stories.count) stories successfully")
                 isLoading = false
                 return storiesData.stories
             } else {
@@ -171,7 +171,7 @@ final class StoryManager {
             )
             
             if response.success {
-                print("✅ Story deleted successfully")
+                print("Story deleted successfully")
                 // Очищаем текущую историю, если она была удалена
                 if currentStory?.id == storyId {
                     currentStory = nil

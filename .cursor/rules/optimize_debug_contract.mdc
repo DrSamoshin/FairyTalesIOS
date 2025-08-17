@@ -1,0 +1,88 @@
+contract "Optimize and Debug Contract" {
+  description: "Rules for safe, on-demand optimization and debugging of the codebase."
+
+  rule "optimize_on_demand" {
+    description: "Run optimizations and debugging only when explicitly requested by user"
+    severity: "error"
+  }
+
+  rule "respect_all_contracts" {
+    description: "Apply all relevant project and user rules during optimization"
+    severity: "error"
+  }
+
+  rule "suggest_improvements" {
+    description: "If code or structure can be improved, suggest concise and meaningful changes"
+    severity: "info"
+  }
+
+  rule "clean_unused_entities" {
+    description: "Detect and remove unused files, functions, imports, variables, assets"
+    severity: "warning"
+  }
+
+  rule "detect_dead_code" {
+    description: "Identify unreachable code, unused branches, and deprecated patterns"
+    severity: "warning"
+  }
+
+  rule "check_startup_health" {
+    description: "Verify app starts without errors in all modes (dev/prod/test)"
+    severity: "warning"
+  }
+
+  rule "detect_perf_issues" {
+    description: "Scan for performance bottlenecks in loops, rendering, queries"
+    severity: "info"
+  }
+
+  rule "check_duplicate_logic" {
+    description: "Find and highlight repeated logic that can be abstracted or reused"
+    severity: "info"
+  }
+
+  rule "verify_error_handling" {
+    description: "Ensure all critical paths handle errors properly with fallback or logging"
+    severity: "error"
+  }
+
+  rule "validate_env_consistency" {
+    description: "Check if config/env values are defined, used, and consistent across environments"
+    severity: "warning"
+  }
+
+  rule "no_debug_output_in_prod" {
+    description: "Do not leave debug output (console.log, print, debug(), etc.) in production code"
+    severity: "error"
+  }
+
+  rule "no_debugger_statements" {
+    description: "Remove debugger/breakpoint statements before commit or release"
+    severity: "error"
+  }
+
+  rule "use_logger_not_print" {
+    description: "In Python, use logging module instead of print() for non-temporary diagnostics"
+    severity: "warning"
+  }
+
+  rule "use_linter_to_detect_debug" {
+    description: "Enable lint rules to catch debug code: no-console / no-debugger (JS), T201 (ruff), logging-print (pylint)"
+    severity: "warning"
+  }
+
+  rule "auto_clean_on_debug_request" {
+    description: "If user runs debug/clean-up task, remove or flag all debug statements automatically"
+    severity: "info"
+  }
+
+  rule "reflect_and_validate_before_fix" {
+    description: "Think through 5–7 potential causes, narrow down to 1–2 likely ones, and insert logs to validate before applying any code changes"
+    severity: "warning"
+    requirements: [
+      "List or consider multiple possible sources of the issue",
+      "Prioritize most probable 1–2 hypotheses",
+      "Insert targeted logs to confirm or reject them before making code changes"
+    ]
+  }
+}

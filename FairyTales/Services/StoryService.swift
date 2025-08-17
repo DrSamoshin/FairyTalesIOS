@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import StoreKit
 
 /// Universal service for story generation - supports both regular and streaming modes
 @Observable
@@ -62,7 +63,11 @@ final class StoryService {
             
             if response.success, let story = response.data?.story {
                 currentStory = story
-                print("✅ Story generated successfully: \(story.title)")
+                print("Story generated successfully: \(story.title)")
+                
+                // Send notification for other parts of the app
+                NotificationCenter.default.post(name: NSNotification.Name("StoryCreated"), object: nil)
+                
                 isLoading = false
                 return story
             } else {
@@ -123,7 +128,7 @@ final class StoryService {
             )
             
             if response.success, let storiesData = response.data {
-                print("✅ Fetched \(storiesData.stories.count) stories successfully")
+                print("Fetched \(storiesData.stories.count) stories successfully")
                 isLoading = false
                 return storiesData.stories
             } else {
@@ -151,7 +156,7 @@ final class StoryService {
             )
             
             if response.success {
-                print("✅ Story deleted successfully")
+                print("Story deleted successfully")
                 if currentStory?.id == storyId {
                     currentStory = nil
                 }
@@ -244,7 +249,7 @@ final class StoryService {
         if let networkError = error as? NetworkError {
             switch networkError {
             case .apiError(let errorResponse):
-                print("🎯 Story API Error: \(errorResponse.error_code ?? "NO_CODE") - \(errorResponse.message)")
+                print("Story API Error: \(errorResponse.error_code ?? "NO_CODE") - \(errorResponse.message)")
                 
                 if let errorCode = errorResponse.error_code,
                    let apiErrorCode = APIErrorCode(rawValue: errorCode) {
@@ -274,15 +279,15 @@ final class StoryService {
     private func handleStandardAPIError(_ errorCode: APIErrorCode, errorResponse: ErrorResponse) {
         switch errorCode {
         case .tokenExpired:
-            print("✅ Standard: Token expired")
+            print("Standard: Token expired")
             errorMessage = "Please login again"
             
         case .validationError:
-            print("✅ Standard: Validation error")
+            print("Standard: Validation error")
             errorMessage = errorResponse.errors.joined(separator: "\n")
             
         case .internalError, .serviceUnavailable:
-            print("✅ Standard: Server error")
+            print("Standard: Server error")
             errorMessage = "server_error_suggestion".localized
             
         default:
@@ -342,6 +347,9 @@ extension StoryService: StoryStreamingDelegate {
             streamingStoryId = id
         }
         streamingProgress = message
+        
+        // Send notification for other parts of the app
+        NotificationCenter.default.post(name: NSNotification.Name("StoryCreated"), object: nil)
         
         // Проверяем, есть ли еще контент для отображения
         if let currentIndex = currentDisplayIndex, currentIndex >= bufferedContent.endIndex {
@@ -431,6 +439,18 @@ extension StoryService: StoryStreamingDelegate {
             // Все символы отображены и стриминг завершен
             isStreamingCompleted = true
             stopTypingAnimation()
+        }
+    }
+    
+    // MARK: - Rating Helper
+    @MainActor
+    private func requestAppStoreRating() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            if #available(iOS 18.0, *) {
+                AppStore.requestReview(in: windowScene)
+            } else {
+                SKStoreReviewController.requestReview(in: windowScene)
+            }
         }
     }
 }

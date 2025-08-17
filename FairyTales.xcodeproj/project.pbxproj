@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C2F99E472E51D55B00D459A8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F99E462E51D55B00D459A8 /* StoreKit.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C27C3ACC2E45F6BB006D0D04 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,8 @@
 		C27C3ABB2E45F6B9006D0D04 /* FairyTales.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FairyTales.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C27C3ACB2E45F6BB006D0D04 /* FairyTalesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FairyTalesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C27C3AD52E45F6BB006D0D04 /* FairyTalesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FairyTalesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2F99E462E51D55B00D459A8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		C2F99E482E51D64800D459A8 /* TestConf.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestConf.storekit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F99E472E51D55B00D459A8 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,9 +95,11 @@
 		C27C3AB22E45F6B9006D0D04 = {
 			isa = PBXGroup;
 			children = (
+				C2F99E482E51D64800D459A8 /* TestConf.storekit */,
 				C27C3ABD2E45F6B9006D0D04 /* FairyTales */,
 				C27C3ACE2E45F6BB006D0D04 /* FairyTalesTests */,
 				C27C3AD82E45F6BB006D0D04 /* FairyTalesUITests */,
+				C2F99E452E51D55B00D459A8 /* Frameworks */,
 				C27C3ABC2E45F6B9006D0D04 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,6 +112,14 @@
 				C27C3AD52E45F6BB006D0D04 /* FairyTalesUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C2F99E452E51D55B00D459A8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2F99E462E51D55B00D459A8 /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

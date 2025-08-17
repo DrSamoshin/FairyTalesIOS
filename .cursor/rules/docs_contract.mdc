@@ -1,0 +1,57 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+contract "Docs Contract" {
+  description: "Rules for generating and maintaining project documentation."
+
+  rule "document_features_and_behavior" {
+    description: "Documentation must describe what the application does and how it works"
+    severity: "error"
+    requirements: [
+      "Be concise; avoid unnecessary verbosity",
+      "Do not use emojis or decorative symbols"
+    ]
+  }
+
+  rule "docs_on_demand" {
+    description: "Generate or update docs only when user explicitly requests"
+    severity: "error"
+  }
+
+  rule "readme_summary" {
+    description: "Add brief project summary and usage to root README.md"
+    severity: "error"
+  }
+
+  rule "create_docs_folder" {
+    description: "Use /docs folder for extended documentation"
+    severity: "error"
+  }
+
+  rule "isolate_modules_docs" {
+    description: "Place detailed docs for app modules/features in separate files in /docs"
+    severity: "warning"
+  }
+
+  rule "document_structure_and_config" {
+    description: "Include app structure overview and config format in documentation"
+    severity: "warning"
+  }
+
+  rule "doc_formatting" {
+    description: "Use clear headings, code blocks, and concise language"
+    severity: "info"
+  }
+
+  rule "update_docs_with_code_changes" {
+    description: "If requested, update docs when related code changes"
+    severity: "info"
+  }
+
+  rule "no_emojis_allowed" {
+    description: "Do not use emojis or decorative symbols in code, documentation, comments, UI labels or logs"
+    severity: "error"
+  }
+}

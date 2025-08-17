@@ -542,12 +542,12 @@ struct StoryCreatorScreen: View {
     
     // MARK: - Helper Methods
     private func generateStory() {
-        print("🎭 Starting story generation with streaming...")
-        print("📝 Story: \(storyName), Hero: \(heroName), Age: \(age)")
-        print("👤 Gender: \(childGender)")
-        print("🎨 Style: \(selectedStyle), Language: \(selectedLanguage.rawValue)")
-        print("📏 Length: \(storyLength) - \(getLengthDescription(for: storyLength))")
-        print("💡 Idea: \(idea)")
+        print("Starting story generation with streaming...")
+        print("Story: \(storyName), Hero: \(heroName), Age: \(age)")
+        print("Gender: \(childGender)")
+        print("Style: \(selectedStyle), Language: \(selectedLanguage.rawValue)")
+        print("Length: \(storyLength) - \(getLengthDescription(for: storyLength))")
+        print("Idea: \(idea)")
         
         showStreamingView = true
     }

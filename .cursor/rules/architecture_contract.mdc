@@ -1,0 +1,57 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+contract "Architecture Contract" {
+  description: "Rules for code architecture, structure, and project scalability."
+
+  rule "follow_principles" {
+    description: "Follow SOLID, DRY, KISS, YAGNI"
+    severity: "error"
+  }
+
+  rule "modular_code" {
+    description: "Organize code into small, reusable, decoupled modules"
+    severity: "error"
+  }
+
+  rule "no_hardcode" {
+    description: "Do not hardcode values; use constants or config"
+    severity: "error"
+  }
+
+  rule "config_files" {
+    description: "All env-specific or changeable values must go to config files"
+    severity: "error"
+  }
+
+  rule "constants_file" {
+    description: "Use a dedicated constants file for repeated static values"
+    severity: "warning"
+  }
+
+  rule "clean_structure" {
+    description: "Generate clean, standard folder structure"
+    severity: "error"
+    requires: [
+      "separate: src/, tests/, config/, assets/",
+      "logical grouping by feature or layer"
+    ]
+  }
+
+  rule "entrypoint_clear" {
+    description: "Main entry point must be easy to find and minimal"
+    severity: "warning"
+  }
+
+  rule "extensible_architecture" {
+    description: "Design should allow future extension with minimal refactoring"
+    severity: "warning"
+  }
+
+  rule "document_structure" {
+    description: "Explain project structure in README or docs"
+    severity: "warning"
+  }
+}

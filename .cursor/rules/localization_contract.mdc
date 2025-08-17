@@ -1,0 +1,43 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+contract "Localization Contract" {
+  description: "Rules for internationalization, supported languages, and localization key management."
+
+  rule "supported_languages" {
+    description: "Support English (en), Russian (ru), and Spanish (es) languages"
+    severity: "error"
+  }
+
+  rule "use_localization_file" {
+    description: "Store all text in external localization file(s); do not hardcode UI strings"
+    severity: "error"
+  }
+
+  rule "short_keys_with_meaning" {
+    description: "Use short but meaningful localization keys (e.g. login_error, submit_btn)"
+    severity: "warning"
+  }
+
+  rule "one_key_per_text" {
+    description: "Each unique phrase must have one key reused across app"
+    severity: "error"
+  }
+
+  rule "group_keys_by_scope" {
+    description: "Organize keys logically by feature or screen (e.g. auth.login_title)"
+    severity: "info"
+  }
+
+  rule "default_language_is_english" {
+    description: "Use English as default fallback language"
+    severity: "warning"
+  }
+
+  rule "allow_dynamic_placeholders" {
+    description: "Support variables in strings (e.g. 'Welcome, {name}')"
+    severity: "info"
+  }
+}

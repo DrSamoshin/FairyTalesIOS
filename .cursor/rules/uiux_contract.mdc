@@ -1,0 +1,93 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+contract "UI/UX Contract" {
+  description: "Rules for user interface consistency, usability, and accessibility."
+
+  rule "consistent_layout" {
+    description: "Use consistent layout, spacing, and alignment across all views"
+    severity: "error"
+  }
+
+  rule "semantic_components" {
+    description: "Use semantic UI components (e.g. <button>, <form>, <label>)"
+    severity: "error"
+  }
+
+  rule "responsive_design" {
+    description: "Interfaces must be responsive and usable on mobile and desktop"
+    severity: "warning"
+  }
+
+  rule "separate_ui_logic" {
+    description: "Keep UI rendering separate from business logic"
+    severity: "error"
+  }
+
+  rule "accessibility_basic" {
+    description: "Use alt text, labels, keyboard navigation where applicable"
+    severity: "warning"
+  }
+
+  rule "clear_interactions" {
+    description: "Each interactive element must have clear visual feedback (hover, active, error)"
+    severity: "error"
+  }
+
+  rule "minimalism" {
+    description: "Avoid unnecessary elements; follow minimalist design"
+    severity: "info"
+  }
+
+  rule "group_related_elements" {
+    description: "Group related controls and fields visually and structurally"
+    severity: "warning"
+  }
+
+  rule "descriptive_texts" {
+    description: "Use descriptive labels, placeholders, and error messages"
+    severity: "warning"
+  }
+
+  rule "dark_mode_support" {
+    description: "Add dark mode support if requested"
+    severity: "info"
+  }
+
+  rule "single_clear_path" {
+    description: "User should have one clear, obvious path to complete each main task; avoid multiple competing flows"
+    severity: "warning"
+  }
+
+  rule "reuse_ui_elements" {
+    description: "Reuse buttons, cards, forms and other UI elements across screens"
+    severity: "warning"
+  }
+
+  rule "language_switch_ui" {
+    description: "Provide language switcher in login/registration screen and in app settings"
+    severity: "error"
+  }
+
+  rule "no_duplicate_actions" {
+    description: "Do not place multiple buttons with the same functionality on a single screen"
+    severity: "error"
+  }
+
+  rule "persistent_main_menu" {
+    description: "Ensure access to main menu and settings from all screens"
+    severity: "warning"
+  }
+
+  rule "mobile_responsive_style" {
+    description: "Mobile version must keep same style and functionality as desktop"
+    severity: "error"
+  }
+
+  rule "logout_in_settings" {
+    description: "Logout action must be implemented inside the app settings screen"
+    severity: "warning"
+  }
+}

@@ -15,6 +15,7 @@ struct SettingsScreen: View {
     @State private var isLoggingOut = false
     @State private var showingPrivacyPolicy = false
     @State private var showingTermsOfService = false
+    @State private var showingSubscription = false
     @State private var contentOpacity: Double = 0.0
     @State private var contentOffset: CGFloat = 30.0
     @State private var sectionsOpacity: Double = 0.0
@@ -48,6 +49,19 @@ struct SettingsScreen: View {
             let background: LinearGradient
             let border: Color
             let icon: String
+            
+            static let subscription = ButtonConfig(
+                background: LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 1.0, green: 0.6, blue: 0.0),
+                        Color(red: 0.9, green: 0.5, blue: 0.8)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                border: Color(red: 1.0, green: 0.8, blue: 0.4),
+                icon: "crown.fill"
+            )
             
             static let language = ButtonConfig(
                 background: AppColors.contrastSecondary,
@@ -93,6 +107,9 @@ struct SettingsScreen: View {
         settingsContent
             .navigationBarHidden(true)
             .background(backgroundView)
+            .sheet(isPresented: $showingSubscription) {
+                SubscriptionScreen()
+            }
             .sheet(isPresented: $showingPrivacyPolicy) {
                 LegalContentScreen(contentType: .privacyPolicy)
             }
@@ -128,6 +145,7 @@ struct SettingsScreen: View {
     
     private var settingsSections: some View {
         VStack(spacing: Constants.sectionSpacing) {
+            subscriptionSection
             languageSection
             legalSection
             logoutSection
@@ -187,6 +205,42 @@ struct SettingsScreen: View {
             .font(.appSubtitle)
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
+    }
+    
+    // MARK: - Subscription Section
+    private var subscriptionSection: some View {
+        Button(action: { showingSubscription = true }) {
+            let config = Constants.ButtonConfig.subscription
+            return settingsCard(background: config.background, borderColor: config.border) {
+                subscriptionButtonContent
+            }
+        }
+    }
+    
+    private var subscriptionButtonContent: some View {
+        HStack(spacing: Constants.itemSpacing) {
+            settingsIcon(Constants.ButtonConfig.subscription.icon)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text("subscription_title".localized)
+                    .font(.appLabel)
+                    .foregroundColor(.white)
+                
+                Text("subscription_manage".localized)
+                    .font(.appCaption)
+                    .foregroundColor(.white.opacity(0.8))
+            }
+            
+            Spacer()
+            
+            chevronIcon
+        }
+    }
+    
+    private var chevronIcon: some View {
+        Image(systemName: "chevron.right")
+            .font(.appIcon)
+            .foregroundColor(.white.opacity(0.7))
     }
     
     // MARK: - Language Section
@@ -322,12 +376,6 @@ struct SettingsScreen: View {
             .font(.appIcon)
             .foregroundColor(.white)
             .frame(width: Constants.iconFrameWidth)
-    }
-    
-    private var chevronIcon: some View {
-        Image(systemName: "chevron.right")
-            .font(.appCaptionSemibold)
-            .foregroundColor(.white.opacity(0.8))
     }
     
     // MARK: - Card Component

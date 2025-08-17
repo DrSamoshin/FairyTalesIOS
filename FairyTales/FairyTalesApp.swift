@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import StoreKit
 
 @main
 struct FairyTalesApp: App {
@@ -14,9 +15,15 @@ struct FairyTalesApp: App {
     @State private var healthCheckManager = HealthCheckManager.shared
     
     init() {
-        print("🚀🚀🚀 FAIRYTALES APP STARTING 🚀🚀🚀")
-        print("📱 Device: iOS \(UIDevice.current.systemVersion)")
-        print("⚡️ Bundle ID: \(Bundle.main.bundleIdentifier ?? "Unknown")")
+        print("FAIRYTALES APP STARTING")
+        print("Device: iOS \(UIDevice.current.systemVersion)")
+        print("Bundle ID: \(Bundle.main.bundleIdentifier ?? "Unknown")")
+        
+        // Track app launch for potential rating request
+        UserDefaults.standard.set(
+            UserDefaults.standard.integer(forKey: "app_launch_count") + 1,
+            forKey: "app_launch_count"
+        )
     }
     
     var body: some Scene {
@@ -44,9 +51,9 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            print("📺📺📺 CONTENTVIEW APPEARED 📺📺📺")
-            print("🔐 Authenticated: \(authManager.isAuthenticated)")
-            print("🏥 Server Available: \(healthCheckManager.isServerAvailable)")
+            print("CONTENTVIEW APPEARED")
+            print("Authenticated: \(authManager.isAuthenticated)")
+            print("Server Available: \(healthCheckManager.isServerAvailable)")
             if !hasPerformedInitialHealthCheck {
                 print("FairyTalesApp: ContentView appeared, starting initial health check...")
                 hasPerformedInitialHealthCheck = true
@@ -54,6 +61,11 @@ struct ContentView: View {
                     print("FairyTalesApp: About to call performHealthCheckWithRetry...")
                     await healthCheckManager.performHealthCheckWithRetry()
                     print("FairyTalesApp: Health check completed in ContentView")
+                    
+                    // Check for rating request after successful launch
+                    if authManager.isAuthenticated && healthCheckManager.isServerAvailable {
+                        requestAppStoreRating()
+                    }
                 }
             } else {
                 print("FairyTalesApp: ContentView appeared but health check already performed")
@@ -73,6 +85,22 @@ struct ContentView: View {
             }
         } message: {
             Text(healthCheckManager.serverErrorMessage ?? "server_unavailable".localized)
+        }
+    }
+    
+    // MARK: - Rating Helper
+    private func requestAppStoreRating() {
+        let launchCount = UserDefaults.standard.integer(forKey: "app_launch_count")
+        
+        // Request rating after 5+ launches and positive interaction
+        if launchCount >= 5 {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                if #available(iOS 18.0, *) {
+                    AppStore.requestReview(in: windowScene)
+                } else {
+                    SKStoreReviewController.requestReview(in: windowScene)
+                }
+            }
         }
     }
 }

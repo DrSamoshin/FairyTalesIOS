@@ -34,7 +34,7 @@ final class AuthManager {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            print("🔐 Token expired, logging out user")
+            print("Token expired, logging out user")
             Task { @MainActor in
                 await self?.logout()
             }
@@ -46,10 +46,10 @@ final class AuthManager {
         if let token = tokenManager.accessToken, !token.isEmpty {
             // Имеем токен - считаем что аутентифицированы
             isAuthenticated = true
-            print("✅ Found saved token, user is authenticated")
+            print("Found saved token, user is authenticated")
         } else {
             isAuthenticated = false
-            print("❌ No saved token found, user needs to login")
+            print("No saved token found, user needs to login")
         }
     }
     
@@ -59,24 +59,24 @@ final class AuthManager {
     // MARK: - Apple Sign In
     @MainActor
     func signInWithApple(authorization: ASAuthorization) async {
-        print("🍎 AuthManager: signInWithApple called")
+        print("AuthManager: signInWithApple called")
         clearError()
         isLoading = true
         
-        print("🔍 AuthManager: Checking Apple credentials...")
+        print("AuthManager: Checking Apple credentials...")
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
               let identityTokenData = appleIDCredential.identityToken,
               let identityTokenString = String(data: identityTokenData, encoding: .utf8),
               let authCodeData = appleIDCredential.authorizationCode,
               let _ = String(data: authCodeData, encoding: .utf8) else {
-            print("❌ AuthManager: Failed to get Apple credentials")
+            print("AuthManager: Failed to get Apple credentials")
             errorMessage = "Failed to get Apple credentials"
             isLoading = false
             return
         }
         
-        print("✅ AuthManager: Apple credentials validated")
-        print("👤 AuthManager: User ID: \(appleIDCredential.user)")
+        print("AuthManager: Apple credentials validated")
+        print("AuthManager: User ID: \(appleIDCredential.user)")
         
         let request = AppleSignInRequest(
             userIdentifier: appleIDCredential.user,
@@ -86,23 +86,23 @@ final class AuthManager {
         )
         
         do {
-            print("🌐 AuthManager: Making Apple Sign In request to server...")
+            print("AuthManager: Making Apple Sign In request to server...")
             let response: AuthResponse = try await networkManager.post(
                 endpoint: request.endpoint,
                 body: request,
                 responseType: AuthResponse.self
             )
             
-            print("📥 AuthManager: Server response received")
-            print("✅ AuthManager: Response success: \(response.success)")
-            print("👤 AuthManager: User: \(response.user?.displayName ?? "none")")
+            print("AuthManager: Server response received")
+            print("AuthManager: Response success: \(response.success)")
+            print("AuthManager: User: \(response.user?.displayName ?? "none")")
             
             if response.success, let user = response.user {
-                print("🎉 AuthManager: Apple Sign In successful, handling auth...")
+                print("AuthManager: Apple Sign In successful, handling auth...")
                 await handleSuccessfulAuth(user: user, response: response)
                 print("🏁 AuthManager: Auth handling completed")
             } else {
-                print("❌ AuthManager: Apple Sign In failed: \(response.message ?? "unknown")")
+                print("AuthManager: Apple Sign In failed: \(response.message ?? "unknown")")
                 errorMessage = response.message ?? "Apple Sign In failed"
             }
         } catch {
@@ -123,7 +123,7 @@ final class AuthManager {
         
         // Затем уведомляем сервер (необязательно)
         // TODO: Implement proper logout endpoint call when server supports it
-        print("✅ Local logout completed")
+        print("Local logout completed")
     }
     
     // MARK: - Token Refresh
@@ -215,40 +215,40 @@ final class AuthManager {
     private func handleStandardAPIError(_ errorCode: APIErrorCode, errorResponse: ErrorResponse) {
         switch errorCode {
         case .userExists:
-            print("✅ Standard: User already exists")
+            print("Standard: User already exists")
             errorMessage = "user_already_exists_suggestion".localized
             
         case .userNotFound:
-            print("✅ Standard: User not found")
+            print("Standard: User not found")
             errorMessage = "user_not_found_suggestion".localized
             
         case .invalidPassword:
-            print("✅ Standard: Invalid password")
+            print("Standard: Invalid password")
             // Показываем первое сообщение из errors или основное message
             errorMessage = errorResponse.errors.first ?? errorResponse.message
             
         case .validationError:
-            print("✅ Standard: Validation error")
+            print("Standard: Validation error")
             // Показываем все ошибки валидации
             errorMessage = errorResponse.errors.joined(separator: "\n")
             
         case .tokenExpired:
-            print("✅ Standard: Token expired")
+            print("Standard: Token expired")
             errorMessage = errorResponse.message
             // TODO: Автоматическое обновление токена
             
         case .internalError, .serviceUnavailable:
-            print("✅ Standard: Server error")
+            print("Standard: Server error")
             errorMessage = "server_error_suggestion".localized
             
         case .invalidAppleCredentials:
-            print("✅ Standard: Invalid Apple credentials")
+            print("Standard: Invalid Apple credentials")
             errorMessage = errorResponse.message
         }
     }
     
     private func handleLegacyErrorMessage(_ message: String) {
-        print("🔄 Fallback: Analyzing legacy message: '\(message)'")
+        print("Fallback: Analyzing legacy message: '\(message)'")
         
         let lowerMessage = message.lowercased()
         

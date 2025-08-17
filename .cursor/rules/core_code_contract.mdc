@@ -1,0 +1,81 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+contract "Core Code Contract" {
+  description: "Rules for generating and maintaining core application code."
+
+  rule "no_extra_files" {
+    description: "Do not generate unused files, placeholder components, or example templates"
+    severity: "error"
+  }
+
+  rule "support_envs" {
+    description: "Support separate dev and prod environments using env config files or flags"
+    severity: "error"
+  }
+
+  rule "unified_run_script" {
+    description: "Create one unified script or CLI that adapts to dev/prod based on arguments or env"
+    severity: "warning"
+  }
+
+  rule "use_vite_or_uv" {
+    description: "Use Vite for JS/TS projects or UV for Python projects as default toolchain"
+    severity: "warning"
+  }
+
+  rule "generate_gitignore" {
+    description: "Create and keep .gitignore up to date with appropriate ignores for chosen stack"
+    severity: "error"
+  }
+
+  rule "comments_in_english" {
+    description: "All code comments must be written in English"
+    severity: "error"
+  }
+
+  rule "respect_localization_rules" {
+    description: "Follow localization rules in all code and implement language switcher functionality"
+    severity: "error"
+    requirements: [
+      "Use localization keys instead of hardcoded text",
+      "Provide language switcher at runtime (UI and config-level)",
+      "Ensure all displayed text is localizable"
+    ]
+  }
+
+  rule "respect_uiux_and_style" {
+    description: "Follow UI/UX and style rules and implement theme switch (light/dark)"
+    severity: "warning"
+    requirements: [
+      "Use centralized design tokens or theme config",
+      "All components must adapt to current theme",
+      "Theme switcher must be available in settings or globally"
+    ]
+  }
+
+  rule "use_modern_swift_patterns" {
+    description: "Always use the most modern Swift approaches and patterns available"
+    severity: "error"
+    requirements: [
+      "Use @Observable instead of ObservableObject (iOS 17+)",
+      "Use @Environment instead of @EnvironmentObject for @Observable classes",
+      "Use @State instead of @StateObject for @Observable classes",
+      "Prefer async/await over Combine for network operations",
+      "Use structured concurrency with proper actor isolation",
+      "Make classes final when they don't need inheritance",
+      "Use nonisolated static let shared for singleton properties",
+      "Implement Sendable protocol where appropriate",
+      "Use Result types for comprehensive error handling",
+      "Follow Swift 6 concurrency best practices"
+    ]
+    examples: [
+      "@Observable @MainActor final class Manager",
+      "@Environment(Manager.self) private var manager",
+      "nonisolated static let shared = Manager()",
+      "enum NetworkResult<T> { case success(T), failure(Error) }"
+    ]
+  }
+}
