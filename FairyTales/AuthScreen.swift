@@ -71,8 +71,6 @@ struct AuthScreen: View {
     @State private var backgroundScale: CGFloat = 1.0
     @State private var showingAlert = false
     @State private var appleSignInDelegate: AppleSignInDelegate?
-    @State private var showingPolicy = false
-    @State private var showingTerms = false
     
     // MARK: - Constants
     private struct Constants {
@@ -80,12 +78,11 @@ struct AuthScreen: View {
         static let logoSize: CGFloat = 120
         static let buttonHeight: CGFloat = 54
         static let logoAnimationDuration: Double = 0.15
-        static let backgroundAnimationDuration: Double = 8.0
+        static let backgroundAnimationDuration: Double = 12.0
         static let contentAnimationDelay: UInt64 = 100_000_000 // 0.1 seconds
         static let contentAnimationDuration: Double = 0.6
         static let vStackSpacing: CGFloat = 40
         static let headerSpacing: CGFloat = 16
-        static let legalButtonSpacing: CGFloat = 15
         static let bottomSpacing: CGFloat = 20
     }
     
@@ -101,12 +98,7 @@ struct AuthScreen: View {
         .onChange(of: authManager.errorMessage) { _, newError in
             showingAlert = newError != nil
         }
-        .sheet(isPresented: $showingPolicy) {
-            LegalContentScreen(contentType: .privacyPolicy)
-        }
-        .sheet(isPresented: $showingTerms) {
-            LegalContentScreen(contentType: .termsOfService)
-        }
+
     }
     
     private var welcomeScreen: some View {
@@ -114,9 +106,9 @@ struct AuthScreen: View {
             Spacer()
             welcomeHeader
             Spacer()
+            Spacer()
             welcomeDescription
             signInButton
-            legalButtons
             Spacer(minLength: Constants.bottomSpacing)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -128,7 +120,7 @@ struct AuthScreen: View {
     
     private var welcomeHeader: some View {
         VStack(spacing: Constants.headerSpacing) {
-            logoButton
+//            logoButton
             headerTexts
         }
     }
@@ -179,22 +171,7 @@ struct AuthScreen: View {
             .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
     
-    private var legalButtons: some View {
-        VStack(spacing: Constants.legalButtonSpacing) {
-            legalButton(title: "Privacy Policy", action: { showingPolicy = true })
-            legalButton(title: "Terms of Use", action: { showingTerms = true })
-        }
-        .animatedContent(opacity: contentOpacity, offset: contentOffset)
-    }
-    
-    private func legalButton(title: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(.appCaption)
-                .foregroundColor(.gray)
-                .underline()
-        }
-    }
+
     
     private var signInButton: some View {
         Button(action: performAppleSignIn) {
@@ -222,7 +199,7 @@ struct AuthScreen: View {
     
     private var backgroundView: some View {
         ZStack {
-            Image("background_9")
+            Image("background_13")
                 .resizable()
                 .scaledToFill()
                 .scaleEffect(backgroundScale)

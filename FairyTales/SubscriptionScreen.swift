@@ -11,6 +11,8 @@ import StoreKit
 struct SubscriptionScreen: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isDebugging = false
+    @State private var contentOpacity: Double = 0.0
+    @State private var contentOffset: CGFloat = 30.0
     
     init() {
         print("SubscriptionScreen: Initializing with Group ID: 21757017")
@@ -27,30 +29,62 @@ struct SubscriptionScreen: View {
         }
     }
     
+    // MARK: - Constants
+    private struct Constants {
+        static let logoSize: CGFloat = 100
+        static let cornerRadius: CGFloat = 16
+        static let vStackSpacing: CGFloat = 24
+        static let titleSpacing: CGFloat = 12
+        static let featureSpacing: CGFloat = 16
+        static let horizontalPadding: CGFloat = 20
+        static let verticalPadding: CGFloat = 24
+    }
+    
     var body: some View {
         NavigationView {
-            SubscriptionStoreView(groupID: "21757017") {
-                subscriptionHeader
-            }
-            .backgroundStyle(.clear)
-            .subscriptionStoreButtonLabel(.multiline)
-            .subscriptionStorePickerItemBackground(.thickMaterial)
-            .storeButton(.visible, for: .restorePurchases)
-            .navigationTitle("subscription_title".localized)
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Debug") {
-                        isDebugging.toggle()
-                        performDiagnostics()
+            ZStack {
+                // Background
+                backgroundView
+                
+                // Content
+                VStack(spacing: 0) {
+                    // Header content (title, subtitle, features)
+                    subscriptionHeader
+                    
+                    // Subscription button
+                    SubscriptionStoreView(groupID: "21757017") {
+                        EmptyView()
+                    }
+                    .backgroundStyle(.clear)
+                    .subscriptionStoreButtonLabel(.multiline)
+                    .subscriptionStorePickerItemBackground(.thickMaterial)
+                    .storeButton(.visible, for: .restorePurchases)
+                    .padding(.horizontal, Constants.horizontalPadding)
+                    .padding(.bottom, Constants.verticalPadding)
+                }
+                .opacity(contentOpacity)
+                .offset(y: contentOffset)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Debug") {
+                            isDebugging.toggle()
+                            performDiagnostics()
+                        }
+                        .foregroundColor(.white)
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("done".localized) {
+                            dismiss()
+                        }
+                        .foregroundColor(.white)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("done".localized) {
-                        dismiss()
-                    }
-                }
             }
+        }
+        .onAppear {
+            startContentAnimation()
         }
         .alert("StoreKit Diagnostics", isPresented: $isDebugging) {
             Button("OK") { }
@@ -116,53 +150,84 @@ struct SubscriptionScreen: View {
     }
     
     private var subscriptionHeader: some View {
-        VStack(spacing: 24) {
-            // App Icon
-            Image("icon_7")
-                .resizable()
-                .frame(width: 80, height: 80)
-                .cornerRadius(16)
-                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+        VStack(spacing: Constants.vStackSpacing) {
+            Spacer()
             
             // Title and Subtitle
-            VStack(spacing: 12) {
+            VStack(spacing: Constants.titleSpacing) {
                 Text("subscription_title".localized)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.appH1)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.primary)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: 300)
                 
                 Text("subscription_subtitle".localized)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .font(.appSubtitle)
+                    .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: 320)
             }
             
             // Features List
-            VStack(alignment: .leading, spacing: 16) {
-                featureRow(icon: "wand.and.stars", text: "subscription_feature_unlimited".localized)
-                featureRow(icon: "person.2.fill", text: "subscription_feature_personalized".localized)
-                featureRow(icon: "globe", text: "subscription_feature_multilingual".localized)
-                featureRow(icon: "clock.fill", text: "subscription_feature_instant".localized)
+            VStack(alignment: .center, spacing: Constants.featureSpacing) {
+                featureRow(icon: "checkmark.circle.fill", text: "subscription_feature_multilingual".localized)
+                featureRow(icon: "checkmark.circle.fill", text: "subscription_feature_unlimited".localized)
+                featureRow(icon: "checkmark.circle.fill", text: "subscription_feature_personalized".localized)
+                featureRow(icon: "checkmark.circle.fill", text: "subscription_feature_instant".localized)
             }
             .padding(.horizontal)
+            
+            Spacer()
         }
-        .padding(.vertical, 24)
-        .padding(.horizontal, 20)
+        .padding(.horizontal, Constants.horizontalPadding)
     }
     
     private func featureRow(icon: String, text: String) -> some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.blue)
+                .foregroundColor(.white)
                 .frame(width: 20, height: 20)
+                .padding(.top, 2)
             
             Text(text)
-                .font(.body)
+                .font(.appBody)
                 .foregroundColor(.primary)
+                .multilineTextAlignment(.leading)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: 350)
+    }
+    
+    // MARK: - Animation
+    private func startContentAnimation() {
+        withAnimation(.easeOut(duration: 0.6)) {
+            contentOpacity = 1.0
+            contentOffset = 0.0
+        }
+    }
+    
+    // MARK: - Background
+    private var backgroundView: some View {
+        ZStack {
+            Image("background_16")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
             
-            Spacer()
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    AppColors.softWhite.opacity(0.3),
+                    AppColors.cloudWhite.opacity(0.1)
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
         }
     }
 }
