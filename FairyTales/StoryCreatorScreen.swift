@@ -10,6 +10,7 @@ import SwiftUI
 struct StoryCreatorScreen: View {
     // MARK: - State
     @StateObject private var localizationManager = LocalizationManager.shared
+    @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var storyService = StoryService.shared
     @Environment(\.presentationMode) var presentationMode
     
@@ -57,24 +58,36 @@ struct StoryCreatorScreen: View {
     }
     
     var body: some View {
-        NavigationStack {
-            storyCreatorContent
-        }
-        .alert(isTimeoutError ? "story_timeout_title".localized : "Error", isPresented: $showingAlert) {
-            alertButtons
-        } message: {
-            Text(storyService.errorMessage ?? "Unknown error")
-        }
-        .onChange(of: storyService.errorMessage) { _, newError in
-            showingAlert = newError != nil
-        }
-        .navigationDestination(isPresented: $showStoryView) {
-            if let story = storyService.currentStory {
-                StoryViewScreen(story: story)
+        Group {
+            if subscriptionManager.canCreateStory() {
+                NavigationStack {
+                    storyCreatorContent
+                }
+                .alert(isTimeoutError ? "story_timeout_title".localized : "Error", isPresented: $showingAlert) {
+                    alertButtons
+                } message: {
+                    Text(storyService.errorMessage ?? "Unknown error")
+                }
+                .onChange(of: storyService.errorMessage) { _, newError in
+                    showingAlert = newError != nil
+                }
+                .navigationDestination(isPresented: $showStoryView) {
+                    if let story = storyService.currentStory {
+                        StoryViewScreen(story: story)
+                    }
+                }
+                .navigationDestination(isPresented: $showStreamingView) {
+                    StoryStreamingScreen(storyData: createStoryGenerateRequest())
+                }
+            } else {
+                // Show subscription screen directly
+                SubscriptionScreen()
             }
         }
-        .navigationDestination(isPresented: $showStreamingView) {
-            StoryStreamingScreen(storyData: createStoryGenerateRequest())
+        .onAppear {
+            Task {
+                await subscriptionManager.checkSubscriptionStatusIfNeeded()
+            }
         }
     }
     

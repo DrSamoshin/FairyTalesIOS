@@ -167,3 +167,8 @@
 "rate_now" = "Jetzt bewerten";
 "maybe_later" = "Vielleicht später";
 "no_thanks" = "Nein danke";
+
+// Subscription Required
+"subscription_required_title" = "Abonnement erforderlich";
+"subscription_required_subtitle" = "Schalte unbegrenzte Geschichtenerstellung mit einem Premium-Abonnement frei";
+"get_subscription" = "Abonnement erhalten";

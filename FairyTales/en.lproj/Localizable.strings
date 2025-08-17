@@ -168,3 +168,9 @@
 "rate_now" = "Rate Now";
 "maybe_later" = "Maybe Later";
 "no_thanks" = "No Thanks";
+
+// Subscription Required
+"subscription_required_title" = "Subscription Required";
+"subscription_required_subtitle" = "Unlock unlimited story creation with a premium subscription";
+"get_subscription" = "Get Subscription";
+"purchase_info" = "You'll be asked to confirm your purchase with Face ID or Apple ID";

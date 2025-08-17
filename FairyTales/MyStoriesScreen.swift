@@ -10,6 +10,7 @@ import SwiftUI
 struct MyStoriesScreen: View {
     // MARK: - State
     @StateObject private var localizationManager = LocalizationManager.shared
+    @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var storyService = StoryService.shared
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedStory: Story?
@@ -21,6 +22,7 @@ struct MyStoriesScreen: View {
     @State private var contentOffset: CGFloat = 20.0
     @State private var stories: [Story] = []
     @State private var isFirstLoad = true
+    @State private var showSubscriptionPrompt = false
     
     // MARK: - Constants
     private struct Constants {
@@ -45,27 +47,39 @@ struct MyStoriesScreen: View {
     }
 
     var body: some View {
-        NavigationStack {
-            storiesContent
-        }
-        .navigationBarHidden(true)
-        .background(backgroundView)
-        .onAppear(perform: startAnimations)
-        .onReceive(NotificationCenter.default.publisher(for: .init("StoryCreated"))) { _ in
-            loadStories()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .storyDeleted)) { _ in
-            loadStories()
-        }
-        .navigationDestination(isPresented: $showStoryView) {
-            if let story = selectedStory {
-                StoryViewScreen(story: story)
+        Group {
+            if subscriptionManager.canViewStories() {
+                NavigationStack {
+                    storiesContent
+                }
+                .navigationBarHidden(true)
+                .background(backgroundView)
+                .onAppear(perform: startAnimations)
+                .onReceive(NotificationCenter.default.publisher(for: .init("StoryCreated"))) { _ in
+                    loadStories()
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .storyDeleted)) { _ in
+                    loadStories()
+                }
+                .navigationDestination(isPresented: $showStoryView) {
+                    if let story = selectedStory {
+                        StoryViewScreen(story: story)
+                    } else {
+                        EmptyView()
+                    }
+                }
+                .navigationDestination(isPresented: $showStoryCreator) {
+                    StoryCreatorScreen()
+                }
             } else {
-                EmptyView()
+                // Show subscription screen directly
+                SubscriptionScreen()
             }
         }
-        .navigationDestination(isPresented: $showStoryCreator) {
-            StoryCreatorScreen()
+        .onAppear {
+            Task {
+                await subscriptionManager.checkSubscriptionStatusIfNeeded()
+            }
         }
     }
     

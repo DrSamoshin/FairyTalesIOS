@@ -167,3 +167,8 @@
 "rate_now" = "Évaluer maintenant";
 "maybe_later" = "Peut-être plus tard";
 "no_thanks" = "Non merci";
+
+// Subscription Required
+"subscription_required_title" = "Abonnement requis";
+"subscription_required_subtitle" = "Débloquez la création illimitée d'histoires avec un abonnement premium";
+"get_subscription" = "Obtenir l'abonnement";

@@ -167,3 +167,9 @@
 "rate_now" = "Оценить";
 "maybe_later" = "Позже";
 "no_thanks" = "Нет, спасибо";
+
+// Subscription Required
+"subscription_required_title" = "Требуется подписка";
+"subscription_required_subtitle" = "Откройте неограниченное создание историй с премиум подпиской";
+"get_subscription" = "Получить подписку";
+"purchase_info" = "Вас попросят подтвердить покупку с помощью Face ID или Apple ID";

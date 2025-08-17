@@ -10,11 +10,13 @@ import SwiftUI
 struct MainScreen: View {
     // MARK: - State
     @StateObject private var localizationManager = LocalizationManager.shared
+    @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var logoScale: CGFloat = 1.0
     @State private var contentOpacity: Double = 0.0
     @State private var contentOffset: CGFloat = 30.0
     @State private var buttonsOpacity: Double = 0.0
     @State private var buttonsOffset: CGFloat = 20.0
+    @State private var showSubscriptionScreen = false
     
     // MARK: - Constants
     private struct Constants {
@@ -55,6 +57,9 @@ struct MainScreen: View {
         NavigationStack {
             homeContent
         }
+        .sheet(isPresented: $showSubscriptionScreen) {
+            SubscriptionScreen()
+        }
     }
     
     private var homeContent: some View {
@@ -70,6 +75,10 @@ struct MainScreen: View {
         .background(backgroundView)
         .onAppear {
             startAnimations()
+            // Refresh subscription status when returning to main screen
+            Task {
+                await subscriptionManager.checkSubscriptionStatusIfNeeded()
+            }
         }
     }
     
@@ -125,28 +134,66 @@ struct MainScreen: View {
     }
     
     private var createStoryNavigationButton: some View {
-        NavigationLink(destination: StoryCreatorScreen()) {
-            actionButton(
-                iconName: "icon_3",
-                title: "create_new_story".localized,
-                subtitle: "create_story_subtitle".localized,
-                background: AnyShapeStyle(AppColors.contrastPrimary),
-                borderColor: AppColors.primaryBorder,
-                textColor: .white
-            )
+        Group {
+            if subscriptionManager.canCreateStory() {
+                NavigationLink(destination: StoryCreatorScreen()) {
+                    actionButton(
+                        iconName: "icon_3",
+                        title: "create_new_story".localized,
+                        subtitle: "create_story_subtitle".localized,
+                        background: AnyShapeStyle(AppColors.contrastPrimary),
+                        borderColor: AppColors.primaryBorder,
+                        textColor: .white
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            } else {
+                Button(action: {
+                    showSubscriptionScreen = true
+                }) {
+                    actionButton(
+                        iconName: "icon_3",
+                        title: "create_new_story".localized,
+                        subtitle: "create_story_subtitle".localized,
+                        background: AnyShapeStyle(AppColors.contrastPrimary),
+                        borderColor: AppColors.primaryBorder,
+                        textColor: .white
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
         }
     }
     
     private var myStoriesNavigationButton: some View {
-        NavigationLink(destination: MyStoriesScreen()) {
-            actionButton(
-                iconName: "icon_2",
-                title: "my_stories".localized,
-                subtitle: "my_stories_subtitle".localized,
-                background: AnyShapeStyle(Constants.myStoriesBackground),
-                borderColor: Constants.myStoriesBorder,
-                textColor: Constants.myStoriesTextColor
-            )
+        Group {
+            if subscriptionManager.canViewStories() {
+                NavigationLink(destination: MyStoriesScreen()) {
+                    actionButton(
+                        iconName: "icon_2",
+                        title: "my_stories".localized,
+                        subtitle: "my_stories_subtitle".localized,
+                        background: AnyShapeStyle(Constants.myStoriesBackground),
+                        borderColor: Constants.myStoriesBorder,
+                        textColor: Constants.myStoriesTextColor
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            } else {
+                Button(action: {
+                    showSubscriptionScreen = true
+                }) {
+                    actionButton(
+                        iconName: "icon_2",
+                        title: "my_stories".localized,
+                        subtitle: "my_stories_subtitle".localized,
+                        background: AnyShapeStyle(Constants.myStoriesBackground),
+                        borderColor: Constants.myStoriesBorder,
+                        textColor: Constants.myStoriesTextColor
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
         }
     }
     

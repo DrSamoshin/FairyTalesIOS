@@ -13,6 +13,7 @@ import StoreKit
 struct FairyTalesApp: App {
     @State private var authManager = AuthManager.shared
     @State private var healthCheckManager = HealthCheckManager.shared
+    @State private var subscriptionManager = SubscriptionManager.shared
     
     init() {
         print("FAIRYTALES APP STARTING")
@@ -32,6 +33,7 @@ struct FairyTalesApp: App {
                 .environmentObject(LocalizationManager.shared)
                 .environment(authManager)
                 .environment(healthCheckManager)
+                .environment(subscriptionManager)
                 .preferredColorScheme(.dark) // Принудительно темная тема
         }
     }
@@ -40,6 +42,7 @@ struct FairyTalesApp: App {
 struct ContentView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(HealthCheckManager.self) private var healthCheckManager
+    @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var hasPerformedInitialHealthCheck = false
     
     var body: some View {
@@ -61,6 +64,9 @@ struct ContentView: View {
                     print("FairyTalesApp: About to call performHealthCheckWithRetry...")
                     await healthCheckManager.performHealthCheckWithRetry()
                     print("FairyTalesApp: Health check completed in ContentView")
+                    
+                    // Initialize subscription check after successful health check
+                    await subscriptionManager.performInitialCheckIfNeeded()
                     
                     // Check for rating request after successful launch
                     if authManager.isAuthenticated && healthCheckManager.isServerAvailable {

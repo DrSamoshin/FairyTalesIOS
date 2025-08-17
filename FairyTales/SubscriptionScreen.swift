@@ -10,7 +10,7 @@ import StoreKit
 
 struct SubscriptionScreen: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var isDebugging = false
+    @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var contentOpacity: Double = 0.0
     @State private var contentOffset: CGFloat = 30.0
     
@@ -51,9 +51,18 @@ struct SubscriptionScreen: View {
                     // Header content (title, subtitle, features)
                     subscriptionHeader
                     
-                    // Subscription button
-                    SubscriptionStoreView(groupID: "21757017") {
-                        EmptyView()
+                    // Info text before purchase
+                    VStack(spacing: 12) {
+                        Text("purchase_info".localized)
+                            .font(.appCaption)
+                            .foregroundColor(.white.opacity(0.8))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, Constants.horizontalPadding)
+                        
+                        // Subscription button
+                        SubscriptionStoreView(groupID: "21757017") {
+                            EmptyView()
+                        }
                     }
                     .backgroundStyle(.clear)
                     .subscriptionStoreButtonLabel(.multiline)
@@ -67,13 +76,6 @@ struct SubscriptionScreen: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarColorScheme(.dark, for: .navigationBar)
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button("Debug") {
-                            isDebugging.toggle()
-                            performDiagnostics()
-                        }
-                        .foregroundColor(.white)
-                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("done".localized) {
                             dismiss()
@@ -86,68 +88,23 @@ struct SubscriptionScreen: View {
         .onAppear {
             startContentAnimation()
         }
-        .alert("StoreKit Diagnostics", isPresented: $isDebugging) {
-            Button("OK") { }
-        } message: {
-            Text("Check console for detailed diagnostic information")
+        .onReceive(NotificationCenter.default.publisher(for: .subscriptionStatusChanged)) { _ in
+            Task {
+                await subscriptionManager.refreshSubscriptionStatus()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("InAppPurchaseCompleted"))) { _ in
+            Task {
+                await subscriptionManager.refreshSubscriptionStatus()
+                // Auto-dismiss after successful purchase
+                if subscriptionManager.hasActiveSubscription {
+                    dismiss()
+                }
+            }
         }
     }
     
-    private func performDiagnostics() {
-        Task {
-            print("=== STOREKIT DIAGNOSTICS ===")
-            print("Bundle ID: \(Bundle.main.bundleIdentifier ?? "Unknown")")
-            print("Team ID: \(Bundle.main.object(forInfoDictionaryKey: "TeamIdentifierPrefix") ?? "Unknown")")
-            print("Group ID: 21757017")
-            print("Store environment: \(AppStore.canMakePayments ? "Can make payments" : "Cannot make payments")")
-            
-            // Test different possible product IDs
-            let possibleProductIDs = [
-                "fairy_tales_basic_monthly",
-                "fairy_tales_monthly", 
-                "fairy.tales.basic.monthly",
-                "fairytales_basic_monthly",
-                "premium_monthly"
-            ]
-            
-            print("Testing possible product IDs...")
-            for productID in possibleProductIDs {
-                do {
-                    print("  Testing: \(productID)")
-                    let products = try await Product.products(for: [productID])
-                    if !products.isEmpty {
-                        print("    SUCCESS: Found \(products.count) product(s) for \(productID)")
-                        for product in products {
-                            print("      - ID: \(product.id)")
-                            print("      - Name: \(product.displayName)")
-                            print("      - Price: \(product.displayPrice)")
-                            if let subscription = product.subscription {
-                                print("      - Group: \(subscription.subscriptionGroupID)")
-                                print("      - Period: \(subscription.subscriptionPeriod)")
-                            }
-                        }
-                    } else {
-                        print("    No products found for \(productID)")
-                    }
-                } catch {
-                    print("    Error loading \(productID): \(error)")
-                }
-            }
-            
-            // Also try to load ALL available products
-            print("\nAttempting to discover all available products...")
-            do {
-                // Try loading products with empty array to see what's available
-                let allProducts = try await Product.products(for: [])
-                print("Available products: \(allProducts.count)")
-                for product in allProducts {
-                    print("  - \(product.id): \(product.displayName)")
-                }
-            } catch {
-                print("Error loading all products: \(error)")
-            }
-        }
-    }
+
     
     private var subscriptionHeader: some View {
         VStack(spacing: Constants.vStackSpacing) {
