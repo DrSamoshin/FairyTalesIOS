@@ -70,30 +70,17 @@ struct LegalContentScreen: View {
     
     // MARK: - Content View
     private var contentView: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                if let content = getCurrentContent() {
-                    // Header
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(content.title)
-                            .font(.appH2)
-                            .foregroundColor(AppColors.darkText)
-                    }
+        VStack(spacing: 0) {
+            if let content = getCurrentContent() {
+                Divider()
                     .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    
-                    Divider()
-                        .padding(.horizontal, 20)
-                    
-                    // Content
-                    HTMLWebView(htmlContent: content.content)
-                        .frame(maxWidth: .infinity)
-                        .frame(minHeight: 600) // Минимальная высота для отображения
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 30)
-                } else {
-                    emptyContentView
-                }
+                
+                // Content - WebView занимает всю доступную высоту
+                HTMLWebView(htmlContent: content.content)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.horizontal, 20)
+            } else {
+                emptyContentView
             }
         }
     }
@@ -217,9 +204,11 @@ struct HTMLWebView: UIViewRepresentable {
         webView.isOpaque = false
         webView.backgroundColor = UIColor.clear
         webView.scrollView.backgroundColor = UIColor.clear
-        webView.scrollView.isScrollEnabled = true // Allow WebView scrolling
-        webView.scrollView.showsVerticalScrollIndicator = false
+        webView.scrollView.isScrollEnabled = true
+        webView.scrollView.showsVerticalScrollIndicator = true
         webView.scrollView.showsHorizontalScrollIndicator = false
+        webView.scrollView.bounces = true
+        webView.scrollView.alwaysBounceVertical = false
         
         return webView
     }
