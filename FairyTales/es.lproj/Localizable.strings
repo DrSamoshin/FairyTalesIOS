@@ -168,6 +168,8 @@
 "maybe_later" = "Tal vez más tarde";
 "no_thanks" = "No, gracias";
 
+"purchase_info" = "Se te pedirá confirmar tu compra con Face ID o Apple ID";
+
 // Subscription Required
 "subscription_required_title" = "Suscripción Requerida";
 "subscription_required_subtitle" = "Desbloquea la creación ilimitada de historias con una suscripción premium";

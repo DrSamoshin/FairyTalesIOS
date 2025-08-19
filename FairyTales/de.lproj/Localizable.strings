@@ -168,6 +168,8 @@
 "maybe_later" = "Vielleicht später";
 "no_thanks" = "Nein danke";
 
+"purchase_info" = "Sie werden aufgefordert, Ihren Kauf mit Face ID oder Apple ID zu bestätigen";
+
 // Subscription Required
 "subscription_required_title" = "Abonnement erforderlich";
 "subscription_required_subtitle" = "Schalte unbegrenzte Geschichtenerstellung mit einem Premium-Abonnement frei";
