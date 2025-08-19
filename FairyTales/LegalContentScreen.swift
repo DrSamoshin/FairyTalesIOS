@@ -78,18 +78,6 @@ struct LegalContentScreen: View {
                         Text(content.title)
                             .font(.appH2)
                             .foregroundColor(AppColors.darkText)
-                        
-                        HStack {
-                            Text("version".localized + " \(content.version)")
-                                .font(.appCaption)
-                                .foregroundColor(AppColors.subtleText)
-                            
-                            Spacer()
-                            
-                            Text("last_updated".localized + " \(formatDate(content.effectiveDate))")
-                                .font(.appCaption)
-                                .foregroundColor(AppColors.subtleText)
-                        }
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
@@ -98,7 +86,7 @@ struct LegalContentScreen: View {
                         .padding(.horizontal, 20)
                     
                     // Content
-                    MarkdownWebView(markdownContent: content.content)
+                    HTMLWebView(htmlContent: content.content)
                         .frame(maxWidth: .infinity)
                         .frame(minHeight: 600) // Минимальная высота для отображения
                         .padding(.horizontal, 20)
@@ -221,8 +209,8 @@ struct LegalContentScreen: View {
 }
 
 // MARK: - WebView Component
-struct MarkdownWebView: UIViewRepresentable {
-    let markdownContent: String
+struct HTMLWebView: UIViewRepresentable {
+    let htmlContent: String
     
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
@@ -237,13 +225,13 @@ struct MarkdownWebView: UIViewRepresentable {
     }
     
     func updateUIView(_ webView: WKWebView, context: Context) {
-        let htmlContent = convertMarkdownToHTML(markdownContent)
-        print("Loading HTML content with length: \(htmlContent.count)")
-        print("Markdown content preview: \(String(markdownContent.prefix(100)))...")
-        webView.loadHTMLString(htmlContent, baseURL: nil)
+        let styledHTML = wrapHTMLWithStyles(htmlContent)
+        print("Loading HTML content with length: \(styledHTML.count)")
+        print("HTML content preview: \(String(htmlContent.prefix(200)))...")
+        webView.loadHTMLString(styledHTML, baseURL: nil)
     }
     
-    private func convertMarkdownToHTML(_ markdown: String) -> String {
+    private func wrapHTMLWithStyles(_ htmlContent: String) -> String {
         let styledHTML = """
         <!DOCTYPE html>
         <html>
@@ -285,12 +273,19 @@ struct MarkdownWebView: UIViewRepresentable {
                     margin: 16px 0 8px 0;
                 }
                 
+                h4 {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #333333;
+                    margin: 14px 0 6px 0;
+                }
+                
                 p {
                     margin: 12px 0;
                     text-align: left;
                 }
                 
-                ul {
+                ul, ol {
                     margin: 12px 0;
                     padding-left: 20px;
                 }
@@ -299,13 +294,42 @@ struct MarkdownWebView: UIViewRepresentable {
                     margin: 6px 0;
                 }
                 
-                strong {
+                strong, b {
                     font-weight: 600;
                     color: #333333;
                 }
                 
-                em {
+                em, i {
                     font-style: italic;
+                }
+                
+                a {
+                    color: #007AFF;
+                    text-decoration: underline;
+                }
+                
+                blockquote {
+                    margin: 16px 0;
+                    padding-left: 16px;
+                    border-left: 4px solid #E1E1E1;
+                    color: #666666;
+                }
+                
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 16px 0;
+                }
+                
+                th, td {
+                    padding: 8px 12px;
+                    text-align: left;
+                    border-bottom: 1px solid #E1E1E1;
+                }
+                
+                th {
+                    font-weight: 600;
+                    background-color: #F8F8F8;
                 }
                 
                 code {
@@ -315,78 +339,22 @@ struct MarkdownWebView: UIViewRepresentable {
                     font-family: Monaco, Consolas, monospace;
                     font-size: 14px;
                 }
+                
+                pre {
+                    background-color: #f5f5f5;
+                    padding: 12px;
+                    border-radius: 6px;
+                    overflow-x: auto;
+                    font-family: Monaco, Consolas, monospace;
+                    font-size: 14px;
+                }
             </style>
         </head>
         <body>
-            \(simpleMarkdownToHTML(markdown))
+            \(htmlContent)
         </body>
         </html>
         """
         return styledHTML
-    }
-    
-    private func simpleMarkdownToHTML(_ markdown: String) -> String {
-        let lines = markdown.components(separatedBy: .newlines)
-        var processedLines: [String] = []
-        var inList = false
-        
-        print("Processing \(lines.count) lines of markdown")
-        
-        for line in lines {
-            let trimmedLine = line.trimmingCharacters(in: .whitespaces)
-            
-            if trimmedLine.isEmpty {
-                if inList {
-                    processedLines.append("</ul>")
-                    inList = false
-                }
-                processedLines.append("")
-            } else if trimmedLine.hasPrefix("# ") {
-                if inList {
-                    processedLines.append("</ul>")
-                    inList = false
-                }
-                let title = String(trimmedLine.dropFirst(2))
-                processedLines.append("<h1>\(title)</h1>")
-            } else if trimmedLine.hasPrefix("## ") {
-                if inList {
-                    processedLines.append("</ul>")
-                    inList = false
-                }
-                let title = String(trimmedLine.dropFirst(3))
-                processedLines.append("<h2>\(title)</h2>")
-            } else if trimmedLine.hasPrefix("### ") {
-                if inList {
-                    processedLines.append("</ul>")
-                    inList = false
-                }
-                let title = String(trimmedLine.dropFirst(4))
-                processedLines.append("<h3>\(title)</h3>")
-            } else if trimmedLine.hasPrefix("- ") {
-                if !inList {
-                    processedLines.append("<ul>")
-                    inList = true
-                }
-                let item = String(trimmedLine.dropFirst(2))
-                let boldText = item.replacingOccurrences(of: #"\*\*(.+?)\*\*"#, with: "<strong>$1</strong>", options: .regularExpression)
-                processedLines.append("<li>\(boldText)</li>")
-            } else {
-                if inList {
-                    processedLines.append("</ul>")
-                    inList = false
-                }
-                let boldText = trimmedLine.replacingOccurrences(of: #"\*\*(.+?)\*\*"#, with: "<strong>$1</strong>", options: .regularExpression)
-                processedLines.append("<p>\(boldText)</p>")
-            }
-        }
-        
-        // Close list if still open
-        if inList {
-            processedLines.append("</ul>")
-        }
-        
-        let result = processedLines.joined(separator: "\n")
-        print("Generated HTML with \(result.count) characters")
-        return result
     }
 }

@@ -71,6 +71,8 @@ struct AuthScreen: View {
     @State private var backgroundScale: CGFloat = 1.0
     @State private var showingAlert = false
     @State private var appleSignInDelegate: AppleSignInDelegate?
+    @State private var showingPrivacyPolicy = false
+    @State private var showingTermsOfService = false
     
     // MARK: - Constants
     private struct Constants {
@@ -98,6 +100,12 @@ struct AuthScreen: View {
         .onChange(of: authManager.errorMessage) { _, newError in
             showingAlert = newError != nil
         }
+        .sheet(isPresented: $showingPrivacyPolicy) {
+            LegalContentScreen(contentType: .privacyPolicy)
+        }
+        .sheet(isPresented: $showingTermsOfService) {
+            LegalContentScreen(contentType: .termsOfService)
+        }
 
     }
     
@@ -109,6 +117,7 @@ struct AuthScreen: View {
             Spacer()
             welcomeDescription
             signInButton
+            legalLinksSection
             Spacer(minLength: Constants.bottomSpacing)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -193,6 +202,30 @@ struct AuthScreen: View {
             .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
         }
         .disabled(authManager.isLoading)
+        .padding(.horizontal, Constants.contentPadding)
+        .animatedContent(opacity: contentOpacity, offset: contentOffset)
+    }
+    
+    private var legalLinksSection: some View {
+        HStack(spacing: 16) {
+            Button(action: { showingPrivacyPolicy = true }) {
+                Text("privacy_policy".localized)
+                    .font(.appCaption)
+                    .foregroundColor(.white.opacity(0.8))
+                    .underline()
+            }
+            
+            Text("•")
+                .font(.appCaption)
+                .foregroundColor(.white.opacity(0.5))
+            
+            Button(action: { showingTermsOfService = true }) {
+                Text("terms_of_service".localized)
+                    .font(.appCaption)
+                    .foregroundColor(.white.opacity(0.8))
+                    .underline()
+            }
+        }
         .padding(.horizontal, Constants.contentPadding)
         .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }

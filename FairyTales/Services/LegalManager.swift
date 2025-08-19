@@ -28,14 +28,9 @@ final class LegalManager {
         errorMessage = nil
         
         do {
-            let response = try await networkManager.getPrivacyPolicy()
-            if response.success {
-                privacyPolicy = response.legalContent
-                print("Privacy Policy loaded successfully")
-            } else {
-                errorMessage = response.message ?? "Failed to load Privacy Policy"
-                print("Privacy Policy load failed: \(errorMessage ?? "Unknown error")")
-            }
+            let legalContent = try await networkManager.getPrivacyPolicy()
+            privacyPolicy = legalContent
+            print("Privacy Policy loaded successfully")
         } catch {
             errorMessage = "Failed to load Privacy Policy"
             print("Privacy Policy network error: \(error)")
@@ -50,14 +45,9 @@ final class LegalManager {
         errorMessage = nil
         
         do {
-            let response = try await networkManager.getTermsOfService()
-            if response.success {
-                termsOfService = response.legalContent
-                print("Terms of Service loaded successfully")
-            } else {
-                errorMessage = response.message ?? "Failed to load Terms of Service"
-                print("Terms of Service load failed: \(errorMessage ?? "Unknown error")")
-            }
+            let legalContent = try await networkManager.getTermsOfService()
+            termsOfService = legalContent
+            print("Terms of Service loaded successfully")
         } catch {
             errorMessage = "Failed to load Terms of Service"
             print("Terms of Service network error: \(error)")

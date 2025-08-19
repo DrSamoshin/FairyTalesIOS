@@ -311,18 +311,90 @@ final class NetworkManager: Sendable {
     }
     
     // MARK: - Legal Content Methods
-    func getPrivacyPolicy() async throws -> PolicyResponse {
-        return try await get(
-            endpoint: "/api/v1/legal/policy-ios/",
-            responseType: PolicyResponse.self
-        )
+    func getPrivacyPolicy() async throws -> LegalContent {
+        let htmlContent = try await getHTMLContent(endpoint: "/api/v1/legal/privacy-policy/")
+        return LegalContent(content: htmlContent)
     }
     
-    func getTermsOfService() async throws -> TermsResponse {
-        return try await get(
-            endpoint: "/api/v1/legal/terms/",
-            responseType: TermsResponse.self
-        )
+    func getTermsOfService() async throws -> LegalContent {
+        let htmlContent = try await getHTMLContent(endpoint: "/api/v1/legal/terms-of-use/")
+        return LegalContent(content: htmlContent)
+    }
+    
+    private func getHTMLContent(endpoint: String) async throws -> String {
+        guard let url = URL(string: baseURL + endpoint) else {
+            print("Invalid URL: \(baseURL + endpoint)")
+            throw NetworkError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("text/html", forHTTPHeaderField: "Accept")
+        
+        isLoading = true
+        
+        do {
+            print("NetworkManager: Making HTML request to: \(request.url?.absoluteString ?? "unknown")")
+            
+            let (data, response) = try await session.data(for: request)
+            isLoading = false
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("NetworkManager: ERROR - Invalid HTTP response")
+                throw NetworkError.unknown(URLError(.badServerResponse))
+            }
+            
+            print("NetworkManager: HTML Response status: \(httpResponse.statusCode)")
+            
+            switch httpResponse.statusCode {
+            case 200...299:
+                break
+            case 401, 403:
+                print("NetworkManager: Authentication error: \(httpResponse.statusCode)")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .authenticationExpired, object: nil)
+                }
+                let fallbackError = ErrorResponse(
+                    success: false,
+                    message: "Authentication failed",
+                    errors: ["Authentication required"],
+                    error_code: "AUTH_FAILED"
+                )
+                throw NetworkError.apiError(fallbackError)
+            default:
+                throw NetworkError.serverError(httpResponse.statusCode)
+            }
+            
+            guard !data.isEmpty else {
+                throw NetworkError.noData
+            }
+            
+            guard let htmlContent = String(data: data, encoding: .utf8) else {
+                throw NetworkError.decodingError
+            }
+            
+            print("NetworkManager: Successfully loaded HTML content with \(htmlContent.count) characters")
+            return htmlContent
+            
+        } catch {
+            isLoading = false
+            if let networkError = error as? NetworkError {
+                lastError = networkError
+            } else if let urlError = error as? URLError {
+                switch urlError.code {
+                case .notConnectedToInternet:
+                    lastError = NetworkError.internetConnection
+                case .timedOut:
+                    lastError = NetworkError.timeout
+                default:
+                    lastError = NetworkError.unknown(urlError)
+                }
+            } else {
+                lastError = NetworkError.unknown(error)
+            }
+            print("NetworkManager: HTML Request failed: \(error)")
+            throw error
+        }
     }
     
     // MARK: - Health Check Methods

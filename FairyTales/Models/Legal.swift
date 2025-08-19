@@ -11,31 +11,52 @@ import Foundation
 struct LegalContent: Codable {
     let content: String
     
-    // Extracted properties from content
+    // Extracted properties from HTML content
     var title: String {
-        // Extract title from markdown content
-        let lines = content.components(separatedBy: .newlines)
-        for line in lines {
-            if line.hasPrefix("# ") {
-                return String(line.dropFirst(2)).trimmingCharacters(in: .whitespaces)
-            }
+        // Extract title from HTML content using regex
+        let titlePattern = "<h1[^>]*>([^<]+)</h1>"
+        if let regex = try? NSRegularExpression(pattern: titlePattern, options: .caseInsensitive),
+           let match = regex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content)),
+           let range = Range(match.range(at: 1), in: content) {
+            let htmlTitle = String(content[range])
+            // Remove any remaining HTML tags and decode HTML entities
+            return htmlTitle.replacingOccurrences(of: "&amp;", with: "&")
+                           .replacingOccurrences(of: "&lt;", with: "<")
+                           .replacingOccurrences(of: "&gt;", with: ">")
+                           .replacingOccurrences(of: "&quot;", with: "\"")
+                           .trimmingCharacters(in: .whitespaces)
         }
         return "Legal Document"
     }
     
     var effectiveDate: String {
-        // Extract effective date from content
-        let pattern = "\\*\\*Effective date:\\*\\* ([0-9]{4}-[0-9]{2}-[0-9]{2})"
-        if let regex = try? NSRegularExpression(pattern: pattern),
-           let match = regex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content)),
-           let range = Range(match.range(at: 1), in: content) {
-            return String(content[range])
+        // Extract effective date from HTML content
+        let effectiveDatePatterns = [
+            "Effective[\\s]*[Dd]ate[:\\s]*([0-9]{1,2}[\\s]*[A-Za-z]+[\\s]*[0-9]{4})",
+            "Effective[\\s]*[Dd]ate[:\\s]*([0-9]{4}-[0-9]{2}-[0-9]{2})",
+            "Last[\\s]*[Uu]pdated[:\\s]*([0-9]{1,2}[\\s]*[A-Za-z]+[\\s]*[0-9]{4})",
+            "Last[\\s]*[Uu]pdated[:\\s]*([0-9]{4}-[0-9]{2}-[0-9]{2})"
+        ]
+        
+        for pattern in effectiveDatePatterns {
+            if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive),
+               let match = regex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content)),
+               let range = Range(match.range(at: 1), in: content) {
+                return String(content[range]).trimmingCharacters(in: .whitespaces)
+            }
         }
         return ""
     }
     
     var version: String {
-        return "1.0" // Default version since not provided by server
+        // Try to extract version from HTML content
+        let versionPattern = "[Vv]ersion[:\\s]*([0-9]+\\.[0-9]+)"
+        if let regex = try? NSRegularExpression(pattern: versionPattern),
+           let match = regex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content)),
+           let range = Range(match.range(at: 1), in: content) {
+            return String(content[range])
+        }
+        return "1.0" // Default version
     }
 }
 

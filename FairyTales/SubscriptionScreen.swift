@@ -13,6 +13,8 @@ struct SubscriptionScreen: View {
     @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var contentOpacity: Double = 0.0
     @State private var contentOffset: CGFloat = 30.0
+    @State private var showingPrivacyPolicy = false
+    @State private var showingTermsOfService = false
     
     init() {
         print("SubscriptionScreen: Initializing with Group ID: 21757017")
@@ -50,6 +52,9 @@ struct SubscriptionScreen: View {
                 VStack(spacing: 0) {
                     // Header content (title, subtitle, features)
                     subscriptionHeader
+                    
+                    // Legal links
+                    legalLinksSection
                     
                     // Info text before purchase
                     VStack(spacing: 12) {
@@ -102,6 +107,12 @@ struct SubscriptionScreen: View {
                 }
             }
         }
+        .sheet(isPresented: $showingPrivacyPolicy) {
+            LegalContentScreen(contentType: .privacyPolicy)
+        }
+        .sheet(isPresented: $showingTermsOfService) {
+            LegalContentScreen(contentType: .termsOfService)
+        }
     }
     
 
@@ -112,6 +123,7 @@ struct SubscriptionScreen: View {
             
             // Title and Subtitle
             VStack(spacing: Constants.titleSpacing) {
+
                 Text("subscription_title".localized)
                     .font(.appH1)
                     .multilineTextAlignment(.center)
@@ -158,6 +170,55 @@ struct SubscriptionScreen: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: 350)
+    }
+    
+    private var legalLinksSection: some View {
+        ViewThatFits(in: .horizontal) {
+            // First try: horizontal layout
+            HStack(spacing: 12) {
+                Button(action: { showingPrivacyPolicy = true }) {
+                    Text("privacy_policy".localized)
+                        .font(.appCaption)
+                        .foregroundColor(.white.opacity(0.8))
+                        .underline()
+                        .lineLimit(1)
+                }
+                
+                Text("•")
+                    .font(.appCaption)
+                    .foregroundColor(.white.opacity(0.5))
+                
+                Button(action: { showingTermsOfService = true }) {
+                    Text("terms_of_service".localized)
+                        .font(.appCaption)
+                        .foregroundColor(.white.opacity(0.8))
+                        .underline()
+                        .lineLimit(1)
+                }
+            }
+            
+            // Second option: vertical layout
+            VStack(spacing: 8) {
+                Button(action: { showingPrivacyPolicy = true }) {
+                    Text("privacy_policy".localized)
+                        .font(.appCaption)
+                        .foregroundColor(.white.opacity(0.8))
+                        .underline()
+                        .lineLimit(1)
+                }
+                
+                Button(action: { showingTermsOfService = true }) {
+                    Text("terms_of_service".localized)
+                        .font(.appCaption)
+                        .foregroundColor(.white.opacity(0.8))
+                        .underline()
+                        .lineLimit(1)
+                }
+            }
+        }
+        .frame(maxWidth: 300)
+        .padding(.horizontal, Constants.horizontalPadding)
+        .padding(.bottom, 16)
     }
     
     // MARK: - Animation
