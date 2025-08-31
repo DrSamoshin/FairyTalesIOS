@@ -214,16 +214,19 @@ struct HeroEditScreen: View {
             
             ideaField(
                 label: "appearance".localized,
+                placeholder: "appearance_placeholder".localized,
                 text: $heroAppearance
             )
             
             ideaField(
                 label: "personality".localized,
+                placeholder: "personality_placeholder".localized,
                 text: $heroPersonality
             )
             
             ideaField(
                 label: "power".localized,
+                placeholder: "power_placeholder".localized,
                 text: $heroPower
             )
         }
@@ -291,7 +294,7 @@ struct HeroEditScreen: View {
         }
     }
     
-    private func ideaField(label: String, text: Binding<String>) -> some View {
+    private func ideaField(label: String, placeholder: String, text: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
             Text(label)
                 .font(.appLabel)
@@ -299,7 +302,7 @@ struct HeroEditScreen: View {
             
             ZStack(alignment: .topLeading) {
                 if text.wrappedValue.isEmpty {
-                    Text(label)
+                    Text(placeholder)
                         .foregroundColor(Constants.placeholderColor)
                         .font(.appInputField)
                         .padding(.horizontal, Constants.textAreaHorizontalPadding)

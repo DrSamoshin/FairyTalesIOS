@@ -116,93 +116,42 @@ struct MainScreen: View {
     }
     
     private var createStoryNavigationButton: some View {
-        Group {
-            if subscriptionManager.canCreateStory() {
-                NavigationLink(destination: StoryCreatorScreen()) {
-                    actionButton(
-                        iconName: "i_4",
-                        title: "create_new_story".localized,
-                        subtitle: "create_story_subtitle".localized,
-                        config: Constants.ButtonConfig.lavenderPurple,
-                        textColor: .white
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-            } else {
-                Button(action: {
-                    showSubscriptionScreen = true
-                }) {
-                    actionButton(
-                        iconName: "i_4",
-                        title: "create_new_story".localized,
-                        subtitle: "create_story_subtitle".localized,
-                        config: Constants.ButtonConfig.lavenderPurple,
-                        textColor: .white
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
+        NavigationLink(destination: StoryCreatorScreen()) {
+            actionButton(
+                iconName: "i_4",
+                title: "create_new_story".localized,
+                subtitle: "create_story_subtitle".localized,
+                config: Constants.ButtonConfig.lavenderPurple,
+                textColor: .white
+            )
         }
+        .buttonStyle(PlainButtonStyle())
     }
     
     private var myStoriesNavigationButton: some View {
-        Group {
-            if subscriptionManager.canViewStories() {
-                NavigationLink(destination: MyStoriesScreen()) {
-                    actionButton(
-                        iconName: "i_3",
-                        title: "my_stories".localized,
-                        subtitle: "my_stories_subtitle".localized,
-                        config: Constants.ButtonConfig.skyBlue,
-                        textColor: .white
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-            } else {
-                Button(action: {
-                    showSubscriptionScreen = true
-                }) {
-                    actionButton(
-                        iconName: "i_3",
-                        title: "my_stories".localized,
-                        subtitle: "my_stories_subtitle".localized,
-                        config: Constants.ButtonConfig.skyBlue,
-                        textColor: .white
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
+        NavigationLink(destination: MyStoriesScreen()) {
+            actionButton(
+                iconName: "i_3",
+                title: "my_stories".localized,
+                subtitle: "my_stories_subtitle".localized,
+                config: Constants.ButtonConfig.skyBlue,
+                textColor: .white
+            )
         }
+        .buttonStyle(PlainButtonStyle())
     }
     
     private var heroesNavigationButton: some View {
-        Group {
-            if subscriptionManager.canViewStories() {
-                NavigationLink(destination: HeroesScreen()) {
-                    actionButton(
-                        iconName: "i_2",
-                        title: "heroes".localized,
-                        subtitle: "heroes_subtitle".localized,
-                        config: Constants.ButtonConfig.limeGreen,
-                        textColor: .white
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-            } else {
-                Button(action: {
-                    showSubscriptionScreen = true
-                }) {
-                    actionButton(
-                        iconName: "i_2",
-                        title: "heroes".localized,
-                        subtitle: "heroes_subtitle".localized,
-                        config: Constants.ButtonConfig.limeGreen,
-                        textColor: .white
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
+        NavigationLink(destination: HeroesScreen()) {
+            actionButton(
+                iconName: "i_2",
+                title: "heroes".localized,
+                subtitle: "heroes_subtitle".localized,
+                config: Constants.ButtonConfig.limeGreen,
+                textColor: .white
+            )
         }
+        .buttonStyle(PlainButtonStyle())
     }
     
     private func actionButton(

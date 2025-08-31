@@ -239,7 +239,7 @@ struct StoryViewScreen: View {
     
     // MARK: - Background
     private var backgroundView: some View {
-        Image("background_4")
+        Image("bg_13")
             .resizable()
             .scaledToFill()
             .ignoresSafeArea()

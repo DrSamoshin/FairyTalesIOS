@@ -72,6 +72,7 @@ struct SettingsScreen: View {
                 .padding(.horizontal, Constants.horizontalPadding)
                 .padding(.top, Constants.topPadding)
                 .animatedContent(opacity: contentOpacity, offset: contentOffset)
+                .padding(.bottom, 6)
             
             settingsHeader
                 .padding(.horizontal, Constants.horizontalPadding)

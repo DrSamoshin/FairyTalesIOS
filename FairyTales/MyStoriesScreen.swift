@@ -47,39 +47,27 @@ struct MyStoriesScreen: View {
     }
 
     var body: some View {
-        Group {
-            if subscriptionManager.canViewStories() {
-                NavigationStack {
-                    storiesContent
-                }
-                .navigationBarHidden(true)
-                .background(backgroundView)
-                .onAppear(perform: startAnimations)
-                .onReceive(NotificationCenter.default.publisher(for: .init("StoryCreated"))) { _ in
-                    loadStories()
-                }
-                .onReceive(NotificationCenter.default.publisher(for: .storyDeleted)) { _ in
-                    loadStories()
-                }
-                .navigationDestination(isPresented: $showStoryView) {
-                    if let story = selectedStory {
-                        StoryViewScreen(story: story)
-                    } else {
-                        EmptyView()
-                    }
-                }
-                .navigationDestination(isPresented: $showStoryCreator) {
-                    StoryCreatorScreen()
-                }
+        NavigationStack {
+            storiesContent
+        }
+        .navigationBarHidden(true)
+        .background(backgroundView)
+        .onAppear(perform: startAnimations)
+        .onReceive(NotificationCenter.default.publisher(for: .init("StoryCreated"))) { _ in
+            loadStories()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .storyDeleted)) { _ in
+            loadStories()
+        }
+        .navigationDestination(isPresented: $showStoryView) {
+            if let story = selectedStory {
+                StoryViewScreen(story: story)
             } else {
-                // Show subscription screen directly
-                SubscriptionScreen()
+                EmptyView()
             }
         }
-        .onAppear {
-            Task {
-                await subscriptionManager.checkSubscriptionStatusIfNeeded()
-            }
+        .navigationDestination(isPresented: $showStoryCreator) {
+            StoryCreatorScreen()
         }
     }
     
@@ -88,11 +76,10 @@ struct MyStoriesScreen: View {
             backButton
                 .padding(.horizontal, Constants.horizontalPadding)
                 .padding(.top, Constants.topPadding)
-                .padding(.bottom, 6)
                 .animatedContent(opacity: titleOpacity, offset: titleOffset)
+                .padding(.bottom, 6)
             
             contentSection
-                .padding(.top, Constants.vStackSpacing)
                 .animatedContent(opacity: contentOpacity, offset: contentOffset)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -116,13 +103,6 @@ struct MyStoriesScreen: View {
             
             Spacer()
         }
-    }
-    
-    private var headerIcon: some View {
-        Image("icon_8")
-            .resizable()
-            .frame(width: Constants.headerIconSize, height: Constants.headerIconSize)
-            .opacity(0.8)
     }
     
     private var contentSection: some View {
@@ -154,16 +134,9 @@ struct MyStoriesScreen: View {
         VStack(spacing: Constants.vStackSpacing) {
             Spacer()
             
-            headerIcon
-            
             VStack(spacing: Constants.headerSpacing) {
                 Text("no_stories_title".localized)
-                    .font(.appH1)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                
-                Text("no_stories_subtitle".localized)
-                    .font(.appSubtitle)
+                    .font(.appH2)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
             }
@@ -179,17 +152,35 @@ struct MyStoriesScreen: View {
         Button(action: {
             showStoryCreator = true
         }) {
-            Text("create_story".localized)
-                .font(.appSubtitle)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: Constants.buttonHeight)
-                .background(AppColors.contrastPrimary)
-                .cornerRadius(Constants.cornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                        .stroke(Color(red: 0.95, green: 0.75, blue: 0.85), lineWidth: 2)
-                )
+            HStack(spacing: 20) {
+                Image("i_4")
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("create_new_story".localized)
+                        .font(.appSubtitle)
+                        .foregroundColor(.white)
+                    Text("create_story_subtitle".localized)
+                        .font(.appCaption)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.appBackIcon)
+                    .foregroundColor(.white.opacity(0.7))
+            }
+            .padding(20)
+            .frame(height: 70)
+            .background(AppColors.contrastPrimary)
+            .cornerRadius(Constants.cornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                    .stroke(Color(red: 0.95, green: 0.75, blue: 0.85), lineWidth: 2)
+            )
+            .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
         }
         .padding(.horizontal, Constants.horizontalPadding)
     }
@@ -211,13 +202,14 @@ struct MyStoriesScreen: View {
             selectedStory = story
             showStoryView = true
         }) {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 6) {
                 storyCardHeader(story)
                 storyCardPreview(story)
             }
             .padding(Constants.cardPadding)
             .background(AppColors.fieldGradient)
             .cornerRadius(Constants.cornerRadius)
+            .opacity(0.8)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
                     .stroke(Color.white, lineWidth: Constants.borderWidth)
@@ -233,18 +225,18 @@ struct MyStoriesScreen: View {
     }
     
     private func storyCardHeader(_ story: Story) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(story.title)
-                    .font(.appSubtitle)
+                    .font(.appH2)
                     .foregroundColor(AppColors.darkText)
                     .lineLimit(1)
                 
                 Spacer()
                 
-                Text(dateFromString(story.created_at ?? ""), format: .dateTime.day().month().year().hour().minute())
-                    .font(.appSmall)
-                    .foregroundColor(AppColors.subtleText)
+                Text(dateFromString(story.created_at ?? ""), format: .dateTime.day().month().year())
+                    .font(.appCaption)
+                    .foregroundColor(AppColors.darkText.opacity(0.8))
             }
             
             if let heroNames = story.hero_names, !heroNames.isEmpty {
@@ -259,15 +251,15 @@ struct MyStoriesScreen: View {
     private func storyCardPreview(_ story: Story) -> some View {
         if let storyIdea = story.story_idea, !storyIdea.isEmpty {
             Text(storyIdea)
-                .font(.appStoryPreview)
-                .foregroundColor(AppColors.subtleText)
+                .font(.appCaption)
+                .foregroundColor(AppColors.darkText.opacity(0.8))
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
                 .lineSpacing(2)
         } else {
             Text("No story idea available")
-                .font(.appStoryPreview)
-                .foregroundColor(AppColors.subtleText)
+                .font(.appCaption)
+                .foregroundColor(AppColors.darkText.opacity(0.8))
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
                 .lineSpacing(2)

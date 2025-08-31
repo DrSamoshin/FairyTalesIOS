@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(comm:*)",
+      "Read(/private/tmp/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

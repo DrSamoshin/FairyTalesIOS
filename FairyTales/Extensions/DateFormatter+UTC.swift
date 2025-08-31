@@ -12,15 +12,23 @@ extension DateFormatter {
     /// Парсит UTC дату из строки и возвращает Date для отображения в локальном часовом поясе
     static func parseUTCDate(from dateString: String) -> Date {
         let formatter = ISO8601DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "UTC") // Явно указываем, что входящие данные в UTC
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         
-        guard let utcDate = formatter.date(from: dateString) else {
-            return Date() // Fallback на текущую дату
+        if let utcDate = formatter.date(from: dateString) {
+            return utcDate
         }
         
-        // Дата автоматически будет отображаться в локальном часовом поясе
-        // когда используется Text(..., style: .date) или другие SwiftUI форматтеры
-        return utcDate
+        // Fallback для формата без миллисекунд
+        let fallbackFormatter = ISO8601DateFormatter()
+        fallbackFormatter.timeZone = TimeZone(identifier: "UTC")
+        fallbackFormatter.formatOptions = [.withInternetDateTime]
+        
+        if let fallbackDate = fallbackFormatter.date(from: dateString) {
+            return fallbackDate
+        }
+        
+        return Date() // Fallback на текущую дату
     }
     
     /// Форматирует дату для отображения в локальном часовом поясе

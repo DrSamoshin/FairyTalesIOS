@@ -27,6 +27,7 @@ struct StoryCreatorScreen: View {
     @State private var showStoryView = false
     @State private var showStreamingView = false
     @State private var showingAlert = false
+    @State private var showingSubscriptionPrompt = false
     
     // Animation states
     @State private var titleOpacity: Double = 0.0
@@ -56,35 +57,30 @@ struct StoryCreatorScreen: View {
     }
     
     var body: some View {
-        Group {
-            if subscriptionManager.canCreateStory() {
-                NavigationStack {
-                    storyCreatorContent
-                }
-                .alert(isTimeoutError ? "story_timeout_title".localized : "Error", isPresented: $showingAlert) {
-                    alertButtons
-                } message: {
-                    Text(storyService.errorMessage ?? "Unknown error")
-                }
-                .onChange(of: storyService.errorMessage) { _, newError in
-                    showingAlert = newError != nil
-                }
-                .navigationDestination(isPresented: $showStoryView) {
-                    if let story = storyService.currentStory {
-                        StoryViewScreen(story: story)
-                    }
-                }
-                .navigationDestination(isPresented: $showStreamingView) {
-                    StoryStreamingScreen(storyData: createStoryGenerateRequest())
-                }
-            } else {
-                // Show subscription screen directly
-                SubscriptionScreen()
+        NavigationStack {
+            storyCreatorContent
+        }
+        .alert(isTimeoutError ? "story_timeout_title".localized : "Error", isPresented: $showingAlert) {
+            alertButtons
+        } message: {
+            Text(storyService.errorMessage ?? "Unknown error")
+        }
+        .onChange(of: storyService.errorMessage) { _, newError in
+            showingAlert = newError != nil
+        }
+        .navigationDestination(isPresented: $showStoryView) {
+            if let story = storyService.currentStory {
+                StoryViewScreen(story: story)
             }
+        }
+        .navigationDestination(isPresented: $showStreamingView) {
+            StoryStreamingScreen(storyData: createStoryGenerateRequest())
+        }
+        .sheet(isPresented: $showingSubscriptionPrompt) {
+            SubscriptionScreen()
         }
         .onAppear {
             Task {
-                await subscriptionManager.checkSubscriptionStatusIfNeeded()
                 _ = await heroService.fetchUserHeroes()
             }
         }
@@ -244,9 +240,8 @@ struct StoryCreatorScreen: View {
                         }
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                .background(AppColors.fieldGradient.opacity(0.7))
+                .padding(16)
+                .background(AppColors.fieldGradient.opacity(0.3))
                 .cornerRadius(Constants.cornerRadius)
                 .overlay(
                     RoundedRectangle(cornerRadius: Constants.cornerRadius)
@@ -284,14 +279,13 @@ struct StoryCreatorScreen: View {
                     Image(systemName: "chevron.down")
                         .foregroundColor(.gray)
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
+                .padding(16)
             }
             .background(AppColors.fieldGradient)
             .cornerRadius(Constants.cornerRadius)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                    .stroke(!selectedHeroes.isEmpty ? Color.white : Color.white.opacity(0.5), lineWidth: 2)
+                    .stroke(Color.white, lineWidth: 2)
             )
             .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
         }
@@ -348,7 +342,7 @@ struct StoryCreatorScreen: View {
                             .font(.appCaption)
                             .foregroundColor(selectedStyle == style ? .white : AppColors.darkText)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
+                            .padding(16)
                             .background(selectedStyle == style ? AppColors.contrastPrimary : AppColors.fieldGradient)
                             .cornerRadius(12)
                             .overlay(
@@ -359,8 +353,7 @@ struct StoryCreatorScreen: View {
                     .buttonStyle(PlainButtonStyle())
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(16)
             .background(AppColors.fieldGradient.opacity(0.3))
             .cornerRadius(Constants.cornerRadius)
             .overlay(
@@ -386,7 +379,7 @@ struct StoryCreatorScreen: View {
                             .font(.appCaptionSemibold)
                             .foregroundColor(selectedLanguage == language ? .white : AppColors.darkText)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
+                            .padding(16)
                             .background(selectedLanguage == language ? AppColors.contrastSecondary : AppColors.fieldGradient)
                             .cornerRadius(12)
                             .overlay(
@@ -397,8 +390,7 @@ struct StoryCreatorScreen: View {
                     .buttonStyle(PlainButtonStyle())
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(16)
             .background(AppColors.fieldGradient.opacity(0.3))
             .cornerRadius(Constants.cornerRadius)
             .overlay(
@@ -461,8 +453,7 @@ struct StoryCreatorScreen: View {
                 ), in: 1...5, step: 1)
                 .tint(AppColors.contrastPrimary.opacity(0.8))
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(16)
             .background(AppColors.fieldGradient)
             .cornerRadius(Constants.cornerRadius)
             .overlay(
@@ -508,7 +499,7 @@ struct StoryCreatorScreen: View {
     // MARK: - Background
     private var backgroundView: some View {
         ZStack {
-            Image("background_5")
+            Image("bg_1")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
@@ -562,6 +553,10 @@ struct StoryCreatorScreen: View {
     
     // MARK: - Helper Methods
     private func generateStory() {
+        if !subscriptionManager.canCreateStory() {
+            showingSubscriptionPrompt = true
+            return
+        }
         
         showStreamingView = true
     }

@@ -72,6 +72,7 @@ struct HeroesScreen: View {
                 .padding(.horizontal, Constants.horizontalPadding)
                 .padding(.top, Constants.topPadding)
                 .animatedContent(opacity: contentOpacity, offset: contentOffset)
+                .padding(.bottom, 6)
             
             heroesHeader
                 .padding(.horizontal, Constants.horizontalPadding)
@@ -278,6 +279,7 @@ struct HeroesScreen: View {
             )
         )
         .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+        .opacity(0.8)
         .overlay(
             RoundedRectangle(cornerRadius: Constants.cornerRadius)
                 .strokeBorder(Constants.cardBorderColor, lineWidth: Constants.cardBorderWidth)

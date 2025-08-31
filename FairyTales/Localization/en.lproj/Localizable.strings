@@ -31,7 +31,6 @@
 "heroes" = "Heroes";
 "heroes_subtitle" = "Meet your story characters";
 "settings" = "Settings";
-"settings_subtitle" = "Customize your experience";
 
 // Story Creator Screen
 "create_story_title" = "Create Your Story";
@@ -41,21 +40,23 @@
 "hero_name_label" = "Hero Name";
 "hero_name_placeholder" = "Enter hero name";
 "hero_select_label" = "Choose Your Hero";
-"select_hero" = "Select Hero";
 "select_hero_placeholder" = "Choose a hero for your story";
 "add_more_heroes" = "Add more heroes";
 "loading_heroes" = "Loading heroes...";
 "create_hero" = "Create story character";
 "appearance" = "Appearance";
+"appearance_placeholder" = "Golden hair, blue eyes, tall and brave...";
 "personality" = "Personality";
+"personality_placeholder" = "Kind, curious, loves helping others...";
 "power" = "Power";
+"power_placeholder" = "Can fly, super strength, magic spells...";
 "age_label" = "Age";
 "age_format" = "%d years old";
 "child_gender_label" = "Hero Gender";
 "story_style_label" = "Story Style";
 "language_label" = "Language";
 "story_idea_label" = "Story Idea";
-"story_idea_placeholder" = "Enter your story idea...";
+"story_idea_placeholder" = "A brave princess saves a magical forest, An adventure in space with friendly aliens...";
 "story_length_label" = "Story Length";
 "story_length_very_short" = "Very Short";
 "story_length_short" = "Short";
@@ -71,11 +72,8 @@
 // Story Styles
 "adventure" = "Adventure";
 "fantasy" = "Fantasy";
-"comedy" = "Comedy";
 "educational" = "Educational";
 "mystery" = "Mystery";
-
-// Languages
 
 // Subscription
 "subscription_title" = "Premium Access";
@@ -85,6 +83,7 @@
 "subscription_feature_personalized" = "Personalized for each child";
 "subscription_feature_multilingual" = "Available in multiple languages";
 "subscription_feature_instant" = "Instant story creation";
+"purchase_info" = "You'll be asked to confirm your purchase with Face ID or Apple ID";
 
 // Story View Screen
 "share_story" = "Share Story";
@@ -93,12 +92,28 @@
 "story_saved_message" = "Your story has been saved! You can delete it or return to continue exploring.";
 "delete_story" = "Delete Story";
 "return_back" = "Return";
-"cancel" = "Cancel";
 
 // My Stories Screen
 "loading_stories" = "Loading your stories...";
 "no_stories_title" = "No Stories Yet";
 "no_stories_subtitle" = "You haven't created any magical tales yet. Start your first adventure!";
+"create_story" = "Create Story";
+"hero_prefix" = "Hero: %@";
+"heroes_prefix" = "Heroes: ";
+
+// Heroes Screen
+"create_hero_subtitle" = "Design your story character";
+"no_heroes_yet" = "No Heroes Yet";
+"create_hero_button" = "Create Hero";
+
+// Hero Management
+"edit_hero" = "Edit Hero";
+"edit_hero_subtitle" = "Update your hero's details";
+"save_hero" = "Save Hero";
+"delete_hero" = "Delete Hero";
+"confirm_delete_hero" = "Are you sure you want to delete this hero?";
+"failed_to_delete_hero" = "Failed to delete hero";
+"hero_name_required" = "Hero name is required";
 
 // Settings Screen
 "settings_title" = "Settings";
@@ -108,44 +123,34 @@
 "terms_of_service" = "Terms of Service";
 "logout" = "Logout";
 "logout_confirmation" = "Are you sure you want to logout?";
+"logging_out" = "Logging out...";
 
-// My Stories Screen
-"no_stories_title" = "No Stories Yet";
-"no_stories_subtitle" = "Create your first magical story!";
-"create_story" = "Create Story";
-"hero_prefix" = "Hero: %@";
-"heroes_prefix" = "Heroes: ";
+// Legal Content
+"privacy_policy_title" = "Privacy Policy";
+"terms_title" = "Terms of Service";
+"error_occurred" = "Error Occurred";
+"try_again" = "Try Again";
+"no_content_available" = "No Content Available";
+"content_not_loaded" = "Content could not be loaded at this time";
 
 // Common
 "back" = "Back";
 "return" = "Return";
 "done" = "Done";
 "loading" = "Loading...";
+"cancel" = "Cancel";
 
 // Auth Errors
 "user_not_found_suggestion" = "User not found. Would you like to create an account instead?";
 "user_already_exists_suggestion" = "User already exists. Would you like to sign in instead?";
 "server_error_suggestion" = "Server is having issues. Please try again later or contact support.";
-"logging_out" = "Logging out...";
-
-// Legal Content
-"privacy_policy_title" = "Privacy Policy";
-"terms_title" = "Terms of Service";
-"version" = "Version:";
-"last_updated" = "Last updated:";
-"error_occurred" = "Error Occurred";
-"try_again" = "Try Again";
-"no_content_available" = "No Content Available";
-"content_not_loaded" = "Content could not be loaded at this time";
-
-// Story Generation Progress
+"auth_timeout_message" = "Connection timeout occurred. Please check your internet connection and try again.";
 
 // Timeout Messages
 "story_timeout_title" = "Story is Still Being Created";
 "story_timeout_message" = "Your story is taking longer than expected to generate, but don't worry! It's still being created in the background. Please check your stories in a few minutes - it should appear there automatically.";
 "check_stories_later" = "Check My Stories Later";
 "timeout_error_occurred" = "Request timed out, but your story may still be generating...";
-"auth_timeout_message" = "Connection timeout occurred. Please check your internet connection and try again.";
 
 // Server Health Messages
 "server_unavailable" = "Server is currently unavailable. Please try again later.";
@@ -160,7 +165,6 @@
 "waiting_for_story" = "Waiting for your magical story...";
 "generation_error" = "Generation Error";
 "unknown_error" = "Unknown error occurred";
-"the_end" = "The End";
 "retry" = "Retry";
 
 // Streaming Service Messages
@@ -174,62 +178,3 @@
 "invalid_response" = "Invalid server response";
 "connection_error" = "Connection error occurred";
 "generation_completed_connection_closed" = "Story generation completed";
-
-// Rating
-"enjoy_app_question" = "Enjoying Fairy Tales?";
-"rate_app_message" = "If you love creating magical stories, please consider rating our app!";
-"rate_now" = "Rate Now";
-"maybe_later" = "Maybe Later";
-"no_thanks" = "No Thanks";
-
-// Hero Management
-"edit_hero" = "Edit Hero";
-"edit_hero_subtitle" = "Update your hero's details";
-"save_hero" = "Save Hero";
-"delete_hero" = "Delete Hero";
-"confirm_delete_hero" = "Are you sure you want to delete this hero?";
-"hero_deleted_successfully" = "Hero deleted successfully";
-"failed_to_delete_hero" = "Failed to delete hero";
-"cancel" = "Cancel";
-
-// Subscription Required
-"subscription_required_title" = "Subscription Required";
-"subscription_required_subtitle" = "Unlock unlimited story creation with a premium subscription";
-"get_subscription" = "Get Subscription";
-"purchase_info" = "You'll be asked to confirm your purchase with Face ID or Apple ID";
-
-// Heroes Screen
-"create_hero" = "Create Hero";
-"create_hero_subtitle" = "Design your story character";
-"loading_heroes" = "Loading your heroes...";
-"no_heroes_yet" = "No Heroes Yet";
-"create_first_hero" = "Create your first story character!";
-"create_hero_button" = "Create Hero";
-
-// Hero Creator Screen  
-"basic_info" = "Basic Information";
-"hero_name_placeholder" = "Enter hero name";
-"hero_age_placeholder" = "Age";
-"hero_description_placeholder" = "Brief description of your hero";
-"choose_avatar" = "Choose Avatar";
-"additional_details" = "Additional Details";
-"hero_appearance_placeholder" = "Describe how your hero looks";
-"hero_personality_placeholder" = "Describe your hero's personality";
-"hero_abilities_placeholder" = "What special abilities does your hero have?";
-"hero_backstory_placeholder" = "Tell us your hero's background story";
-"hero_name_required" = "Hero name is required";
-
-// Hero Gender
-"hero_gender_male" = "Male";
-"hero_gender_female" = "Female";
-"hero_gender_neutral" = "Neutral";
-
-// Hero Avatars
-"hero_avatar_knight" = "Knight";
-"hero_avatar_princess" = "Princess";
-"hero_avatar_wizard" = "Wizard";
-"hero_avatar_warrior" = "Warrior";
-"hero_avatar_archer" = "Archer";
-"hero_avatar_healer" = "Healer";
-"hero_avatar_dragon" = "Dragon";
-"hero_avatar_fairy" = "Fairy";

@@ -111,14 +111,10 @@ struct AuthScreen: View {
     
     private var welcomeScreen: some View {
         VStack(spacing: Constants.vStackSpacing) {
-            Spacer()
             welcomeHeader
             Spacer()
-            Spacer()
-            welcomeDescription
             signInButton
             legalLinksSection
-            Spacer(minLength: Constants.bottomSpacing)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(backgroundView)
@@ -132,6 +128,7 @@ struct AuthScreen: View {
 //            logoButton
             headerTexts
         }
+        .padding(.top, 120)
     }
     
     private var logoButton: some View {
@@ -207,17 +204,13 @@ struct AuthScreen: View {
     }
     
     private var legalLinksSection: some View {
-        HStack(spacing: 16) {
+        VStack(spacing: 8) {
             Button(action: { showingPrivacyPolicy = true }) {
                 Text("privacy_policy".localized)
                     .font(.appCaption)
                     .foregroundColor(.white.opacity(0.8))
                     .underline()
             }
-            
-            Text("•")
-                .font(.appCaption)
-                .foregroundColor(.white.opacity(0.5))
             
             Button(action: { showingTermsOfService = true }) {
                 Text("terms_of_service".localized)
@@ -227,12 +220,13 @@ struct AuthScreen: View {
             }
         }
         .padding(.horizontal, Constants.contentPadding)
+        .padding(.bottom, 32)
         .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
     
     private var backgroundView: some View {
         ZStack {
-            Image("background_13")
+            Image("bg_11")
                 .resizable()
                 .scaledToFill()
                 .scaleEffect(backgroundScale)
