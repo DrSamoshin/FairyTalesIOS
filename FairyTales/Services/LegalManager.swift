@@ -30,10 +30,8 @@ final class LegalManager {
         do {
             let legalContent = try await networkManager.getPrivacyPolicy()
             privacyPolicy = legalContent
-            print("Privacy Policy loaded successfully")
         } catch {
             errorMessage = "Failed to load Privacy Policy"
-            print("Privacy Policy network error: \(error)")
         }
         
         isLoading = false
@@ -47,10 +45,8 @@ final class LegalManager {
         do {
             let legalContent = try await networkManager.getTermsOfService()
             termsOfService = legalContent
-            print("Terms of Service loaded successfully")
         } catch {
             errorMessage = "Failed to load Terms of Service"
-            print("Terms of Service network error: \(error)")
         }
         
         isLoading = false

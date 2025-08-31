@@ -16,11 +16,6 @@ struct FairyTalesApp: App {
     @State private var subscriptionManager = SubscriptionManager.shared
     
     init() {
-        print("FAIRYTALES APP STARTING")
-        print("Device: iOS \(UIDevice.current.systemVersion)")
-        print("Bundle ID: \(Bundle.main.bundleIdentifier ?? "Unknown")")
-        
-        // Track app launch for potential rating request
         UserDefaults.standard.set(
             UserDefaults.standard.integer(forKey: "app_launch_count") + 1,
             forKey: "app_launch_count"
@@ -54,39 +49,25 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            print("CONTENTVIEW APPEARED")
-            print("Authenticated: \(authManager.isAuthenticated)")
-            print("Server Available: \(healthCheckManager.isServerAvailable)")
             if !hasPerformedInitialHealthCheck {
-                print("FairyTalesApp: ContentView appeared, starting initial health check...")
                 hasPerformedInitialHealthCheck = true
                 Task {
-                    print("FairyTalesApp: About to call performHealthCheckWithRetry...")
                     await healthCheckManager.performHealthCheckWithRetry()
-                    print("FairyTalesApp: Health check completed in ContentView")
-                    
-                    // Initialize subscription check after successful health check
                     await subscriptionManager.performInitialCheckIfNeeded()
                     
-                    // Check for rating request after successful launch
                     if authManager.isAuthenticated && healthCheckManager.isServerAvailable {
                         requestAppStoreRating()
                     }
                 }
-            } else {
-                print("FairyTalesApp: ContentView appeared but health check already performed")
             }
         }
         .alert("server_health_error_title".localized, isPresented: .constant(!healthCheckManager.isServerAvailable && !healthCheckManager.isCheckingHealth)) {
             Button("retry_connection".localized) {
-                print("FairyTalesApp: User requested retry connection")
                 Task {
                     await healthCheckManager.performHealthCheckWithRetry()
                 }
             }
             Button("continue_offline".localized) {
-                print("FairyTalesApp: User chose to continue offline")
-                // Allow user to continue without server
                 healthCheckManager.resetHealthStatus()
             }
         } message: {

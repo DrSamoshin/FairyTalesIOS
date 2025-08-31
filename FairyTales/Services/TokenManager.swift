@@ -78,7 +78,7 @@ class TokenManager {
         let status = SecItemAdd(query as CFDictionary, nil)
         
         if status != errSecSuccess {
-            print("Failed to save token to keychain: \(status)")
+            // Silent failure - keychain operations can fail in various scenarios
         }
     }
     
@@ -111,7 +111,7 @@ class TokenManager {
         let status = SecItemDelete(query as CFDictionary)
         
         if status != errSecSuccess && status != errSecItemNotFound {
-            print("Failed to delete token from keychain: \(status)")
+            // Silent failure - keychain operations can fail in various scenarios
         }
     }
 }

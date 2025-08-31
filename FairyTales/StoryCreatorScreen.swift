@@ -12,13 +12,12 @@ struct StoryCreatorScreen: View {
     @StateObject private var localizationManager = LocalizationManager.shared
     @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var storyService = StoryService.shared
+    @State private var heroService = HeroService.shared
     @Environment(\.presentationMode) var presentationMode
     
     // Form data
     @State private var storyName = ""
-    @State private var heroName = ""
-    @State private var age = 5
-    @State private var childGender = "boy"
+    @State private var selectedHeroes: [Hero] = []
     @State private var storyLength = 3
     @State private var idea = ""
     @State private var selectedStyle = "Adventure"
@@ -49,7 +48,6 @@ struct StoryCreatorScreen: View {
         static let fieldSpacing: CGFloat = 8
         
         static let styles = ["Adventure", "Fantasy", "Educational", "Mystery"]
-        static let genders = ["boy", "girl"]
     }
     
     private var isTimeoutError: Bool {
@@ -87,6 +85,7 @@ struct StoryCreatorScreen: View {
         .onAppear {
             Task {
                 await subscriptionManager.checkSubscriptionStatusIfNeeded()
+                _ = await heroService.fetchUserHeroes()
             }
         }
     }
@@ -97,6 +96,7 @@ struct StoryCreatorScreen: View {
             backButton
                 .padding(.horizontal, Constants.contentPadding)
                 .padding(.top, 20)
+                .padding(.bottom, 6)
                 .animatedContent(opacity: titleOpacity, offset: titleOffset)
             
             scrollableForm
@@ -120,7 +120,6 @@ struct StoryCreatorScreen: View {
                 Spacer(minLength: 30)
             }
         }
-        .scrollFadeEffect(fadeHeight: 25, direction: .top)
     }
     
     @ViewBuilder
@@ -189,9 +188,7 @@ struct StoryCreatorScreen: View {
     private var storyForm: some View {
         VStack(spacing: Constants.formSpacing) {
             formField(label: "story_name_label".localized, placeholder: "story_name_placeholder".localized, text: $storyName)
-            formField(label: "hero_name_label".localized, placeholder: "hero_name_placeholder".localized, text: $heroName)
-            ageField
-            genderField
+            heroSelectionField
             styleField
             languageField
             ideaField
@@ -231,100 +228,109 @@ struct StoryCreatorScreen: View {
         }
     }
     
-    private var ageField: some View {
+    private var heroSelectionField: some View {
         VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
-            Text("age_label".localized)
+            Text("hero_select_label".localized)
                 .font(.appLabel)
                 .foregroundColor(.white)
             
-            VStack(spacing: 8) {
-                HStack {
-                    Text("age_format".localized(age))
-                        .font(.appLabel)
-                        .foregroundColor(AppColors.darkText)
-                    Spacer()
+            // Selected heroes display
+            if !selectedHeroes.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    ForEach(selectedHeroes, id: \.id) { hero in
+                        HStack {
+                            selectedHeroChip(hero: hero)
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(AppColors.fieldGradient.opacity(0.7))
+                .cornerRadius(Constants.cornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                        .stroke(Color.white, lineWidth: 2)
+                )
+                .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
+            }
+            
+            Menu {
+                NavigationLink(destination: HeroCreatorScreen()) {
+                    HStack {
+                        Image(systemName: "plus.circle")
+                        Text("create_hero".localized)
+                    }
                 }
                 
-                Slider(value: Binding(
-                    get: { Double(age) },
-                    set: { age = Int($0.rounded()) }
-                ), in: 3...12, step: 1)
-                .tint(AppColors.contrastPrimary.opacity(0.8))
+                ForEach(heroService.heroes, id: \.id) { hero in
+                    Button(action: {
+                        toggleHeroSelection(hero)
+                    }) {
+                        HStack {
+                            if selectedHeroes.contains(where: { $0.id == hero.id }) {
+                                Image(systemName: "checkmark")
+                            }
+                            Text(hero.name)
+                        }
+                    }
+                }
+            } label: {
+                HStack {
+                    Text(selectedHeroes.isEmpty ? "select_hero_placeholder".localized : "add_more_heroes".localized)
+                        .font(.appInputField)
+                        .foregroundColor(selectedHeroes.isEmpty ? .gray : AppColors.darkText)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(.gray)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
             .background(AppColors.fieldGradient)
             .cornerRadius(Constants.cornerRadius)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                    .stroke(Color.white, lineWidth: 2)
+                    .stroke(!selectedHeroes.isEmpty ? Color.white : Color.white.opacity(0.5), lineWidth: 2)
             )
             .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
         }
     }
     
-    private var genderField: some View {
-        VStack(alignment: .leading, spacing: Constants.fieldSpacing) {
-            Text("child_gender_label".localized)
-                .font(.appLabel)
-                .foregroundColor(.white)
+    private func selectedHeroChip(hero: Hero) -> some View {
+        HStack(spacing: 6) {
+            Text(hero.name)
+                .font(.appCaption)
+                .foregroundColor(AppColors.darkText)
             
-            HStack(spacing: 12) {
-                ForEach(Constants.genders, id: \.self) { gender in
-                    genderButton(for: gender)
-                }
+            Button(action: {
+                removeHero(hero)
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.gray)
+                    .font(.caption)
             }
-            .shadow(color: AppColors.softShadow, radius: 4, x: 0, y: 2)
         }
-    }
-    
-    private func genderButton(for gender: String) -> some View {
-        Button(action: {
-            childGender = gender
-        }) {
-            genderButtonContent(for: gender)
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-    
-    private func genderButtonContent(for gender: String) -> some View {
-        let isSelected = childGender == gender
-        
-        return HStack(spacing: 8) {
-            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(isSelected ? .white : .gray)
-                .font(.appBody)
-            
-            Text(gender.localized)
-                .font(.appLabelMedium)
-                .foregroundColor(isSelected ? .white : AppColors.darkText)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
-        .padding(.horizontal, 16)
-        .background(backgroundForGenderButton(isSelected: isSelected, gender: gender))
-        .cornerRadius(Constants.cornerRadius)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(Color.white.opacity(0.9))
+        .cornerRadius(12)
         .overlay(
-            RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                .stroke(strokeColorForGenderButton(isSelected: isSelected), lineWidth: 2)
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(hero.gender == "boy" ? Color.blue : Color.pink, lineWidth: 2)
         )
     }
     
-    @ViewBuilder
-    private func backgroundForGenderButton(isSelected: Bool, gender: String) -> some View {
-        if isSelected {
-            if gender == "boy" {
-                AppColors.contrastSecondary
-            } else {
-                AppColors.contrastPrimary
-            }
+    private func toggleHeroSelection(_ hero: Hero) {
+        if selectedHeroes.contains(where: { $0.id == hero.id }) {
+            removeHero(hero)
         } else {
-            AppColors.fieldGradient
+            selectedHeroes.append(hero)
         }
     }
     
-    private func strokeColorForGenderButton(isSelected: Bool) -> Color {
-        return isSelected ? Color.white : Color.white.opacity(0.5)
+    private func removeHero(_ hero: Hero) {
+        selectedHeroes.removeAll { $0.id == hero.id }
     }
     
     private var styleField: some View {
@@ -493,7 +499,8 @@ struct StoryCreatorScreen: View {
                         .stroke(Color(red: 0.95, green: 0.75, blue: 0.85), lineWidth: 2)
                 )
         }
-        .disabled(storyName.isEmpty || heroName.isEmpty || idea.isEmpty)
+        .disabled(storyName.isEmpty || selectedHeroes.isEmpty || idea.isEmpty)
+        .opacity(storyName.isEmpty || selectedHeroes.isEmpty || idea.isEmpty ? 0.5 : 1.0)
         .padding(.horizontal, Constants.contentPadding)
         .animatedContent(opacity: formOpacity, offset: formOffset)
     }
@@ -555,12 +562,6 @@ struct StoryCreatorScreen: View {
     
     // MARK: - Helper Methods
     private func generateStory() {
-        print("Starting story generation with streaming...")
-        print("Story: \(storyName), Hero: \(heroName), Age: \(age)")
-        print("Gender: \(childGender)")
-        print("Style: \(selectedStyle), Language: \(selectedLanguage.rawValue)")
-        print("Length: \(storyLength) - \(getLengthDescription(for: storyLength))")
-        print("Idea: \(idea)")
         
         showStreamingView = true
     }
@@ -568,13 +569,11 @@ struct StoryCreatorScreen: View {
     private func createStoryGenerateRequest() -> StoryGenerateRequest {
         return storyService.createStoryRequest(
             storyName: storyName,
-            heroName: heroName,
             storyIdea: idea,
             storyStyle: selectedStyle,
             language: selectedLanguage.rawValue,
-            age: age,
             storyLength: storyLength,
-            childGender: childGender
+            selectedHeroes: selectedHeroes
         )
     }
     

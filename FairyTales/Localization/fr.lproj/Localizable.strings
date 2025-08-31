@@ -1,0 +1,214 @@
+/* 
+  Localizable.strings (French)
+  FairyTales
+  
+  Created by Siarhei Samoshyn on 08/08/2025.
+*/
+
+// Auth Screen
+"app_title" = "Fairy Tales";
+"welcome_subtitle" = "Créez des contes magiques pour vos enfants";
+"welcome_description" = "Transformez l'heure du coucher en aventure ! Générez des contes personnalisés où votre enfant devient le héros. Chaque histoire est créée avec l'IA pour stimuler l'imagination et créer des moments inoubliables.";
+
+// Apple Sign In Errors
+"apple_signin_unknown_error" = "Une erreur inattendue s'est produite. Veuillez réessayer.";
+"apple_signin_invalid_response" = "Réponse invalide d'Apple. Veuillez réessayer.";
+"apple_signin_not_handled" = "La demande de connexion n'a pas pu être traitée. Veuillez réessayer.";
+"apple_signin_not_interactive" = "La connexion avec Apple n'est pas disponible dans ce contexte.";
+"apple_signin_failed" = "La connexion avec Apple a échoué. Vérifiez vos paramètres et réessayez.";
+"apple_signin_excluded_credential" = "Cet Apple ID ne peut pas être utilisé pour la connexion. Veuillez essayer un autre compte.";
+"apple_signin_credential_import" = "Impossible d'importer les identifiants Apple ID. Veuillez réessayer.";
+"apple_signin_credential_export" = "Impossible d'exporter les identifiants Apple ID. Veuillez réessayer.";
+"apple_signin_general_error" = "Impossible de se connecter. Veuillez réessayer plus tard.";
+
+// Main Screen
+"main_title" = "Fairy Tales";
+"main_subtitle" = "Que souhaitez-vous faire ?";
+"create_new_story" = "Créer une Nouvelle Histoire";
+"create_story_subtitle" = "Commencez votre aventure magique";
+"my_stories" = "Mes Histoires";
+"my_stories_subtitle" = "Lisez vos contes sauvegardés";
+"heroes" = "Héros";
+"heroes_subtitle" = "Rencontrez les personnages";
+"settings" = "Paramètres";
+"settings_subtitle" = "Personnalisez votre expérience";
+
+// Story Creator Screen
+"create_story_title" = "Créez Votre Histoire";
+"story_creator_subtitle" = "Remplissez les détails pour créer un conte magique";
+"story_name_label" = "Nom de l'Histoire";
+"story_name_placeholder" = "Entrez le nom de l'histoire";
+"hero_name_label" = "Nom du Héros";
+"hero_name_placeholder" = "Entrez le nom du héros";
+"age_label" = "Âge";
+"age_format" = "%d ans";
+"child_gender_label" = "Genre du Héros";
+"story_style_label" = "Style d'Histoire";
+"language_label" = "Langue";
+"story_idea_label" = "Idée d'Histoire";
+"story_idea_placeholder" = "Entrez votre idée d'histoire...";
+"story_length_label" = "Durée de l'Histoire";
+"story_length_very_short" = "Très Courte";
+"story_length_short" = "Courte";
+"story_length_medium" = "Moyenne";
+"story_length_long" = "Longue";
+"story_length_very_long" = "Très Longue";
+"generate_story" = "Générer l'Histoire";
+
+// Gender
+"boy" = "Garçon";
+"girl" = "Fille";
+
+// Story Styles
+"adventure" = "Aventure";
+"fantasy" = "Fantaisie";
+"comedy" = "Comédie";
+"educational" = "Éducatif";
+"mystery" = "Mystère";
+
+// Languages
+
+// Subscription
+"subscription_title" = "Accès Premium";
+"subscription_subtitle" = "Débloquez des histoires magiques illimitées pour vos enfants";
+"subscription_manage" = "Gérer l'Abonnement";
+"subscription_feature_unlimited" = "Génération illimitée d'histoires";
+"subscription_feature_personalized" = "Personnalisé pour chaque enfant";
+"subscription_feature_multilingual" = "Disponible en plusieurs langues";
+"subscription_feature_instant" = "Création instantanée d'histoires";
+
+// Story View Screen
+"share_story" = "Partager l'Histoire";
+"the_end" = "Fin";
+"story_saved_title" = "Histoire Terminée";
+"story_saved_message" = "Votre histoire a été sauvegardée ! Vous pouvez la supprimer ou retourner pour continuer à explorer.";
+"delete_story" = "Supprimer l'Histoire";
+"return_back" = "Retour";
+"cancel" = "Annuler";
+
+// My Stories Screen
+"loading_stories" = "Chargement de vos histoires...";
+"no_stories_title" = "Pas Encore d'Histoires";
+"no_stories_subtitle" = "Vous n'avez pas encore créé de contes magiques. Commencez votre première aventure !";
+
+// Settings Screen
+"settings_title" = "Paramètres";
+"language_setting" = "Langue";
+"privacy_policy" = "Politique de Confidentialité";
+"terms_of_service" = "Conditions d'Utilisation";
+"logout" = "Se déconnecter";
+"logout_confirmation" = "Êtes-vous sûr de vouloir vous déconnecter ?";
+
+// My Stories Screen
+"no_stories_title" = "Aucune Histoire Encore";
+"no_stories_subtitle" = "Créez votre première histoire magique !";
+"create_story" = "Créer une Histoire";
+"hero_prefix" = "Héros : %@";
+
+// Common
+"back" = "Retour";
+"done" = "Terminé";
+"loading" = "Chargement...";
+"logging_out" = "Déconnexion...";
+
+// Auth Errors
+"user_not_found_suggestion" = "Utilisateur non trouvé. Souhaitez-vous créer un compte ?";
+"user_already_exists_suggestion" = "L'utilisateur existe déjà. Souhaitez-vous vous connecter ?";
+"server_error_suggestion" = "Problèmes de serveur. Veuillez réessayer plus tard ou contacter le support.";
+
+// Legal Content
+"privacy_policy_title" = "Politique de confidentialité";
+"terms_title" = "Conditions d'utilisation";
+"version" = "Version :";
+"last_updated" = "Dernière mise à jour :";
+"error_occurred" = "Une erreur s'est produite";
+"try_again" = "Réessayer";
+"no_content_available" = "Contenu non disponible";
+"content_not_loaded" = "Le contenu n'a pas pu être chargé pour le moment";
+
+// Story Generation Progress
+
+// Timeout Messages
+"story_timeout_title" = "L'histoire est encore en cours de création";
+"story_timeout_message" = "Votre histoire prend plus de temps que prévu à générer, mais ne vous inquiétez pas ! Elle est encore en cours de création en arrière-plan. Veuillez vérifier vos histoires dans quelques minutes - elle devrait y apparaître automatiquement.";
+"check_stories_later" = "Vérifier mes histoires plus tard";
+"timeout_error_occurred" = "Délai dépassé, mais votre histoire peut encore être en cours de génération...";
+"auth_timeout_message" = "Délai de connexion dépassé. Veuillez vérifier votre connexion internet et réessayer.";
+
+// Server Health Messages
+"server_unavailable" = "Le serveur est actuellement indisponible. Veuillez réessayer plus tard.";
+"server_timeout" = "Le serveur ne répond pas. Veuillez vérifier votre connexion.";
+"no_internet_connection" = "Pas de connexion internet. Vérifiez vos paramètres réseau.";
+"server_error_code" = "Erreur du serveur";
+"server_health_error_title" = "Problème de connexion";
+"retry_connection" = "Réessayer la connexion";
+"continue_offline" = "Continuer hors ligne";
+
+// Story Streaming
+"waiting_for_story" = "En attente de votre histoire magique...";
+"generation_error" = "Erreur de génération";
+"unknown_error" = "Erreur inconnue";
+"the_end" = "Fin";
+"retry" = "Réessayer";
+
+// Streaming Service Messages
+"not_authenticated" = "Connectez-vous pour générer des histoires";
+"invalid_url" = "URL du serveur invalide";
+"encoding_error" = "Erreur de préparation des données";
+"connecting" = "Connexion au générateur d'histoires...";
+"generation_cancelled" = "Génération annulée";
+"generating_story" = "Génération de l'histoire...";
+"error_prefix" = "Erreur : ";
+"invalid_response" = "Réponse du serveur invalide";
+"connection_error" = "Erreur de connexion";
+"generation_completed_connection_closed" = "Génération terminée";
+
+// Rating
+"enjoy_app_question" = "Vous aimez l'application ?";
+"rate_app_message" = "Si vous adorez créer des histoires magiques, veuillez évaluer notre application !";
+"rate_now" = "Évaluer maintenant";
+"maybe_later" = "Peut-être plus tard";
+"no_thanks" = "Non merci";
+
+"purchase_info" = "Il vous sera demandé de confirmer votre achat avec Face ID ou Apple ID";
+
+// Subscription Required
+"subscription_required_title" = "Abonnement requis";
+"subscription_required_subtitle" = "Débloquez la création illimitée d'histoires avec un abonnement premium";
+"get_subscription" = "Obtenir l'abonnement";
+
+// Heroes Screen
+"create_hero" = "Créer un Héros";
+"create_hero_subtitle" = "Concevez votre personnage d'histoire";
+"loading_heroes" = "Chargement de vos héros...";
+"no_heroes_yet" = "Pas Encore de Héros";
+"create_first_hero" = "Créez votre premier personnage d'histoire !";
+"create_hero_button" = "Créer un Héros";
+
+// Hero Creator Screen  
+"basic_info" = "Informations de Base";
+"hero_name_placeholder" = "Entrez le nom du héros";
+"hero_age_placeholder" = "Âge";
+"hero_description_placeholder" = "Brève description de votre héros";
+"choose_avatar" = "Choisir un Avatar";
+"additional_details" = "Détails Supplémentaires";
+"hero_appearance_placeholder" = "Décrivez l'apparence de votre héros";
+"hero_personality_placeholder" = "Décrivez la personnalité de votre héros";
+"hero_abilities_placeholder" = "Quelles capacités spéciales possède votre héros ?";
+"hero_backstory_placeholder" = "Racontez-nous l'histoire de votre héros";
+"hero_name_required" = "Le nom du héros est requis";
+
+// Hero Gender
+"hero_gender_male" = "Masculin";
+"hero_gender_female" = "Féminin";
+"hero_gender_neutral" = "Neutre";
+
+// Hero Avatars
+"hero_avatar_knight" = "Chevalier";
+"hero_avatar_princess" = "Princesse";
+"hero_avatar_wizard" = "Magicien";
+"hero_avatar_warrior" = "Guerrier";
+"hero_avatar_archer" = "Archer";
+"hero_avatar_healer" = "Guérisseur";
+"hero_avatar_dragon" = "Dragon";
+"hero_avatar_fairy" = "Fée";

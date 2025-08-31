@@ -7,16 +7,14 @@
 
 import Foundation
 
-// MARK: - Unified Story Request Model
+// MARK: - Story Request Model
 struct StoryGenerateRequest: Codable {
     let story_name: String
-    let hero_name: String
     let story_idea: String
     let story_style: String
     let language: String
-    let age: Int
     let story_length: Int
-    let child_gender: String
+    let heroes: [Hero]
 }
 
 // Legacy aliases for backward compatibility
@@ -28,8 +26,9 @@ struct Story: Codable, Identifiable {
     let id: String?
     let user_id: String?
     let title: String
-    let content: String
+    let content: String?
     let hero_name: String?
+    let hero_names: [String]?
     let age: Int?
     let story_style: String
     let language: String
@@ -43,6 +42,7 @@ struct Story: Codable, Identifiable {
         case user_id = "user_id"
         case title, content
         case hero_name = "hero_name"
+        case hero_names = "hero_names"
         case age
         case story_style = "story_style"
         case language

@@ -88,6 +88,7 @@ struct MyStoriesScreen: View {
             backButton
                 .padding(.horizontal, Constants.horizontalPadding)
                 .padding(.top, Constants.topPadding)
+                .padding(.bottom, 6)
                 .animatedContent(opacity: titleOpacity, offset: titleOffset)
             
             contentSection
@@ -203,7 +204,6 @@ struct MyStoriesScreen: View {
             }
             .padding(.vertical, Constants.cardSpacing)
         }
-        .scrollFadeEffect(fadeHeight: 25, direction: .top)
     }
     
     private func storyCard(_ story: Story) -> some View {
@@ -233,47 +233,59 @@ struct MyStoriesScreen: View {
     }
     
     private func storyCardHeader(_ story: Story) -> some View {
-        HStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
                 Text(story.title)
                     .font(.appSubtitle)
                     .foregroundColor(AppColors.darkText)
                     .lineLimit(1)
                 
-                Text("hero_prefix".localized(story.hero_name ?? ""))
-                    .font(.appCaption)
-                    .foregroundColor(AppColors.fairyPurple)
+                Spacer()
+                
+                Text(dateFromString(story.created_at ?? ""), format: .dateTime.day().month().year().hour().minute())
+                    .font(.appSmall)
+                    .foregroundColor(AppColors.subtleText)
             }
             
-            Spacer()
-            
-            Text(dateFromString(story.created_at ?? ""), style: .date)
-                .font(.appSmall)
-                .foregroundColor(AppColors.subtleText)
+            if let heroNames = story.hero_names, !heroNames.isEmpty {
+                Text("heroes_prefix".localized + heroNames.joined(separator: ", "))
+                    .font(.appCaption)
+                    .foregroundColor(AppColors.fairyPurple)
+                    .lineLimit(1)
+            }
         }
     }
     
     private func storyCardPreview(_ story: Story) -> some View {
-        Text(String(story.content.prefix(150)) + (story.content.count > 150 ? "..." : ""))
-            .font(.appStoryPreview)
-            .foregroundColor(AppColors.subtleText)
-            .lineLimit(3)
-            .multilineTextAlignment(.leading)
-            .lineSpacing(2)
+        if let storyIdea = story.story_idea, !storyIdea.isEmpty {
+            Text(storyIdea)
+                .font(.appStoryPreview)
+                .foregroundColor(AppColors.subtleText)
+                .lineLimit(3)
+                .multilineTextAlignment(.leading)
+                .lineSpacing(2)
+        } else {
+            Text("No story idea available")
+                .font(.appStoryPreview)
+                .foregroundColor(AppColors.subtleText)
+                .lineLimit(3)
+                .multilineTextAlignment(.leading)
+                .lineSpacing(2)
+        }
     }
     
     private var backgroundView: some View {
         ZStack {
-            Image("background_12")
+            Image("bg_6")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-            
             LinearGradient(
                 gradient: Gradient(colors: [
-                    AppColors.softWhite.opacity(0.5),
-                    AppColors.cloudWhite.opacity(0.2)
+                    AppColors.softWhite.opacity(0.3),
+                    AppColors.cloudWhite.opacity(0.1)
                 ]),
+             
                 startPoint: .top,
                 endPoint: .bottom
             )

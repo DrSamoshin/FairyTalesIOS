@@ -1,0 +1,218 @@
+/* 
+  Localizable.strings (Russian)
+  FairyTales
+  
+  Created by Siarhei Samoshyn on 08/08/2025.
+*/
+
+// Auth Screen
+"app_title" = "Fairy Tales";
+"welcome_subtitle" = "Создавайте волшебные сказки для ваших детей";
+"welcome_description" = "Превратите время перед сном в приключение! Генерируйте персонализированные сказки, где ваш ребенок становится главным героем. Каждая история создается с помощью ИИ для развития воображения.";
+
+// Apple Sign In Errors
+"apple_signin_unknown_error" = "Произошла неожиданная ошибка. Попробуйте еще раз.";
+"apple_signin_invalid_response" = "Неверный ответ от Apple. Попробуйте еще раз.";
+"apple_signin_not_handled" = "Запрос на вход не может быть обработан. Попробуйте еще раз.";
+"apple_signin_not_interactive" = "Вход через Apple недоступен в данном контексте.";
+"apple_signin_failed" = "Вход через Apple не удался. Проверьте настройки и попробуйте еще раз.";
+"apple_signin_excluded_credential" = "Этот Apple ID не может быть использован для входа. Попробуйте другой аккаунт.";
+"apple_signin_credential_import" = "Не удается импортировать учетные данные Apple ID. Попробуйте еще раз.";
+"apple_signin_credential_export" = "Не удается экспортировать учетные данные Apple ID. Попробуйте еще раз.";
+"apple_signin_general_error" = "Не удается войти в систему. Попробуйте позже.";
+
+// Main Screen
+"main_title" = "Fairy Tales";
+"main_subtitle" = "Что хотите делать?";
+"create_new_story" = "Создать Сказку";
+"create_story_subtitle" = "Начните волшебное приключение";
+"my_stories" = "Мои Сказки";
+"my_stories_subtitle" = "Читайте сохранённые истории";
+"heroes" = "Герои";
+"heroes_subtitle" = "Встречайте персонажей историй";
+"settings" = "Настройки";
+"settings_subtitle" = "Настройте своё приложение";
+
+// Story Creator Screen
+"create_story_title" = "Создайте Свою Сказку";
+"story_creator_subtitle" = "Заполните детали для создания волшебной сказки";
+"story_name_label" = "Название Сказки";
+"story_name_placeholder" = "Введите название сказки";
+"hero_name_label" = "Имя Героя";
+"hero_name_placeholder" = "Введите имя героя";
+"hero_select_label" = "Выберите Героя";
+"select_hero" = "Выбрать Героя";
+"select_hero_placeholder" = "Выберите героя для вашей сказки";
+"loading_heroes" = "Загрузка героев...";
+"create_first_hero" = "Создайте своего первого героя";
+"age_label" = "Возраст";
+"age_format" = "%d лет";
+"child_gender_label" = "Пол Героя";
+"story_style_label" = "Стиль Сказки";
+"language_label" = "Язык";
+"story_idea_label" = "Идея Сказки";
+"story_idea_placeholder" = "Введите идею сказки...";
+"story_length_label" = "Длина Сказки";
+"story_length_very_short" = "Очень Короткая";
+"story_length_short" = "Короткая";
+"story_length_medium" = "Средняя";
+"story_length_long" = "Длинная";
+"story_length_very_long" = "Очень Длинная";
+"generate_story" = "Создать Сказку";
+
+// Gender
+"boy" = "Мальчик";
+"girl" = "Девочка";
+
+// Story Styles
+"adventure" = "Приключения";
+"fantasy" = "Фэнтези";
+"comedy" = "Комедия";
+"educational" = "Обучающая";
+"mystery" = "Детектив";
+
+// Languages
+
+// Subscription
+"subscription_title" = "Премиум Доступ";
+"subscription_subtitle" = "Разблокируйте безлимитные волшебные сказки для ваших детей";
+"subscription_manage" = "Управление Подпиской";
+"subscription_feature_unlimited" = "Безлимитная генерация сказок";
+"subscription_feature_personalized" = "Персонализированные для каждого ребенка";
+"subscription_feature_multilingual" = "Доступно на разных языках";
+"subscription_feature_instant" = "Мгновенное создание сказок";
+
+// Story View Screen
+"share_story" = "Поделиться";
+"the_end" = "Конец";
+"story_saved_title" = "История Завершена";
+"story_saved_message" = "Ваша история была сохранена! Вы можете удалить её или вернуться, чтобы продолжить исследование.";
+"delete_story" = "Удалить Историю";
+"return_back" = "Вернуться";
+"cancel" = "Отмена";
+
+// My Stories Screen
+"loading_stories" = "Загружаем ваши истории...";
+"no_stories_title" = "Пока Нет Историй";
+"no_stories_subtitle" = "Вы ещё не создали ни одной волшебной сказки. Начните своё первое приключение!";
+
+// Settings Screen
+"settings_title" = "Настройки";
+"language_setting" = "Язык";
+"privacy_policy" = "Политика Конфиденциальности";
+"terms_of_service" = "Условия Использования";
+"logout" = "Выйти";
+"logout_confirmation" = "Вы уверены, что хотите выйти?";
+
+// My Stories Screen
+"no_stories_title" = "Пока Нет Сказок";
+"no_stories_subtitle" = "Создайте свою первую волшебную сказку!";
+"create_story" = "Создать Сказку";
+"hero_prefix" = "Герой: %@";
+
+// Common
+"back" = "Назад";
+"done" = "Готово";
+"loading" = "Загрузка...";
+
+// Auth Errors
+"user_not_found_suggestion" = "Пользователь не найден. Хотите создать новый аккаунт?";
+"user_already_exists_suggestion" = "Пользователь уже существует. Хотите войти?";
+"server_error_suggestion" = "Проблемы с сервером. Попробуйте позже или обратитесь в поддержку.";
+"logging_out" = "Выходим...";
+
+// Legal Content
+"privacy_policy_title" = "Политика конфиденциальности";
+"terms_title" = "Условия использования";
+"version" = "Версия:";
+"last_updated" = "Последнее обновление:";
+"error_occurred" = "Произошла ошибка";
+"try_again" = "Попробовать снова";
+"no_content_available" = "Контент недоступен";
+"content_not_loaded" = "Не удалось загрузить контент в данный момент";
+
+// Story Generation Progress
+
+// Timeout Messages
+"story_timeout_title" = "История все еще создается";
+"story_timeout_message" = "Ваша история генерируется дольше обычного, но не волнуйтесь! Она все еще создается в фоновом режиме. Пожалуйста, проверьте ваши истории через несколько минут - она должна появиться там автоматически.";
+"check_stories_later" = "Проверить мои истории позже";
+"timeout_error_occurred" = "Превышено время ожидания, но ваша история может все еще генерироваться...";
+"auth_timeout_message" = "Превышено время ожидания подключения. Пожалуйста, проверьте интернет-соединение и попробуйте снова.";
+
+// Server Health Messages
+"server_unavailable" = "Сервер в данный момент недоступен. Пожалуйста, попробуйте позже.";
+"server_timeout" = "Сервер не отвечает. Пожалуйста, проверьте соединение.";
+"no_internet_connection" = "Нет интернет-соединения. Проверьте настройки сети.";
+"server_error_code" = "Ошибка сервера";
+"server_health_error_title" = "Проблема с подключением";
+"retry_connection" = "Повторить подключение";
+"continue_offline" = "Продолжить офлайн";
+
+// Story Streaming
+"waiting_for_story" = "Ждём волшебную сказку...";
+"generation_error" = "Ошибка создания";
+"unknown_error" = "Произошла неизвестная ошибка";
+"the_end" = "Конец";
+"retry" = "Повторить";
+
+// Streaming Service Messages
+"not_authenticated" = "Войдите в аккаунт для создания сказок";
+"invalid_url" = "Неверный адрес сервера";
+"encoding_error" = "Ошибка подготовки данных";
+"connecting" = "Подключаемся к генератору сказок...";
+"generation_cancelled" = "Создание сказки отменено";
+"generating_story" = "Создаём сказку...";
+"error_prefix" = "Ошибка: ";
+"invalid_response" = "Неверный ответ сервера";
+"connection_error" = "Ошибка подключения";
+"generation_completed_connection_closed" = "Создание сказки завершено";
+
+// Rating
+"enjoy_app_question" = "Нравится приложение?";
+"rate_app_message" = "Если вам нравится создавать волшебные сказки, пожалуйста, оцените наше приложение!";
+"rate_now" = "Оценить";
+"maybe_later" = "Позже";
+"no_thanks" = "Нет, спасибо";
+
+// Subscription Required
+"subscription_required_title" = "Требуется подписка";
+"subscription_required_subtitle" = "Откройте неограниченное создание историй с премиум подпиской";
+"get_subscription" = "Получить подписку";
+"purchase_info" = "Вас попросят подтвердить покупку с помощью Face ID или Apple ID";
+
+// Heroes Screen
+"create_hero" = "Создать Героя";
+"create_hero_subtitle" = "Спроектируйте персонажа для истории";
+"loading_heroes" = "Загружаем ваших героев...";
+"no_heroes_yet" = "Героев Пока Нет";
+"create_first_hero" = "Создайте первого персонажа для истории!";
+"create_hero_button" = "Создать Героя";
+
+// Hero Creator Screen  
+"basic_info" = "Основная Информация";
+"hero_name_placeholder" = "Введите имя героя";
+"hero_age_placeholder" = "Возраст";
+"hero_description_placeholder" = "Краткое описание вашего героя";
+"choose_avatar" = "Выберите Аватар";
+"additional_details" = "Дополнительные Детали";
+"hero_appearance_placeholder" = "Опишите, как выглядит ваш герой";
+"hero_personality_placeholder" = "Опишите характер вашего героя";
+"hero_abilities_placeholder" = "Какие особые способности есть у героя?";
+"hero_backstory_placeholder" = "Расскажите историю жизни вашего героя";
+"hero_name_required" = "Необходимо указать имя героя";
+
+// Hero Gender
+"hero_gender_male" = "Мужской";
+"hero_gender_female" = "Женский";
+"hero_gender_neutral" = "Нейтральный";
+
+// Hero Avatars
+"hero_avatar_knight" = "Рыцарь";
+"hero_avatar_princess" = "Принцесса";
+"hero_avatar_wizard" = "Волшебник";
+"hero_avatar_warrior" = "Воин";
+"hero_avatar_archer" = "Лучник";
+"hero_avatar_healer" = "Целитель";
+"hero_avatar_dragon" = "Дракон";
+"hero_avatar_fairy" = "Фея";

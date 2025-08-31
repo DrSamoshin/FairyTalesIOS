@@ -62,16 +62,30 @@ struct StoryStreamingScreen: View {
         .sheet(isPresented: $showShare) {
             ShareSheet(activityItems: [createShareText()])
         }
-        .overlay(
-            StoryConfirmationModal(
-                isPresented: $showingEndConfirmation,
-                storyId: storyService.streamingStoryId,
-                storyService: storyService,
-                onReturn: {
-                    dismiss()
+        .alert("story_saved_title".localized, isPresented: $showingEndConfirmation) {
+            if storyService.streamingStoryId != nil {
+                Button("delete_story".localized, role: .destructive) {
+                    if let storyId = storyService.streamingStoryId {
+                        Task {
+                            let success = await storyService.deleteStory(storyId: storyId)
+                            if success {
+                                // Refresh stories list
+                                _ = await storyService.fetchUserStories()
+                                // Send notification to refresh MyStoriesScreen
+                                NotificationCenter.default.post(name: .storyDeleted, object: nil)
+                            }
+                            dismiss()
+                        }
+                    }
                 }
-            )
-        )
+            }
+            Button("return".localized, role: .cancel) {
+                // Dismiss twice to go back to MainScreen
+                dismiss()
+            }
+        } message: {
+            Text("story_saved_message".localized)
+        }
     }
     
     // MARK: - Main Content
@@ -80,6 +94,7 @@ struct StoryStreamingScreen: View {
             backButton
                 .padding(.horizontal, Constants.contentPadding)
                 .padding(.top, 20)
+                .padding(.bottom, 6)
                 .animatedContent(opacity: titleOpacity, offset: titleOffset)
             
             scrollableContent
@@ -92,7 +107,7 @@ struct StoryStreamingScreen: View {
             startGeneration()
         }
         .onDisappear {
-            storyService.cancelStreaming()
+            // Cleanup when screen disappears
         }
     }
     
@@ -105,9 +120,7 @@ struct StoryStreamingScreen: View {
                 storyContentView
                 Spacer(minLength: Constants.vStackSpacing)
                 
-                if storyService.isStreamingCompleted && !storyService.currentStreamingContent.isEmpty {
-                    iconButton
-                    Spacer(minLength: Constants.vStackSpacing)
+                if storyService.isTypingCompleted && !storyService.currentStreamingContent.isEmpty {
                     actionButtons
                         .onAppear {
                             animateButtons()
@@ -117,7 +130,6 @@ struct StoryStreamingScreen: View {
                 Spacer(minLength: Constants.bottomSpacing)
             }
         }
-        .scrollFadeEffect(fadeHeight: 25, direction: .top)
     }
     
     @ViewBuilder
@@ -338,7 +350,7 @@ struct StoryStreamingScreen: View {
     private func createShareText() -> String {
         """
         📚 \(storyData.story_name)
-        🌟 Hero: \(storyData.hero_name)
+        🌟 Heroes: \(storyData.heroes.map { $0.name }.joined(separator: ", "))
         
         \(storyService.currentStreamingContent)
         
@@ -372,12 +384,10 @@ private extension View {
 #Preview {
     StoryStreamingScreen(storyData: StoryGenerateRequest(
         story_name: "Test Story",
-        hero_name: "Test Hero",
         story_idea: "A magical adventure",
         story_style: "Adventure",
         language: "en",
-        age: 8,
         story_length: 3,
-        child_gender: "boy"
+        heroes: []
     ))
 }

@@ -64,8 +64,8 @@ enum HTTPMethod: String {
 final class NetworkManager: Sendable {
     static let shared = NetworkManager()
     
-    private let baseURL = "https://fairy-tales-api-134132058244.europe-west3.run.app"
-    // private let baseURL = "http://192.168.1.215:8080"
+//    private let baseURL = "https://fairy-tales-api-134132058244.europe-west3.run.app"
+     private let baseURL = "http://192.168.1.215:8080"
     private let session: URLSession
     
     // Public access to base URL for streaming
@@ -75,22 +75,12 @@ final class NetworkManager: Sendable {
     var lastError: NetworkError?
     
     private init() {
-        print("NetworkManager: Initializing NetworkManager")
-        print("NetworkManager: Base URL: \(baseURL)")
-
-        
-        // Конфигурация для продакшен сервера (HTTPS)
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 30  // Timeout для story generation
-        config.timeoutIntervalForResource = 60 // Длительные операции
+        config.timeoutIntervalForRequest = 30
+        config.timeoutIntervalForResource = 60
         
-        print("NetworkManager: Configured timeouts - Request: 30s, Resource: 60s")
-        
-        // Используем кастомный delegate для надежной работы с HTTPS
         let delegate = CustomURLSessionDelegate()
         self.session = URLSession(configuration: config, delegate: delegate, delegateQueue: nil)
-        
-        print("NetworkManager: URLSession configured with custom delegate")
     }
     
     // MARK: - Generic Request Method
@@ -132,48 +122,25 @@ final class NetworkManager: Sendable {
         isLoading = true
         
         do {
-            print("NetworkManager: Making request to: \(request.url?.absoluteString ?? "unknown")")
-            print("NetworkManager: Method: \(request.httpMethod ?? "unknown")")
-            print("NetworkManager: Headers: \(request.allHTTPHeaderFields ?? [:])")
-            if let body = request.httpBody, let bodyString = String(data: body, encoding: .utf8) {
-                print("NetworkManager: Body: \(bodyString)")
-            }
-            
-            print("NetworkManager: Sending URLSession request...")
             let (data, response) = try await session.data(for: request)
-            print("NetworkManager: Received response from server")
             
             isLoading = false
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("NetworkManager: ERROR - Invalid HTTP response")
                 throw NetworkError.unknown(URLError(.badServerResponse))
-            }
-            
-            print("NetworkManager: Response status: \(httpResponse.statusCode)")
-            print("NetworkManager: Response headers: \(httpResponse.allHeaderFields)")
-            if let responseString = String(data: data, encoding: .utf8) {
-                print("NetworkManager: Response body: \(responseString)")
             }
             
             switch httpResponse.statusCode {
             case 200...299:
                 break
             case 401, 403:
-                // Обработка ошибок авторизации - декодируем стандартный API ответ
-                print("NetworkManager: Authentication error: \(httpResponse.statusCode)")
-                
-                // Отправляем уведомление для автоматического выхода
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: .authenticationExpired, object: nil)
                 }
                 
                 if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                    print("NetworkManager: Successfully decoded API error: \(errorResponse.error_code ?? "NO_CODE")")
                     throw NetworkError.apiError(errorResponse)
                 } else {
-                    // Fallback для нестандартных ответов
-                    print("NetworkManager: Failed to decode standard error response, using fallback")
                     let fallbackError = ErrorResponse(
                         success: false,
                         message: "Authentication failed",
@@ -184,13 +151,9 @@ final class NetworkManager: Sendable {
                 }
                 
             case 400, 404...499:
-                // Для остальных клиентских ошибок пытаемся декодировать стандартизированный ответ
                 if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                    print("Successfully decoded API error: \(errorResponse.error_code ?? "NO_CODE")")
                     throw NetworkError.apiError(errorResponse)
                 } else {
-                    // Fallback для нестандартных ответов
-                    print("Failed to decode standard error response, using fallback")
                     let fallbackError = ErrorResponse(
                         success: false,
                         message: "Client error",
@@ -208,11 +171,8 @@ final class NetworkManager: Sendable {
             }
             
             do {
-                let decodedResponse = try JSONDecoder().decode(responseType, from: data)
-                return decodedResponse
+                return try JSONDecoder().decode(responseType, from: data)
             } catch {
-                print("Decoding error: \(error)")
-                print("Response data: \(String(data: data, encoding: .utf8) ?? "nil")")
                 throw NetworkError.decodingError
             }
             
@@ -227,7 +187,6 @@ final class NetworkManager: Sendable {
                 case .timedOut:
                     lastError = NetworkError.timeout
                 case .appTransportSecurityRequiresSecureConnection:
-                    print("NetworkManager: ATS Error: HTTP not allowed. Check Info.plist")
                     lastError = NetworkError.unknown(URLError(.appTransportSecurityRequiresSecureConnection))
                 default:
                     lastError = NetworkError.unknown(urlError)
@@ -235,7 +194,6 @@ final class NetworkManager: Sendable {
             } else {
                 lastError = NetworkError.unknown(error)
             }
-            print("NetworkManager: Request failed: \(error)")
             throw error
         }
     }
@@ -283,6 +241,22 @@ final class NetworkManager: Sendable {
         )
     }
     
+    func put<T: Codable, U: Codable>(
+        endpoint: String,
+        body: T,
+        responseType: U.Type,
+        headers: [String: String] = [:]
+    ) async throws -> U {
+        let bodyData = try JSONEncoder().encode(body)
+        return try await request(
+            endpoint: endpoint,
+            method: .PUT,
+            body: bodyData,
+            headers: headers,
+            responseType: responseType
+        )
+    }
+    
     // MARK: - Error Handling
     func clearError() {
         lastError = nil
@@ -290,23 +264,16 @@ final class NetworkManager: Sendable {
     
     // MARK: - Server Testing
     func testServerConnection() async {
-        print("Testing server connection...")
         let testEndpoint = "/api/v1/health/app/"
         
         guard let url = URL(string: baseURL + testEndpoint) else {
-            print("Invalid URL: \(baseURL + testEndpoint)")
             return
         }
         
         do {
-            let (_, response) = try await session.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse {
-                print("\(baseURL) - Response: \(httpResponse.statusCode)")
-            } else {
-                print("\(baseURL) - No HTTP response")
-            }
+            let (_, _) = try await session.data(from: url)
         } catch {
-            print("\(baseURL) - Error: \(error)")
+            // Silent failure for testing
         }
     }
     
@@ -323,7 +290,6 @@ final class NetworkManager: Sendable {
     
     private func getHTMLContent(endpoint: String) async throws -> String {
         guard let url = URL(string: baseURL + endpoint) else {
-            print("Invalid URL: \(baseURL + endpoint)")
             throw NetworkError.invalidURL
         }
         
@@ -334,23 +300,17 @@ final class NetworkManager: Sendable {
         isLoading = true
         
         do {
-            print("NetworkManager: Making HTML request to: \(request.url?.absoluteString ?? "unknown")")
-            
             let (data, response) = try await session.data(for: request)
             isLoading = false
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("NetworkManager: ERROR - Invalid HTTP response")
                 throw NetworkError.unknown(URLError(.badServerResponse))
             }
-            
-            print("NetworkManager: HTML Response status: \(httpResponse.statusCode)")
             
             switch httpResponse.statusCode {
             case 200...299:
                 break
             case 401, 403:
-                print("NetworkManager: Authentication error: \(httpResponse.statusCode)")
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: .authenticationExpired, object: nil)
                 }
@@ -373,7 +333,6 @@ final class NetworkManager: Sendable {
                 throw NetworkError.decodingError
             }
             
-            print("NetworkManager: Successfully loaded HTML content with \(htmlContent.count) characters")
             return htmlContent
             
         } catch {
@@ -392,7 +351,6 @@ final class NetworkManager: Sendable {
             } else {
                 lastError = NetworkError.unknown(error)
             }
-            print("NetworkManager: HTML Request failed: \(error)")
             throw error
         }
     }

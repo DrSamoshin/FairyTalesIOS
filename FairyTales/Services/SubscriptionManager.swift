@@ -100,7 +100,6 @@ final class SubscriptionManager {
                         hasActiveSubscription = true
                         lastCheckDate = Date()
                         isLoading = false
-                        print("SubscriptionManager: Active subscription found for product: \(transaction.productID)")
                         
                         // Notify if status changed
                         if previousStatus != hasActiveSubscription {
@@ -115,7 +114,6 @@ final class SubscriptionManager {
         // No active subscription found
         hasActiveSubscription = false
         lastCheckDate = Date()
-        print("SubscriptionManager: No active subscription found")
         
         // Notify if status changed
         if previousStatus != hasActiveSubscription {

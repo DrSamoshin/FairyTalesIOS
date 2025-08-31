@@ -40,17 +40,8 @@ struct MainScreen: View {
         static let buttonContentSpacing: CGFloat = 20
         static let textSpacing: CGFloat = 4
         
-        // Colors
-        static let myStoriesTextColor = Color(red: 0.3, green: 0.1, blue: 0.5)
-        static let myStoriesBackground = LinearGradient(
-            gradient: Gradient(colors: [
-                Color(red: 1.0, green: 0.85, blue: 0.7),  // Peach
-                Color(red: 1.0, green: 0.95, blue: 0.8)   // Cream
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        static let myStoriesBorder = Color(red: 1.0, green: 0.98, blue: 0.85)
+        // Using shared button styles
+        typealias ButtonConfig = ButtonStyles.ButtonConfig
     }
     
     var body: some View {
@@ -84,17 +75,7 @@ struct MainScreen: View {
     
     private var homeHeader: some View {
         VStack(spacing: Constants.headerSpacing) {
-            logoButton
             headerTexts
-        }
-    }
-    
-    private var logoButton: some View {
-        Button(action: animateLogo) {
-            Image("icon_7")
-                .resizable()
-                .frame(width: Constants.logoSize, height: Constants.logoSize)
-                .scaleEffect(logoScale)
         }
     }
     
@@ -110,7 +91,7 @@ struct MainScreen: View {
     private var titleText: some View {
         Text("main_title".localized)
             .font(.appH1)
-            .foregroundStyle(AppColors.titleGradient)
+            .foregroundStyle(.white)
             .multilineTextAlignment(.center)
             .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
@@ -118,7 +99,7 @@ struct MainScreen: View {
     private var subtitleText: some View {
         Text("main_subtitle".localized)
             .font(.appSubtitle)
-            .foregroundStyle(AppColors.titleGradient)
+            .foregroundStyle(.white)
             .multilineTextAlignment(.center)
             .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
@@ -127,6 +108,7 @@ struct MainScreen: View {
         VStack(spacing: Constants.buttonSpacing) {
             createStoryNavigationButton
             myStoriesNavigationButton
+            heroesNavigationButton
         }
         .padding(.horizontal, Constants.contentPadding)
         .opacity(buttonsOpacity)
@@ -138,11 +120,10 @@ struct MainScreen: View {
             if subscriptionManager.canCreateStory() {
                 NavigationLink(destination: StoryCreatorScreen()) {
                     actionButton(
-                        iconName: "icon_3",
+                        iconName: "i_4",
                         title: "create_new_story".localized,
                         subtitle: "create_story_subtitle".localized,
-                        background: AnyShapeStyle(AppColors.contrastPrimary),
-                        borderColor: AppColors.primaryBorder,
+                        config: Constants.ButtonConfig.lavenderPurple,
                         textColor: .white
                     )
                 }
@@ -152,11 +133,10 @@ struct MainScreen: View {
                     showSubscriptionScreen = true
                 }) {
                     actionButton(
-                        iconName: "icon_3",
+                        iconName: "i_4",
                         title: "create_new_story".localized,
                         subtitle: "create_story_subtitle".localized,
-                        background: AnyShapeStyle(AppColors.contrastPrimary),
-                        borderColor: AppColors.primaryBorder,
+                        config: Constants.ButtonConfig.lavenderPurple,
                         textColor: .white
                     )
                 }
@@ -170,12 +150,11 @@ struct MainScreen: View {
             if subscriptionManager.canViewStories() {
                 NavigationLink(destination: MyStoriesScreen()) {
                     actionButton(
-                        iconName: "icon_2",
+                        iconName: "i_3",
                         title: "my_stories".localized,
                         subtitle: "my_stories_subtitle".localized,
-                        background: AnyShapeStyle(Constants.myStoriesBackground),
-                        borderColor: Constants.myStoriesBorder,
-                        textColor: Constants.myStoriesTextColor
+                        config: Constants.ButtonConfig.skyBlue,
+                        textColor: .white
                     )
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -184,12 +163,41 @@ struct MainScreen: View {
                     showSubscriptionScreen = true
                 }) {
                     actionButton(
-                        iconName: "icon_2",
+                        iconName: "i_3",
                         title: "my_stories".localized,
                         subtitle: "my_stories_subtitle".localized,
-                        background: AnyShapeStyle(Constants.myStoriesBackground),
-                        borderColor: Constants.myStoriesBorder,
-                        textColor: Constants.myStoriesTextColor
+                        config: Constants.ButtonConfig.skyBlue,
+                        textColor: .white
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+    }
+    
+    private var heroesNavigationButton: some View {
+        Group {
+            if subscriptionManager.canViewStories() {
+                NavigationLink(destination: HeroesScreen()) {
+                    actionButton(
+                        iconName: "i_2",
+                        title: "heroes".localized,
+                        subtitle: "heroes_subtitle".localized,
+                        config: Constants.ButtonConfig.limeGreen,
+                        textColor: .white
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            } else {
+                Button(action: {
+                    showSubscriptionScreen = true
+                }) {
+                    actionButton(
+                        iconName: "i_2",
+                        title: "heroes".localized,
+                        subtitle: "heroes_subtitle".localized,
+                        config: Constants.ButtonConfig.limeGreen,
+                        textColor: .white
                     )
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -201,8 +209,7 @@ struct MainScreen: View {
         iconName: String,
         title: String,
         subtitle: String,
-        background: AnyShapeStyle,
-        borderColor: Color,
+        config: ButtonStyles.ButtonConfig,
         textColor: Color
     ) -> some View {
         HStack(spacing: Constants.buttonContentSpacing) {
@@ -225,16 +232,7 @@ struct MainScreen: View {
                 .font(.appBackIcon)
                 .foregroundColor(textColor.opacity(0.7))
         }
-        .padding(Constants.buttonContentPadding)
-        .frame(maxWidth: .infinity)
-        .frame(height: Constants.mainButtonHeight)
-        .background(background)
-        .cornerRadius(Constants.cornerRadius)
-        .overlay(
-            RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                .stroke(borderColor, lineWidth: 2)
-        )
-        .shadow(color: AppColors.softShadow, radius: 8, x: 0, y: 4)
+        .styledButtonCard(config: config, height: Constants.mainButtonHeight)
     }
     
     private var settingsNavigationButton: some View {
@@ -259,7 +257,7 @@ struct MainScreen: View {
     
     private var backgroundView: some View {
         ZStack {
-            Image("background_3")
+            Image("bg_3")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()

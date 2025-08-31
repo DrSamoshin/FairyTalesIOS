@@ -13,6 +13,8 @@ struct StoryViewScreen: View {
     @State private var storyService = StoryService.shared
     @Environment(\.presentationMode) var presentationMode
     @State private var showingEndConfirmation = false
+    @State private var fullStory: Story?
+    @State private var isLoading = true
     
     let story: Story
     
@@ -47,16 +49,29 @@ struct StoryViewScreen: View {
         NavigationStack {
             storyViewContent
         }
-        .overlay(
-            StoryConfirmationModal(
-                isPresented: $showingEndConfirmation,
-                storyId: story.id,
-                storyService: storyService,
-                onReturn: {
-                    presentationMode.wrappedValue.dismiss()
+        .alert("story_saved_title".localized, isPresented: $showingEndConfirmation) {
+            if story.id != nil {
+                Button("delete_story".localized, role: .destructive) {
+                    if let storyId = story.id {
+                        Task {
+                            let success = await storyService.deleteStory(storyId: storyId)
+                            if success {
+                                // Refresh stories list
+                                _ = await storyService.fetchUserStories()
+                                // Send notification to refresh MyStoriesScreen
+                                NotificationCenter.default.post(name: .storyDeleted, object: nil)
+                            }
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
                 }
-            )
-        )
+            }
+            Button("return".localized, role: .cancel) {
+                presentationMode.wrappedValue.dismiss()
+            }
+        } message: {
+            Text("story_saved_message".localized)
+        }
     }
     
     // MARK: - Main Content
@@ -65,6 +80,7 @@ struct StoryViewScreen: View {
             backButton
                 .padding(.horizontal, Constants.contentPadding)
                 .padding(.top, 20)
+                .padding(.bottom, 6)
                 .animatedContent(opacity: titleOpacity, offset: titleOffset)
             
             scrollableContent
@@ -72,7 +88,10 @@ struct StoryViewScreen: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(backgroundView)
         .navigationBarHidden(true)
-        .onAppear(perform: startAnimations)
+        .onAppear {
+            startAnimations()
+            loadFullStory()
+        }
     }
     
     private var scrollableContent: some View {
@@ -83,13 +102,10 @@ struct StoryViewScreen: View {
                 Spacer(minLength: 20)
                 storyContent
                 Spacer(minLength: Constants.vStackSpacing)
-                iconButton
-                Spacer(minLength: Constants.vStackSpacing)
                 actionButtons
                 Spacer(minLength: Constants.bottomSpacing)
             }
         }
-        .scrollFadeEffect(fadeHeight: 25, direction: .top)
     }
     
     // MARK: - Header Components
@@ -128,12 +144,32 @@ struct StoryViewScreen: View {
     // MARK: - Content Components
     private var storyContent: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(story.content)
-                .font(.appStoryContent)
-                .lineSpacing(10)
-                .foregroundColor(.white)
-                .multilineTextAlignment(.leading)
+            if isLoading {
+                VStack(spacing: 12) {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(1.2)
+                    Text("Loading story...")
+                        .font(.appLabelMedium)
+                        .foregroundColor(.white.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity, minHeight: 100)
                 .padding(.horizontal, Constants.contentPadding)
+            } else if let content = fullStory?.content {
+                Text(content)
+                    .font(.appStoryContent)
+                    .lineSpacing(10)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal, Constants.contentPadding)
+            } else {
+                Text("Story content not available")
+                    .font(.appStoryContent)
+                    .foregroundColor(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, Constants.contentPadding)
+            }
         }
         .animatedContent(opacity: contentOpacity, offset: contentOffset)
     }
@@ -179,7 +215,7 @@ struct StoryViewScreen: View {
     
     private var shareButton: some View {
         ShareLink(
-            item: "\(story.title)\n\n\(story.content)",
+            item: "\(story.title)\n\n\(fullStory?.content ?? "")",
             subject: Text("Check out this magical story!"),
             message: Text("I created this story with Fairy Tales app")
         ) {
@@ -263,6 +299,21 @@ struct StoryViewScreen: View {
             }
         }
     }
+    
+    private func loadFullStory() {
+        guard let storyId = story.id else {
+            isLoading = false
+            return
+        }
+        
+        Task {
+            let loadedStory = await storyService.fetchStory(storyId: storyId)
+            await MainActor.run {
+                self.fullStory = loadedStory
+                self.isLoading = false
+            }
+        }
+    }
 }
 
 // MARK: - View Extensions
@@ -281,6 +332,7 @@ private extension View {
         title: "Luna's Magic Key",
         content: "Once upon a time, in a magical forest far, far away, there lived a brave little rabbit named Luna...",
         hero_name: "Luna",
+        hero_names: ["Luna"],
         age: 7,
         story_style: "Adventure",
         language: "en",

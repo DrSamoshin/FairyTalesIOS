@@ -44,63 +44,8 @@ struct SettingsScreen: View {
         static let shadowRadius: CGFloat = 8
         static let shadowOffset: CGSize = CGSize(width: 0, height: 4)
         
-        // Button Configurations
-        struct ButtonConfig {
-            let background: LinearGradient
-            let border: Color
-            let icon: String
-            
-            static let subscription = ButtonConfig(
-                background: LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.2, green: 0.8, blue: 0.4),
-                        Color(red: 0.1, green: 0.6, blue: 0.3)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                border: Color(red: 0.4, green: 0.9, blue: 0.5),
-                icon: "crown.fill"
-            )
-            
-            static let language = ButtonConfig(
-                background: AppColors.contrastSecondary,
-                border: Color(red: 0.7, green: 0.9, blue: 0.9),
-                icon: "globe"
-            )
-            
-            static let privacy = ButtonConfig(
-                background: LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.8, green: 0.5, blue: 0.8),
-                        Color(red: 0.6, green: 0.3, blue: 0.7)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                border: Color(red: 0.9, green: 0.7, blue: 0.9),
-                icon: "doc.text"
-            )
-            
-            static let terms = ButtonConfig(
-                background: AppColors.orangeGradient,
-                border: Color(red: 1.0, green: 0.9, blue: 0.7),
-                icon: "doc.plaintext"
-            )
-            
-            static let logout = ButtonConfig(
-                background: LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.85, green: 0.35, blue: 0.35),
-                        Color(red: 0.65, green: 0.25, blue: 0.25)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                border: Color(red: 1.0, green: 0.6, blue: 0.6),
-                icon: "rectangle.portrait.and.arrow.right"
-            )
-        }
+        // Using shared button styles
+        typealias ButtonConfig = ButtonStyles.ButtonConfig
     }
     
     var body: some View {
@@ -174,15 +119,8 @@ struct SettingsScreen: View {
     
     private var settingsHeader: some View {
         VStack(spacing: Constants.headerSpacing) {
-            headerIcon
             headerTexts
         }
-    }
-    
-    private var headerIcon: some View {
-        Image("icon_4")
-            .resizable()
-            .frame(width: Constants.headerIconSize, height: Constants.headerIconSize)
     }
     
     private var headerTexts: some View {
@@ -210,16 +148,14 @@ struct SettingsScreen: View {
     // MARK: - Subscription Section
     private var subscriptionSection: some View {
         Button(action: { showingSubscription = true }) {
-            let config = Constants.ButtonConfig.subscription
-            return settingsCard(background: config.background, borderColor: config.border) {
-                subscriptionButtonContent
-            }
+            subscriptionButtonContent
+                .styledButtonCard(config: Constants.ButtonConfig.subscription)
         }
     }
     
     private var subscriptionButtonContent: some View {
         HStack(spacing: Constants.itemSpacing) {
-            settingsIcon(Constants.ButtonConfig.subscription.icon)
+            styledButtonIcon(Constants.ButtonConfig.subscription.icon)
             
             VStack(alignment: .leading, spacing: 2) {
                 Text("subscription_title".localized)
@@ -233,32 +169,24 @@ struct SettingsScreen: View {
             
             Spacer()
             
-            chevronIcon
+            styledChevronIcon
         }
-    }
-    
-    private var chevronIcon: some View {
-        Image(systemName: "chevron.right")
-            .font(.appIcon)
-            .foregroundColor(.white.opacity(0.7))
     }
     
     // MARK: - Language Section
     private var languageSection: some View {
-        let config = Constants.ButtonConfig.language
-        return settingsCard(background: config.background, borderColor: config.border) {
-            HStack(spacing: Constants.itemSpacing) {
-                settingsIcon(config.icon)
-                
-                Text("language_setting".localized)
-                    .font(.appLabel)
-                    .foregroundColor(.white)
-                
-                Spacer()
-                
-                languagePicker
-            }
+        HStack(spacing: Constants.itemSpacing) {
+            styledButtonIcon(Constants.ButtonConfig.language.icon)
+            
+            Text("language_setting".localized)
+                .font(.appLabel)
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            languagePicker
         }
+        .styledButtonCard(config: Constants.ButtonConfig.language)
     }
     
     private var languagePicker: some View {
@@ -286,31 +214,27 @@ struct SettingsScreen: View {
     
     private var privacyPolicyButton: some View {
         Button(action: { showingPrivacyPolicy = true }) {
-            let config = Constants.ButtonConfig.privacy
-            return settingsCard(background: config.background, borderColor: config.border) {
-                legalButtonContent(
-                    icon: config.icon,
-                    title: "privacy_policy".localized
-                )
-            }
+            legalButtonContent(
+                icon: Constants.ButtonConfig.privacy.icon,
+                title: "privacy_policy".localized
+            )
+            .styledButtonCard(config: Constants.ButtonConfig.privacy)
         }
     }
     
     private var termsOfServiceButton: some View {
         Button(action: { showingTermsOfService = true }) {
-            let config = Constants.ButtonConfig.terms
-            return settingsCard(background: config.background, borderColor: config.border) {
-                legalButtonContent(
-                    icon: config.icon,
-                    title: "terms_of_service".localized
-                )
-            }
+            legalButtonContent(
+                icon: Constants.ButtonConfig.terms.icon,
+                title: "terms_of_service".localized
+            )
+            .styledButtonCard(config: Constants.ButtonConfig.terms)
         }
     }
     
     private func legalButtonContent(icon: String, title: String) -> some View {
         HStack(spacing: Constants.itemSpacing) {
-            settingsIcon(icon)
+            styledButtonIcon(icon)
             
             Text(title)
                 .font(.appLabel)
@@ -318,7 +242,7 @@ struct SettingsScreen: View {
             
             Spacer()
             
-            chevronIcon
+            styledChevronIcon
         }
     }
     
@@ -329,10 +253,8 @@ struct SettingsScreen: View {
                 showingLogoutAlert = true
             }
         }) {
-            let config = Constants.ButtonConfig.logout
-            return settingsCard(background: config.background, borderColor: config.border) {
-                logoutButtonContent
-            }
+            logoutButtonContent
+                .styledButtonCard(config: Constants.ButtonConfig.logout)
         }
         .disabled(isLoggingOut)
         .alert("logout".localized, isPresented: $showingLogoutAlert) {
@@ -364,47 +286,18 @@ struct SettingsScreen: View {
                     .scaleEffect(0.8)
                     .tint(.white)
             } else {
-                settingsIcon(Constants.ButtonConfig.logout.icon)
+                styledButtonIcon(Constants.ButtonConfig.logout.icon)
             }
         }
         .frame(width: Constants.iconFrameWidth)
     }
     
     // MARK: - Reusable Components
-    private func settingsIcon(_ systemName: String) -> some View {
-        Image(systemName: systemName)
-            .font(.appIcon)
-            .foregroundColor(.white)
-            .frame(width: Constants.iconFrameWidth)
-    }
-    
-    // MARK: - Card Component
-    private func settingsCard<Content: View>(
-        background: LinearGradient,
-        borderColor: Color? = nil,
-        @ViewBuilder content: () -> Content
-    ) -> some View {
-        content()
-            .padding(Constants.itemPadding)
-            .frame(height: Constants.sectionItemHeight)
-            .frame(maxWidth: .infinity)
-            .background(background)
-            .cornerRadius(Constants.cornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                    .stroke(borderColor ?? Color.clear, lineWidth: Constants.borderWidth)
-            )
-            .shadow(
-                color: AppColors.softShadow,
-                radius: Constants.shadowRadius,
-                x: Constants.shadowOffset.width,
-                y: Constants.shadowOffset.height
-            )
-    }
+    // Removed - now using extension methods from ButtonStyles
     
     private var backgroundView: some View {
         ZStack {
-            Image("background_4")
+            Image("bg_5")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
