@@ -50,6 +50,15 @@
 "personality_placeholder" = "Добрый, любопытный, любит помогать другим...";
 "power" = "Сила";
 "power_placeholder" = "Может летать, суперсила, магические заклинания...";
+
+// Onboarding
+"onboarding_1_title" = "Добро пожаловать в Fairy Tales";
+"onboarding_1_subtitle" = "Создавайте волшебные сказки для ваших детей с помощью ИИ";
+"onboarding_2_title" = "Создавайте Героев";
+"onboarding_2_subtitle" = "Проектируйте уникальных персонажей для ваших историй";
+"next" = "Далее";
+"skip" = "Пропустить";
+"get_started" = "Начать";
 "age_label" = "Возраст";
 "age_format" = "%d лет";
 "child_gender_label" = "Пол Героя";

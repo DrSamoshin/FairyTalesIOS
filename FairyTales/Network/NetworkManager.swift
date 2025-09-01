@@ -64,8 +64,8 @@ enum HTTPMethod: String {
 final class NetworkManager: Sendable {
     static let shared = NetworkManager()
     
-//    private let baseURL = "https://fairy-tales-api-134132058244.europe-west3.run.app"
-     private let baseURL = "http://192.168.1.215:8080"
+    private let baseURL = "https://fairy-tales-api-134132058244.europe-west3.run.app"
+//     private let baseURL = "http://10.192.16.52:8080"
     private let session: URLSession
     
     // Public access to base URL for streaming

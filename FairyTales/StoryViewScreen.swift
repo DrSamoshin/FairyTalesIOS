@@ -215,7 +215,7 @@ struct StoryViewScreen: View {
     
     private var shareButton: some View {
         ShareLink(
-            item: "\(story.title)\n\n\(fullStory?.content ?? "")",
+            item: "\(story.title)\n\n\(fullStory?.content ?? "")\n\nCreated with FairyTales App ✨\nhttps://apps.apple.com/lt/app/family-fairy-tales/id6751137745",
             subject: Text("Check out this magical story!"),
             message: Text("I created this story with Fairy Tales app")
         ) {

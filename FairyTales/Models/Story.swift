@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Story Request Model
-struct StoryGenerateRequest: Codable {
+struct StoryGenerateRequest: Codable, Equatable {
     let story_name: String
     let story_idea: String
     let story_style: String

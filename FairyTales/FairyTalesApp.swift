@@ -39,11 +39,21 @@ struct ContentView: View {
     @Environment(HealthCheckManager.self) private var healthCheckManager
     @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var hasPerformedInitialHealthCheck = false
+    @State private var heroService = HeroService.shared
+    @State private var storyService = StoryService.shared
+    @State private var showOnboarding = false
+    @State private var hasCheckedOnboarding = false
     
     var body: some View {
         Group {
             if authManager.isAuthenticated {
-                MainScreen()
+                if showOnboarding {
+                    OnboardingFlowView(onComplete: {
+                        showOnboarding = false
+                    })
+                } else {
+                    MainScreen()
+                }
             } else {
                 AuthScreen()
             }
@@ -57,6 +67,7 @@ struct ContentView: View {
                     
                     if authManager.isAuthenticated && healthCheckManager.isServerAvailable {
                         requestAppStoreRating()
+                        await checkOnboardingStatus()
                     }
                 }
             }
@@ -72,6 +83,20 @@ struct ContentView: View {
             }
         } message: {
             Text(healthCheckManager.serverErrorMessage ?? "server_unavailable".localized)
+        }
+    }
+    
+    // MARK: - Onboarding Helper
+    private func checkOnboardingStatus() async {
+        guard !hasCheckedOnboarding else { return }
+        hasCheckedOnboarding = true
+        
+        let userHeroes = await heroService.fetchUserHeroes()
+        let userStories = await storyService.fetchUserStories()
+        
+        await MainActor.run {
+            // Показываем онбординг только если нет И героев, И историй одновременно
+            showOnboarding = userHeroes.isEmpty && userStories.isEmpty
         }
     }
     

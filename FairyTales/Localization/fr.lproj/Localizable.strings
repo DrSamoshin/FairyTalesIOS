@@ -50,6 +50,15 @@
 "personality_placeholder" = "Gentil, curieux, aime aider les autres...";
 "power" = "Pouvoir";
 "power_placeholder" = "Peut voler, super force, sorts magiques...";
+
+// Onboarding
+"onboarding_1_title" = "Bienvenue dans Fairy Tales";
+"onboarding_1_subtitle" = "Créez des contes magiques pour vos enfants avec l'IA";
+"onboarding_2_title" = "Créez Vos Héros";
+"onboarding_2_subtitle" = "Concevez des personnages uniques qui seront les stars de vos histoires";
+"next" = "Suivant";
+"skip" = "Passer";
+"get_started" = "Commencer";
 "age_label" = "Âge";
 "age_format" = "%d ans";
 "child_gender_label" = "Genre du Héros";

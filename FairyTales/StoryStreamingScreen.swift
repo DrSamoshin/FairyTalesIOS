@@ -355,6 +355,7 @@ struct StoryStreamingScreen: View {
         \(storyService.currentStreamingContent)
         
         Created with FairyTales App ✨
+        https://apps.apple.com/lt/app/family-fairy-tales/id6751137745
         """
     }
 }

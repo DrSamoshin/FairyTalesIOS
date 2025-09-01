@@ -50,6 +50,15 @@
 "personality_placeholder" = "Freundlich, neugierig, hilft gerne anderen...";
 "power" = "Kraft";
 "power_placeholder" = "Kann fliegen, Superkraft, Zaubersprüche...";
+
+// Onboarding
+"onboarding_1_title" = "Willkommen bei Fairy Tales";
+"onboarding_1_subtitle" = "Erstelle magische Geschichten für deine Kinder mit KI";
+"onboarding_2_title" = "Erstelle Deine Helden";
+"onboarding_2_subtitle" = "Entwirf einzigartige Charaktere, die die Stars deiner Geschichten werden";
+"next" = "Weiter";
+"skip" = "Überspringen";
+"get_started" = "Loslegen";
 "age_label" = "Alter";
 "age_format" = "%d Jahre alt";
 "child_gender_label" = "Geschlecht des Helden";
