@@ -133,6 +133,9 @@
 "logout" = "Cerrar Sesión";
 "logout_confirmation" = "¿Estás seguro de que quieres cerrar sesión?";
 "logging_out" = "Cerrando sesión...";
+"delete_account" = "Eliminar Cuenta";
+"delete_account_confirmation" = "Esta acción eliminará permanentemente tu cuenta y todos tus datos. Esta acción no se puede deshacer. ¿Estás seguro de que quieres continuar?";
+"deleting_account" = "Eliminando cuenta...";
 
 // Legal Content
 "privacy_policy_title" = "Política de privacidad";

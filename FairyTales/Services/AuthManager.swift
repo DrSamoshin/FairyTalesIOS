@@ -22,6 +22,7 @@ final class AuthManager {
     
     private let networkManager = NetworkManager.shared
     private let tokenManager = TokenManager.shared
+    private let onboardingService = OnboardingService.shared
     
     private init() {
         checkAuthStatus()
@@ -91,6 +92,49 @@ final class AuthManager {
         isLoading = false
     }
     
+    // MARK: - Account Deletion
+    @MainActor
+    func deleteAccount() async throws {
+        guard let token = tokenManager.accessToken else {
+            throw NetworkError.apiError(ErrorResponse(
+                success: false,
+                message: "Authentication required",
+                errors: ["No access token"],
+                error_code: "AUTH_REQUIRED"
+            ))
+        }
+        
+        isLoading = true
+        clearError()
+        
+        do {
+            let response: DeleteAccountResponse = try await networkManager.delete(
+                endpoint: "/api/v1/users/delete",
+                responseType: DeleteAccountResponse.self,
+                headers: ["Authorization": "Bearer \(token)"]
+            )
+            
+            if response.success {
+                // Account deleted successfully, logout user
+                await logout()
+                isLoading = false
+            } else {
+                errorMessage = response.message ?? "Failed to delete account"
+                isLoading = false
+                throw NetworkError.apiError(ErrorResponse(
+                    success: false,
+                    message: response.message ?? "Failed to delete account",
+                    errors: [],
+                    error_code: nil
+                ))
+            }
+        } catch {
+            handleAuthError(error)
+            isLoading = false
+            throw error
+        }
+    }
+    
     // MARK: - Logout
     @MainActor
     func logout() async {
@@ -144,6 +188,11 @@ final class AuthManager {
         }
         
         isAuthenticated = true
+        
+        // Load onboarding progress
+        Task {
+            try? await onboardingService.getOnboardingProgress()
+        }
     }
     
     private func handleAuthError(_ error: Error) {

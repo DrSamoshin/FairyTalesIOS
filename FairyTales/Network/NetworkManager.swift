@@ -65,7 +65,7 @@ final class NetworkManager: Sendable {
     static let shared = NetworkManager()
     
     private let baseURL = "https://fairy-tales-api-134132058244.europe-west3.run.app"
-//     private let baseURL = "http://10.192.16.52:8080"
+//     private let baseURL = "http://10.192.16.50:8080"
     private let session: URLSession
     
     // Public access to base URL for streaming
@@ -92,10 +92,11 @@ final class NetworkManager: Sendable {
         responseType: T.Type
     ) async throws -> T {
         guard let url = URL(string: baseURL + endpoint) else {
-            print("Invalid URL: \(baseURL + endpoint)")
+            print("❌ NetworkManager: Invalid URL: \(baseURL + endpoint)")
             throw NetworkError.invalidURL
         }
         
+        print("🌐 NetworkManager: Making \(method.rawValue) request to: \(url)")
         return try await performRequest(url: url, method: method, body: body, headers: headers, responseType: responseType)
     }
     
@@ -127,8 +128,11 @@ final class NetworkManager: Sendable {
             isLoading = false
             
             guard let httpResponse = response as? HTTPURLResponse else {
+                print("❌ NetworkManager: Invalid response type")
                 throw NetworkError.unknown(URLError(.badServerResponse))
             }
+            
+            print("📡 NetworkManager: Received response with status: \(httpResponse.statusCode)")
             
             switch httpResponse.statusCode {
             case 200...299:
@@ -178,15 +182,19 @@ final class NetworkManager: Sendable {
             
         } catch {
             isLoading = false
+            print("❌ NetworkManager: Request failed with error: \(error)")
+            
             if let networkError = error as? NetworkError {
                 lastError = networkError
             } else if let urlError = error as? URLError {
+                print("🔗 NetworkManager: URLError code: \(urlError.code.rawValue), description: \(urlError.localizedDescription)")
                 switch urlError.code {
                 case .notConnectedToInternet:
                     lastError = NetworkError.internetConnection
                 case .timedOut:
                     lastError = NetworkError.timeout
                 case .appTransportSecurityRequiresSecureConnection:
+                    print("🔒 NetworkManager: ATS is blocking HTTP connection!")
                     lastError = NetworkError.unknown(URLError(.appTransportSecurityRequiresSecureConnection))
                 default:
                     lastError = NetworkError.unknown(urlError)

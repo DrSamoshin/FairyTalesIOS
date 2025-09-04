@@ -133,6 +133,9 @@
 "logout" = "Abmelden";
 "logout_confirmation" = "Sind Sie sicher, dass Sie sich abmelden möchten?";
 "logging_out" = "Abmelden...";
+"delete_account" = "Konto löschen";
+"delete_account_confirmation" = "Diese Aktion wird Ihr Konto und alle Ihre Daten dauerhaft löschen. Dies kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie fortfahren möchten?";
+"deleting_account" = "Konto wird gelöscht...";
 
 // Legal Content
 "privacy_policy_title" = "Datenschutzrichtlinie";

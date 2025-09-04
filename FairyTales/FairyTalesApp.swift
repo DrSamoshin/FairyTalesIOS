@@ -39,10 +39,8 @@ struct ContentView: View {
     @Environment(HealthCheckManager.self) private var healthCheckManager
     @Environment(SubscriptionManager.self) private var subscriptionManager
     @State private var hasPerformedInitialHealthCheck = false
-    @State private var heroService = HeroService.shared
-    @State private var storyService = StoryService.shared
+    @State private var onboardingService = OnboardingService.shared
     @State private var showOnboarding = false
-    @State private var hasCheckedOnboarding = false
     
     var body: some View {
         Group {
@@ -67,8 +65,23 @@ struct ContentView: View {
                     
                     if authManager.isAuthenticated && healthCheckManager.isServerAvailable {
                         requestAppStoreRating()
-                        await checkOnboardingStatus()
                     }
+                }
+            }
+            
+            // Проверяем онбординг каждый раз при открытии приложения
+            if authManager.isAuthenticated && healthCheckManager.isServerAvailable {
+                Task {
+                    await checkOnboardingStatus()
+                }
+            }
+        }
+        .onChange(of: authManager.isAuthenticated) { _, isAuthenticated in
+            print("🔄 Auth status changed to: \(isAuthenticated)")
+            if isAuthenticated && healthCheckManager.isServerAvailable {
+                print("🔄 User just signed in, checking onboarding...")
+                Task {
+                    await checkOnboardingStatus()
                 }
             }
         }
@@ -88,15 +101,33 @@ struct ContentView: View {
     
     // MARK: - Onboarding Helper
     private func checkOnboardingStatus() async {
-        guard !hasCheckedOnboarding else { return }
-        hasCheckedOnboarding = true
+        print("🎯 Checking onboarding status...")
+        print("🔐 User authenticated: \(authManager.isAuthenticated)")
+        print("🏥 Server available: \(healthCheckManager.isServerAvailable)")
         
-        let userHeroes = await heroService.fetchUserHeroes()
-        let userStories = await storyService.fetchUserStories()
-        
-        await MainActor.run {
-            // Показываем онбординг только если нет И героев, И историй одновременно
-            showOnboarding = userHeroes.isEmpty && userStories.isEmpty
+        do {
+            // Проверяем состояние онбординга на сервере
+            let progress = try await onboardingService.getOnboardingProgress()
+            
+            await MainActor.run {
+                // Показываем онбординг, если пользователь еще не создал первого героя
+                let shouldShowOnboarding = !progress.firstHeroCreated
+                print("📋 FairyTalesApp: firstHeroCreated=\(progress.firstHeroCreated)")
+                print("📋 FairyTalesApp: shouldShowOnboarding=\(shouldShowOnboarding)")
+                print("📋 FairyTalesApp: Setting showOnboarding to \(shouldShowOnboarding)")
+                
+                showOnboarding = shouldShowOnboarding
+                
+                print("📱 FairyTalesApp: Current showOnboarding value: \(showOnboarding)")
+            }
+        } catch {
+            print("❌ FairyTalesApp: Failed to get onboarding progress: \(error)")
+            
+            await MainActor.run {
+                // Если не удалось получить прогресс с сервера, не показываем онбординг
+                showOnboarding = false
+                print("📱 FairyTalesApp: Set showOnboarding to false due to error")
+            }
         }
     }
     

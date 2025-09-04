@@ -133,6 +133,9 @@
 "logout" = "Выйти";
 "logout_confirmation" = "Вы уверены, что хотите выйти?";
 "logging_out" = "Выход...";
+"delete_account" = "Удалить аккаунт";
+"delete_account_confirmation" = "Это действие навсегда удалит ваш аккаунт и все ваши данные. Это действие нельзя отменить. Вы уверены, что хотите продолжить?";
+"deleting_account" = "Удаляю аккаунт...";
 
 // Legal Content
 "privacy_policy_title" = "Политика конфиденциальности";

@@ -133,6 +133,9 @@
 "logout" = "Logout";
 "logout_confirmation" = "Are you sure you want to logout?";
 "logging_out" = "Logging out...";
+"delete_account" = "Delete Account";
+"delete_account_confirmation" = "This action will permanently delete your account and all your data. This cannot be undone. Are you sure you want to continue?";
+"deleting_account" = "Deleting account...";
 
 // Legal Content
 "privacy_policy_title" = "Privacy Policy";

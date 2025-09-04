@@ -133,6 +133,9 @@
 "logout" = "Se déconnecter";
 "logout_confirmation" = "Êtes-vous sûr de vouloir vous déconnecter ?";
 "logging_out" = "Déconnexion...";
+"delete_account" = "Supprimer le compte";
+"delete_account_confirmation" = "Cette action supprimera définitivement votre compte et toutes vos données. Cette action ne peut pas être annulée. Êtes-vous sûr de vouloir continuer ?";
+"deleting_account" = "Suppression du compte...";
 
 // Legal Content
 "privacy_policy_title" = "Politique de confidentialité";

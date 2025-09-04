@@ -124,4 +124,10 @@ struct RefreshTokenRequest: Codable {
     }
 }
 
+// MARK: - Delete Account Response
+struct DeleteAccountResponse: Codable {
+    let success: Bool
+    let message: String?
+}
+
 

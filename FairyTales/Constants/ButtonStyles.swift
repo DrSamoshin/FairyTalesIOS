@@ -114,6 +114,20 @@ struct ButtonStyles {
             icon: "book.fill"
         )
         
+        /// Dark Red gradient button for delete account
+        static let darkRed = ButtonConfig(
+            background: LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.7, green: 0.2, blue: 0.2),
+                    Color(red: 0.65, green: 0.25, blue: 0.25)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ),
+            border: Color(red: 0.9, green: 0.4, blue: 0.4),
+            icon: "trash.fill"
+        )
+        
         // MARK: - Legacy Aliases for backward compatibility
         static let subscription = limeGreen
         static let language = skyBlue
@@ -122,6 +136,7 @@ struct ButtonStyles {
         static let logout = cherryRed
         static let heroes = forestGreen
         static let stories = peachCream
+        static let deleteAccount = darkRed
     }
 }
 

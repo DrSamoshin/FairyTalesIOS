@@ -16,6 +16,8 @@ struct SettingsScreen: View {
     @State private var showingPrivacyPolicy = false
     @State private var showingTermsOfService = false
     @State private var showingSubscription = false
+    @State private var showingDeleteAccountAlert = false
+    @State private var isDeletingAccount = false
     @State private var contentOpacity: Double = 0.0
     @State private var contentOffset: CGFloat = 30.0
     @State private var sectionsOpacity: Double = 0.0
@@ -94,6 +96,7 @@ struct SettingsScreen: View {
             subscriptionSection
             languageSection
             legalSection
+            deleteAccountSection
             logoutSection
         }
     }
@@ -345,12 +348,70 @@ struct SettingsScreen: View {
         }
     }
     
+    // MARK: - Delete Account Section
+    private var deleteAccountSection: some View {
+        Button(action: {
+            if !isDeletingAccount {
+                showingDeleteAccountAlert = true
+            }
+        }) {
+            deleteAccountButtonContent
+                .styledButtonCard(config: Constants.ButtonConfig.deleteAccount)
+        }
+        .disabled(isDeletingAccount)
+        .alert("delete_account".localized, isPresented: $showingDeleteAccountAlert) {
+            Button("delete_account".localized, role: .destructive) {
+                performDeleteAccount()
+            }
+            Button("cancel".localized, role: .cancel) { }
+        } message: {
+            Text("delete_account_confirmation".localized)
+        }
+    }
+    
+    private var deleteAccountButtonContent: some View {
+        HStack(spacing: Constants.itemSpacing) {
+            deleteAccountIcon
+            
+            Text(isDeletingAccount ? "deleting_account".localized : "delete_account".localized)
+                .font(.appLabel)
+                .foregroundColor(.white)
+            
+            Spacer()
+        }
+    }
+    
+    private var deleteAccountIcon: some View {
+        Group {
+            if isDeletingAccount {
+                ProgressView()
+                    .scaleEffect(0.8)
+                    .tint(.white)
+            } else {
+                styledButtonIcon(Constants.ButtonConfig.deleteAccount.icon)
+            }
+        }
+        .frame(width: Constants.iconFrameWidth)
+    }
+
     // MARK: - Actions
     private func performLogout() {
         Task {
             isLoggingOut = true
             await authManager.logout()
             isLoggingOut = false
+        }
+    }
+    
+    private func performDeleteAccount() {
+        Task {
+            isDeletingAccount = true
+            do {
+                try await authManager.deleteAccount()
+            } catch {
+                print("Failed to delete account: \(error)")
+            }
+            isDeletingAccount = false
         }
     }
 }
